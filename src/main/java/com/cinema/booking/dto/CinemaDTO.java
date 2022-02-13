@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CinemaDto {
+public class CinemaDTO {
 
     private Long cinemaId;
     private String cinemaName;

@@ -11,5 +11,5 @@ public class CinemaWithMovieDto {
     private Long cinemaDtoId;
     private String cinemaNameDto;
     //MovieDTOComplex
-    private List<MovieDto> moviesDto = new ArrayList<>();
+    private List<MovieDto> movies = new ArrayList<>();
 }

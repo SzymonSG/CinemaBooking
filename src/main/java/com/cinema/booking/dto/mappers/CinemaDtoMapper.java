@@ -2,7 +2,7 @@ package com.cinema.booking.dto.mappers;
 
 
 
-import com.cinema.booking.dto.CinemaDto;
+import com.cinema.booking.dto.CinemaDTO;
 import com.cinema.booking.dto.CinemaZ;
 import com.cinema.booking.entities.Cinema;
 
@@ -36,8 +36,8 @@ public class CinemaDtoMapper {
         return cinemaZ;
     }
 
-    public static CinemaDto convListCinemasToDto(Cinema cinema) {
-        CinemaDto cinemaDto = CinemaDto.builder()
+    public static CinemaDTO convListCinemasToDto(Cinema cinema) {
+        CinemaDTO cinemaDto = CinemaDTO.builder()
                 .cinemaId(cinema.getCinemaId())
                 .cinemaName(cinema.getCinemaName())
                 .build();

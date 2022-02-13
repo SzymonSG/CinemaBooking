@@ -11,13 +11,13 @@ import java.util.List;
 @Data
 public class MovieWithCinemaDto {
 
-    private Long movieIdDto;
+    private Long movieDtoId;
     private String movieNameDto;
     private String movieRoomDto;
     private Integer seatingDto;
     private String bookedDto;
     //DTO
     //CinemaDTOComplex
-    private List<CinemaDto> cinemasDto = new ArrayList<>();
+    private List<CinemaDto> cinemas = new ArrayList<>();
 
 }

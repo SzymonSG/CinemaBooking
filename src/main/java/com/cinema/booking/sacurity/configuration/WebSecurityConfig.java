@@ -50,7 +50,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/save/**","/h2-console/**","/encode","/userid/**/roleid/**","/roleid/**/permiid/**",
                         "/movieid/**/cinemaid/**","/movieid/**/propertyid/**","/cinemaName/**/movieName/**/date",
-                        "/cinemaName/**/movieName/**","/findByDate").permitAll()
+                        "/cinemaName/**/movieName/**","/findByDate",
+                        "/movieList","/cinemaList","/moviess","/cinemass","/propertiesmovie",
+                        "/findFreePlaces/cinemaName/**/movieName/**/date",
+                        "/findByDateFree/{cinemaName}/date",
+                        "/cinemas/**/movies","/dates/**",
+                        "/dates/cinemas/**/movies/**").permitAll()
                 .antMatchers("/hello").hasAuthority(PermissionCheck.READ_PERM.name())
                 .anyRequest()
                 .authenticated()

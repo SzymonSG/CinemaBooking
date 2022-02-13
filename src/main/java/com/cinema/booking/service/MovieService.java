@@ -2,23 +2,28 @@ package com.cinema.booking.service;
 
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.exceptions.MovieNotFoundException;
-import com.cinema.booking.mapstructDTO.MovieDTO;
+import com.cinema.booking.mapstructDTO.reservationDTO.FreeSeatDto;
+import com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MovieService {
-    List<Movie> bookedUpdate(String nameCinema, String movie);
-    //o tym pomyśl
-    List<MovieDTO> multiBookedPlaceDto(String cinemaName, String movieName, List<Integer> wantedPlaces) throws MovieNotFoundException;
-    List<Movie> multiBookedPlaceEntity(String cinemaName, String movieName, List<Integer> wantedPlaces) throws MovieNotFoundException;
-
+    //TODO
+    Movie movieSave(Movie movie);
+    //TODO
     List<Movie> fetchMoviesList();
+    //TODO przemyśl sens , po co filmy zajęte pokazwyac, I czy nie lepiej pokazać same nazwy filmów w danym dniu.
+    //List<Movie> checkMoviesAfterDate(LocalDateTime localDate);
 
-    //test
-    List<Movie> findByDateQuery(LocalDateTime localDate);
+    //List<Movie> multiBookedPlaceWithDate(String cinemaName, String movieName, List<Integer> wantedPlaces, LocalDateTime localDateTime) throws MovieNotFoundException;
 
-    //test2
-   // List<ComplexMovieDTO> multiBookedPlaceWithDTO(String cinemaName, String movieName, List<Integer> wantedPlaces, LocalDateTime localDateTime) throws MovieNotFoundException;
-    List<Movie> multiBookedPlaceWithDate(String cinemaName, String movieName, List<Integer> wantedPlaces, LocalDateTime localDateTime) throws MovieNotFoundException;
+    //List<Movie> findFreePlacesOnMovie(String cinemaName, String movieName, LocalDateTime localDateTime) throws MovieNotFoundException;
+
+    List<BasicInfoAboutMovie> checkBasicInfoAboutMovies(LocalDateTime localDateTime, String cinemaName) throws MovieNotFoundException;
+
+    //List<Movie> showAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException;
+
+    //List<Movie> showDateChosenMovie(String moviesName, LocalDateTime localDateTime);
 }

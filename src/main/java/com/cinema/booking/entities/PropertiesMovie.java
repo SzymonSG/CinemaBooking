@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-public class ProperitiesMovie {
+public class PropertiesMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

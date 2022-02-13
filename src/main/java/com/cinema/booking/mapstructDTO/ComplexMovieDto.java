@@ -14,7 +14,7 @@ public class ComplexMovieDto {
     private Integer seatingDto;
     private String bookedDto;
     //usunięte DTO2
-    private List<CinemaDto> cinemasDto = new ArrayList<>();
-    private PropertiesMovieDTO properitiesMovieDto;
+    private List<CinemaDto> cinemas = new ArrayList<>();
+    private PropertiesMovieDto properitiesMovie;
 
 }

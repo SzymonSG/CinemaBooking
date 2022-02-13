@@ -3,15 +3,15 @@ package com.cinema.booking.dto.mappers;
 
 
 import com.cinema.booking.dto.MovieBez;
-import com.cinema.booking.dto.MovieDto;
+import com.cinema.booking.dto.MovieDTO;
 import com.cinema.booking.entities.Movie;
 
 import java.util.stream.Collectors;
 
 public class MovieDtoMapper {
     // w przypadku zwracanie filmów to bez kolekcji cinemasDTO,//a w przypadku zwracania
-    public static MovieDto movieWithCinemasToDto(Movie movie){
-        MovieDto movieDto = MovieDto.builder()
+    public static MovieDTO movieWithCinemasToDto(Movie movie){
+        MovieDTO movieDto = MovieDTO.builder()
                 .movieId(movie.getMovieId())
                 .movieName(movie.getMovieName())
                 .movieRoom(movie.getMovieRoom())

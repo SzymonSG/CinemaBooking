@@ -1,7 +1,8 @@
 package com.cinema.booking.service;
 
-import com.cinema.booking.entities.ProperitiesMovie;
+import com.cinema.booking.entities.PropertiesMovie;
 
 public interface PropertiesMovieService {
-    ProperitiesMovie propertySave(ProperitiesMovie properitiesMovie);
+    //TODO
+    PropertiesMovie propertySave(PropertiesMovie properitiesMovie);
 }

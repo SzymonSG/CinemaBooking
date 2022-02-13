@@ -8,13 +8,13 @@ import java.util.List;
 
 @Data
 @Builder
-public class MovieDto {
+public class MovieDTO {
 
     private Long movieId;
     private String movieName;
     private String movieRoom;
     private Integer seating;
     private String booked;
-    private List<CinemaDto> cinemasDto = new ArrayList<>();
+    private List<CinemaDTO> cinemasDto = new ArrayList<>();
 
 }

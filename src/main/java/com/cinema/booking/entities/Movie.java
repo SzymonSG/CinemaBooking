@@ -63,14 +63,14 @@ public class Movie {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "property_id",referencedColumnName = "propertyId")
-    private ProperitiesMovie properitiesMovie;
+    private PropertiesMovie properitiesMovie;
 
     public void enrolledCinema(Cinema cinema) {
         ///cinemas= new ArrayList<>();
         cinemas.add(cinema);
     }
 
-    public void assignProperty(ProperitiesMovie properitiesMovie) {
+    public void assignProperty(PropertiesMovie properitiesMovie) {
         this.properitiesMovie = properitiesMovie;
     }
 }

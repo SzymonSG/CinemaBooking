@@ -2,7 +2,7 @@ package com.cinema.booking.controllers;
 
 import com.cinema.booking.entities.Cinema;
 import com.cinema.booking.entities.Movie;
-import com.cinema.booking.entities.ProperitiesMovie;
+import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.repository.CinemaRepository;
 import com.cinema.booking.repository.MovieRepository;
 import com.cinema.booking.repository.PropertiesMovieRepository;
@@ -21,8 +21,8 @@ public class ConnectControllers {
     private final PropertiesMovieRepository propertiesMovieRepository;
 
     @PostMapping("/movieid/{movieId}/cinemaid/{cinemaId}")
-    Movie fetchMoviesByNamesAndRoomsList(@PathVariable("movieId") Long movieName,
-                                         @PathVariable ("cinemaId") Long cinemaName)
+    Movie enrolledCinemaToMovie(@PathVariable("movieId") Long movieName,
+                                @PathVariable ("cinemaId") Long cinemaName)
     {
         Movie movie = movieRepository.findById(movieName).get();
         Cinema cinema = cinemaRepository.findById(cinemaName).get();
@@ -31,11 +31,11 @@ public class ConnectControllers {
     }
 
     @PostMapping("/movieid/{movieId}/propertyid/{propertyid}")
-    Movie assignPropetiesToMovie(@PathVariable ("movieId") Long movieName,
-                                 @PathVariable ("propertyid") Long propertyMovieName)
+    Movie assignPropertiesToMovie(@PathVariable ("movieId") Long movieName,
+                                  @PathVariable ("propertyid") Long propertyMovieName)
     {
         Movie movie = movieRepository.findById(movieName).get();
-        ProperitiesMovie properitiesMovie = propertiesMovieRepository.findById(propertyMovieName).get();
+        PropertiesMovie properitiesMovie = propertiesMovieRepository.findById(propertyMovieName).get();
         movie.assignProperty(properitiesMovie);
         return movieRepository.save(movie);
     }
