@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-
-
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -25,16 +22,18 @@ public class CinemaController {
     private final CinemaMapStruct cinemaMapStruct;
 
 
-
-    @PostMapping("/save/cinema")
-    Cinema cinemaSave(@Valid @RequestBody CinemaDto cinemaDto){
+    ///"/cinemas"
+    @PostMapping("/cinemas")
+    public Cinema cinemaSave(@Valid @RequestBody CinemaDto cinemaDto){
         log.info("Saved inside cinama Saved method");
         Cinema cinema = cinemaMapStruct.dtoToCinema(cinemaDto);
         return cinemaService.cinemaSave(cinema);
     }
-
-    @GetMapping("/cinemaList")
-    List<CinemaWithMovieDto> fetchCinemaListDto(){
+    //cinemas-(filmy)
+    // /articles?include=author
+    //"cinemas?include=movies
+    @GetMapping("/cinemas:include=movies")
+    public List<CinemaWithMovieDto> fetchCinemaListDto(){
         return cinemaMapStruct.toCinemaWithMovieListDto(cinemaService.fetchCinemasList());
     }
 

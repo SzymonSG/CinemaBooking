@@ -19,8 +19,9 @@ public class PropertiesMovieController {
     private final PropertiesMovieService propertyMovieService;
     private final CinemaMapStruct cinemaMapStruct;
 
-    @PostMapping("/save/propertiesmovie")
-    PropertiesMovie propertiesMovieSave(@Valid @RequestBody PropertiesMovieDto propertiesMovie){
+    //dates:include=times
+    @PostMapping("/date-times")
+    public PropertiesMovie propertiesMovieSave(@Valid @RequestBody PropertiesMovieDto propertiesMovie){
         PropertiesMovie property = cinemaMapStruct.dtoToPropertiesMovie(propertiesMovie);
         return propertyMovieService.propertySave(property);
 

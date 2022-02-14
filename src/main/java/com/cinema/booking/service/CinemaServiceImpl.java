@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -121,10 +123,24 @@ public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,M
     @Override
     public List<BasicInfoAboutMovie> checkBasicInfoAboutMovies(LocalDateTime localDateTime, String cinemaName) throws MovieNotFoundException {
         List<BasicInfoAboutMovie> wszystkiewolnemiejscawbonarcenadzis = movieRepository.wszystkiewolnemiejscawbonarcenadzis(cinemaName, localDateTime);
-        if (wszystkiewolnemiejscawbonarcenadzis.isEmpty() || wszystkiewolnemiejscawbonarcenadzis.contains(null)){
+            if (wszystkiewolnemiejscawbonarcenadzis.isEmpty() || wszystkiewolnemiejscawbonarcenadzis.contains(null)){
             throw new MovieNotFoundException("Olaboga dzisiaj wszytsko zajęte!!! Prosimy odwiedzić nas jutro");
         }
         return wszystkiewolnemiejscawbonarcenadzis;
+    }
+
+    @Override
+    public Movie fetchMovieById(Long movieId) throws MovieNotFoundException {
+        Optional<Movie> movie = movieRepository.findById(movieId);
+        if (!movie.isPresent()){
+            throw new MovieNotFoundException("Movie Not Available");
+        }
+        return movie.get();
+    }
+
+    @Override
+    public void deleteMovieById(Long movieId) {
+         movieRepository.deleteById(movieId);
     }
 
     @Override

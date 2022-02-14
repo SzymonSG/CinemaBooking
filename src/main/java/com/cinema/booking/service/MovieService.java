@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface MovieService {
     //TODO
-    Movie movieSave(Movie movie);
+    public Movie movieSave(Movie movie);
     //TODO
-    List<Movie> fetchMoviesList();
+    public List<Movie> fetchMoviesList();
     //TODO przemyśl sens , po co filmy zajęte pokazwyac, I czy nie lepiej pokazać same nazwy filmów w danym dniu.
     //List<Movie> checkMoviesAfterDate(LocalDateTime localDate);
 
@@ -21,7 +21,11 @@ public interface MovieService {
 
     //List<Movie> findFreePlacesOnMovie(String cinemaName, String movieName, LocalDateTime localDateTime) throws MovieNotFoundException;
 
-    List<BasicInfoAboutMovie> checkBasicInfoAboutMovies(LocalDateTime localDateTime, String cinemaName) throws MovieNotFoundException;
+    public List<BasicInfoAboutMovie> checkBasicInfoAboutMovies(LocalDateTime localDateTime, String cinemaName) throws MovieNotFoundException;
+
+    public Movie fetchMovieById(Long movieId) throws MovieNotFoundException;
+
+    public void deleteMovieById(Long movieId);
 
     //List<Movie> showAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException;
 

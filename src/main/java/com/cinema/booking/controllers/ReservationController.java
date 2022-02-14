@@ -24,6 +24,7 @@ public class ReservationController {
     private final ShowService showService;
 
 
+    //boooking/cinema-names/{cinema-name}/movie-names/{movie-name}/date-times
     @PutMapping("/cinemaName/{cinemaName}/movieName/{movieName}/date")
     public List<Movie> multiBookedPlaceWithDate( @PathVariable("cinemaName")String cinemaName,
                                                  @PathVariable("movieName")String movieName,
@@ -34,16 +35,18 @@ public class ReservationController {
     }
 
     //1 Lista Filmów+
-
+    //cinemas/{cinemaName}/repertoire
+    //cinema_name/{cinemaName}/repertoire
     @GetMapping("/cinemas/{cinemaName}/movies")
     public List<MovieNameDto>showAllPlayingMovies(@PathVariable("cinemaName")String cinemaName) throws MovieNotFoundException {
         List<Movie> movies = showService.showAllPlayingMoviesInCinema(cinemaName);
         return cinemaMapStruct.toMovieNameListDto(movies);
     }
     //2 Godzina i data filmu not work ale w innej wersji work+ (-)
+    //cinema-names/{cinemaName}/movie-names/{movieName}/date-times
     @GetMapping("/dates/cinemas/{cinemaName}/movies/{movieName}")
     public List<DataDto>showDateChosenMovie(@PathVariable("cinemaName")String cinemaName,
-                                                       @PathVariable("movieName")String moviesName) throws MovieNotFoundException {
+                                            @PathVariable("movieName")String moviesName) throws MovieNotFoundException {
         List<PropertiesMovie> dataTimeMovie = showService.showDateChosenMovie(cinemaName, moviesName);
 
         return cinemaMapStruct.toDataDtoListMovie(dataTimeMovie);
@@ -52,11 +55,12 @@ public class ReservationController {
 
 
     //3.
+    //cinema/name/{cinemaName}/movie/name/{movieName}/free-places/date-times/
     //wolne miejsca na konkretny film
     @GetMapping("/findFreePlaces/cinemaName/{cinemaName}/movieName/{movieName}/date")
-    public List<FreePlaceDto> findFreeMoviesInCinema(@PathVariable ("cinemaName")String cinemaName,
-                                                     @PathVariable ("movieName") String movieName,
-                                                     @RequestParam("localDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
+    public List<FreePlaceDto> findFreePlacesOnMovie(@PathVariable ("cinemaName")String cinemaName,
+                                                    @PathVariable ("movieName") String movieName,
+                                                    @RequestParam("localDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
                                                      pattern = "yyyy-MM-dd; HH:mm:ss") LocalDateTime localDateTime) throws MovieNotFoundException {
         List<Movie> freePlacesOnMovie = showService.findFreePlacesOnMovie(cinemaName, movieName, localDateTime);
         return cinemaMapStruct.toFreePlaceListDto(freePlacesOnMovie);

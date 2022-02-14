@@ -20,6 +20,7 @@ public class ConnectControllers {
     private final MovieRepository movieRepository;
     private final PropertiesMovieRepository propertiesMovieRepository;
 
+    //movies/{movieId}/cinemas{cinemaId}
     @PostMapping("/movieid/{movieId}/cinemaid/{cinemaId}")
     Movie enrolledCinemaToMovie(@PathVariable("movieId") Long movieName,
                                 @PathVariable ("cinemaId") Long cinemaName)
@@ -30,6 +31,7 @@ public class ConnectControllers {
         return movieRepository.save(movie);
     }
 
+    //movies/{movieId}/properties_movie/{propertyId}
     @PostMapping("/movieid/{movieId}/propertyid/{propertyid}")
     Movie assignPropertiesToMovie(@PathVariable ("movieId") Long movieName,
                                   @PathVariable ("propertyid") Long propertyMovieName)
