@@ -36,9 +36,30 @@ public class Cinema {
     // przypadek OneToMany po stronie One możemy dodać Cascade.All ponieważ usunięcie użytkownika usnie również adresy
     //Jednak ustawienie po stronie adresów moze sparwić ze usunięcie uzytkonika pozostawi serioce adresy i tym samym błędy w DB
     //mappedBy informuje o dwukierunkowości relacji oraz ze druga strona relacji jest Owenerem i tam powinno zachodzić złączenie
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "cinemas")
+
+//    @JsonIgnore
+//    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "cinemas")
+
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
+    @JoinTable(
+            name = "seance",
+            joinColumns = @JoinColumn(
+                    name = "cinema_ID",
+                    referencedColumnName = "cinemaId"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "movie_ID",
+                    referencedColumnName ="movieId"
+            )
+    )
     private List<Movie> movies = new ArrayList<>();
+
+    public void enrolledMovie(Movie movie){
+        movies.add(movie);
+    }
 
 
 

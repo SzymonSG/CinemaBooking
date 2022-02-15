@@ -4,9 +4,9 @@ import com.cinema.booking.entities.Movie;
 
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.exceptions.CinemaNotFoundException;
+import com.cinema.booking.exceptions.AlreadyEnrolledMovieException;
 import com.cinema.booking.exceptions.MovieNotFoundException;
 import com.cinema.booking.exceptions.PropertyMovieNotFoundException;
-import com.cinema.booking.mapstructDTO.DataDto;
 import com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie;
 import com.cinema.booking.repository.CinemaRepository;
 import com.cinema.booking.repository.MovieRepository;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -73,9 +72,9 @@ public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,M
     }
 
     @Override
-    public Cinema fetchCinemaById(Long cinemaId) throws CinemaNotFoundException {
+    public Cinema fetchCinemaById(Long cinemaId) throws CinemaNotFoundException{
         return cinemaRepository.findById(cinemaId)
-                .orElseThrow(()->new CinemaNotFoundException("Cinema Not Available"));
+                .orElseThrow(()-> new CinemaNotFoundException ("Cinema Not Available"));
     }
 
 
@@ -156,18 +155,21 @@ public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,M
          movieRepository.deleteById(movieId);
     }
 
+
+    //zmiana z movie na Cinema
+    @Transactional
     @Override
-    public Movie enrolledCinemaToMovie(Long movieId, Long cinemaId) throws MovieNotFoundException, CinemaNotFoundException {
+    public Cinema enrolledCinemaToMovie(Long movieId, Long cinemaId) throws MovieNotFoundException, AlreadyEnrolledMovieException, CinemaNotFoundException {
 
         Movie movie = fetchMovieById(movieId);
         Cinema cinema = fetchCinemaById(cinemaId);
 
         if (!movie.getCinemas().isEmpty()){
-            throw new CinemaNotFoundException("This film yet is adding to cinema.!");
+            throw new AlreadyEnrolledMovieException(movieId,cinema.getCinemaName());
         }
+        cinema.enrolledMovie(movie);
+        return cinemaRepository.save(cinema);
 
-        movie.enrolledCinema(cinema);
-        return movieRepository.save(movie);
     }
 
     @Override

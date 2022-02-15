@@ -43,21 +43,23 @@ public class Movie {
 
 
     //@JsonIgnore
-    @ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
-    )
-    @JoinTable(
-            name = "seance",
-            joinColumns = @JoinColumn(
-                    name = "movie_ID",
-                    referencedColumnName = "movieId"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "cinema_ID",
-                    referencedColumnName ="cinemaId"
-            )
-    )
+//    @ManyToMany(
+//            fetch = FetchType.EAGER,
+//            cascade = CascadeType.ALL
+//    )
+//    @JoinTable(
+//            name = "seance",
+//            joinColumns = @JoinColumn(
+//                    name = "movie_ID",
+//                    referencedColumnName = "movieId"
+//            ),
+//            inverseJoinColumns = @JoinColumn(
+//                    name = "cinema_ID",
+//                    referencedColumnName ="cinemaId"
+//            )
+//    )
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "movies")
     private List<Cinema> cinemas = new ArrayList<>();
 
 
@@ -65,10 +67,6 @@ public class Movie {
     @JoinColumn(name = "property_id",referencedColumnName = "propertyId")
     private PropertiesMovie properitiesMovie;
 
-    public void enrolledCinema(Cinema cinema) {
-        ///cinemas= new ArrayList<>();
-        cinemas.add(cinema);
-    }
 
     public void assignProperty(PropertiesMovie properitiesMovie) {
         this.properitiesMovie = properitiesMovie;

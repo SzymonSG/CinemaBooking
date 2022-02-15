@@ -29,8 +29,6 @@ public interface MovieService {
 
     public void deleteMovieById(Long movieId);
 
-    public Movie enrolledCinemaToMovie(Long movieId, Long cinemaId) throws MovieNotFoundException, CinemaNotFoundException;
-
 
     //List<Movie> showAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException;
 

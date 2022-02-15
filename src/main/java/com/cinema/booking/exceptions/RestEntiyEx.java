@@ -36,6 +36,17 @@ public class RestEntiyEx extends ResponseEntityExceptionHandler {
                 .body(message);
     }
 
+
+    @ExceptionHandler({AlreadyEnrolledMovieException.class})
+    ResponseEntity<ErrorMessage> movieNotFoundException(AlreadyEnrolledMovieException exception,
+                                                        WebRequest webRequest){
+        ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND,
+                exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(message);
+    }
+
     @ExceptionHandler({CinemaNotFoundException.class})
     ResponseEntity<ErrorMessage> movieNotFoundException(CinemaNotFoundException exception,
                                                         WebRequest webRequest){
