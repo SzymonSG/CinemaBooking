@@ -8,6 +8,7 @@ import com.cinema.booking.exceptions.MovieNotFoundException;
 import com.cinema.booking.exceptions.PropertyMovieNotFoundException;
 import com.cinema.booking.mapper.CinemaMapStruct;
 import com.cinema.booking.mapstructDTO.CinemaWithMovieDto;
+import com.cinema.booking.mapstructDTO.MovieIncludePropertiesDto;
 import com.cinema.booking.mapstructDTO.MovieWithCinemaDto;
 import com.cinema.booking.service.CinemaService;
 import com.cinema.booking.service.MovieService;
@@ -35,20 +36,17 @@ public class ConnectControllers {
     CinemaWithMovieDto enrolledCinemaToMovie(@PathVariable("movieId") Long movieId,
                                              @PathVariable ("cinemaId") Long cinemaId) throws MovieNotFoundException, CinemaNotFoundException {
 
-// chyba git mozna sie zastanowić nad zmianą dto na CinemaWithMovie, lub stworzenie enrolledCinema w cinemaService
         Cinema cinema = cinemaService.enrolledCinemaToMovie(movieId, cinemaId);
         return cinemaMapStruct.toCinemaWithMovieDto(cinema);
     }
 
     //movies/{movieId}/properties_movie/{propertyId}
     @PostMapping("/movieid/{movieId}/propertyid/{propertyid}")
-    Movie assignPropertiesToMovie(@PathVariable ("movieId") Long movieId,
-                                  @PathVariable ("propertyid") Long propertyId) throws MovieNotFoundException, PropertyMovieNotFoundException {
+    MovieIncludePropertiesDto assignPropertiesToMovie(@PathVariable ("movieId") Long movieId,
+                                                      @PathVariable ("propertyid") Long propertyId) throws MovieNotFoundException, PropertyMovieNotFoundException {
 
-        Movie movie = movieService.fetchMovieById(movieId);
-        PropertiesMovie propertiesMovie = propertiesMovieService.fetchPropertyMovieById(propertyId);
 
-        movie.assignProperty(propertiesMovie);
-        return movieService.movieSave(movie);
+        Movie movie = movieService.enrolledPropertiesToMovie(movieId, propertyId);
+        return cinemaMapStruct.toMovieIncludePropertiesDto(movie);
     }
 }

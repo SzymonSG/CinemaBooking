@@ -85,6 +85,15 @@ public interface CinemaMapStruct {
 //    InfoMovieDto toInfoMovieDto(Movie movie);
 //    List<InfoMovieDto> toInfoMovieListDto(List<Movie> infoMovieDtoList);
 
+    //only one
+    @Mapping(source = "movieId",target = "movieDtoId")
+    @Mapping(source = "movieName",target = "movieNameDto")
+    @Mapping(source = "movieRoom",target = "movieRoomDto")
+    @Mapping(source = "seating",target = "seatingDto")
+    @Mapping(source = "booked",target = "bookedDto")
+    MovieIncludePropertiesDto toMovieIncludePropertiesDto (Movie movie);
+
+
 
 
     ///////////////// składowe

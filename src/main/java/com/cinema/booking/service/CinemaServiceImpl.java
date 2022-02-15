@@ -155,6 +155,17 @@ public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,M
          movieRepository.deleteById(movieId);
     }
 
+    @Override
+    public Movie enrolledPropertiesToMovie(Long movieId, Long propertyId) throws MovieNotFoundException, PropertyMovieNotFoundException {
+//        Movie movie = movieService.fetchMovieById(movieId);
+//        PropertiesMovie propertiesMovie = propertiesMovieService.fetchPropertyMovieById(propertyId);
+        Movie movie = fetchMovieById(movieId);
+        PropertiesMovie propertiesMovie = propertiesMovieRepository.findById(propertyId)
+                .orElseThrow(() -> new PropertyMovieNotFoundException("nie znaleziono tego property"));
+        movie.assignProperty(propertiesMovie);
+        return movieRepository.save(movie);
+    }
+
 
     //zmiana z movie na Cinema
     @Transactional
