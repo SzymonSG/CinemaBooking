@@ -1,6 +1,8 @@
 package com.cinema.booking.service;
 
+import com.cinema.booking.entities.Cinema;
 import com.cinema.booking.entities.Movie;
+import com.cinema.booking.exceptions.CinemaNotFoundException;
 import com.cinema.booking.exceptions.MovieNotFoundException;
 import com.cinema.booking.mapstructDTO.reservationDTO.FreeSeatDto;
 import com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie;
@@ -26,6 +28,9 @@ public interface MovieService {
     public Movie fetchMovieById(Long movieId) throws MovieNotFoundException;
 
     public void deleteMovieById(Long movieId);
+
+    public Movie enrolledCinemaToMovie(Long movieId, Long cinemaId) throws MovieNotFoundException, CinemaNotFoundException;
+
 
     //List<Movie> showAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException;
 

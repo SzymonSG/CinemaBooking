@@ -3,7 +3,9 @@ import com.cinema.booking.entities.Cinema;
 import com.cinema.booking.entities.Movie;
 
 import com.cinema.booking.entities.PropertiesMovie;
+import com.cinema.booking.exceptions.CinemaNotFoundException;
 import com.cinema.booking.exceptions.MovieNotFoundException;
+import com.cinema.booking.exceptions.PropertyMovieNotFoundException;
 import com.cinema.booking.mapstructDTO.DataDto;
 import com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie;
 import com.cinema.booking.repository.CinemaRepository;
@@ -55,6 +57,12 @@ public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,M
     public PropertiesMovie propertySave(PropertiesMovie properitiesMovie) {
         return propertiesMovieRepository.save(properitiesMovie);
     }
+
+    @Override
+    public PropertiesMovie fetchPropertyMovieById(Long propertyId) throws PropertyMovieNotFoundException {
+        return propertiesMovieRepository.findById(propertyId)
+                .orElseThrow(() -> new PropertyMovieNotFoundException("Properties Not Found!"));
+    }
     /////////dotąd jest legit
 
     @Override
@@ -64,6 +72,11 @@ public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,M
         return list;
     }
 
+    @Override
+    public Cinema fetchCinemaById(Long cinemaId) throws CinemaNotFoundException {
+        return cinemaRepository.findById(cinemaId)
+                .orElseThrow(()->new CinemaNotFoundException("Cinema Not Available"));
+    }
 
 
     @Override
@@ -141,6 +154,20 @@ public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,M
     @Override
     public void deleteMovieById(Long movieId) {
          movieRepository.deleteById(movieId);
+    }
+
+    @Override
+    public Movie enrolledCinemaToMovie(Long movieId, Long cinemaId) throws MovieNotFoundException, CinemaNotFoundException {
+
+        Movie movie = fetchMovieById(movieId);
+        Cinema cinema = fetchCinemaById(cinemaId);
+
+        if (!movie.getCinemas().isEmpty()){
+            throw new CinemaNotFoundException("This film yet is adding to cinema.!");
+        }
+
+        movie.enrolledCinema(cinema);
+        return movieRepository.save(movie);
     }
 
     @Override

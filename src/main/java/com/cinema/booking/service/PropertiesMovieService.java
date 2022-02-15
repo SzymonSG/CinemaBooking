@@ -1,8 +1,11 @@
 package com.cinema.booking.service;
 
 import com.cinema.booking.entities.PropertiesMovie;
+import com.cinema.booking.exceptions.PropertyMovieNotFoundException;
 
 public interface PropertiesMovieService {
     //TODO
-    PropertiesMovie propertySave(PropertiesMovie properitiesMovie);
+    public PropertiesMovie propertySave(PropertiesMovie properitiesMovie);
+
+    public PropertiesMovie fetchPropertyMovieById(Long propertyId) throws PropertyMovieNotFoundException;
 }

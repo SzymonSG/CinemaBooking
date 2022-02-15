@@ -26,7 +26,7 @@ import java.util.Map;
 @ResponseStatus
 public class RestEntiyEx extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(MovieNotFoundException.class)
+    @ExceptionHandler({MovieNotFoundException.class})
     ResponseEntity<ErrorMessage> movieNotFoundException(MovieNotFoundException exception,
                                                         WebRequest webRequest){
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND,
@@ -35,6 +35,28 @@ public class RestEntiyEx extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(message);
     }
+
+    @ExceptionHandler({CinemaNotFoundException.class})
+    ResponseEntity<ErrorMessage> movieNotFoundException(CinemaNotFoundException exception,
+                                                        WebRequest webRequest){
+        ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND,
+                exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(message);
+    }
+
+    @ExceptionHandler({PropertyMovieNotFoundException.class})
+    ResponseEntity<ErrorMessage> movieNotFoundException(PropertyMovieNotFoundException exception,
+                                                        WebRequest webRequest){
+        ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND,
+                exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(message);
+    }
+
+
     // working with constarins value without @Valid
     @ExceptionHandler({ ConstraintViolationException.class })
     public ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex, final WebRequest request) {
