@@ -61,9 +61,9 @@ public class Cinema {
         movies.add(movie);
     }
 
-
-
-
-
-
+    //for testing
+    public Cinema(Long cinemaId, String cinemaName) {
+        this.cinemaId = cinemaId;
+        this.cinemaName = cinemaName;
+    }
 }

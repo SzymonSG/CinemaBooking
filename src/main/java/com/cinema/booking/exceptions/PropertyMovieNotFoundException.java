@@ -1,8 +1,14 @@
 package com.cinema.booking.exceptions;
 
+import java.text.MessageFormat;
+
 public class PropertyMovieNotFoundException extends Exception {
     public PropertyMovieNotFoundException() {
         super();
+    }
+
+    public PropertyMovieNotFoundException(Long id) {
+        super(MessageFormat.format("Property with this id:{0} not found",id));
     }
 
     public PropertyMovieNotFoundException(String message) {

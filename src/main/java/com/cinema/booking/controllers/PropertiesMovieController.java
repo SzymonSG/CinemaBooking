@@ -4,7 +4,7 @@ package com.cinema.booking.controllers;
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.mapper.CinemaMapStruct;
 import com.cinema.booking.mapstructDTO.PropertiesMovieDto;
-import com.cinema.booking.service.PropertiesMovieService;
+import com.cinema.booking.service.ServiceInterfaces.PropertiesMovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

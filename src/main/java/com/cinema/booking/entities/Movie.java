@@ -29,11 +29,13 @@ public class Movie {
     @NotBlank(message = "Movie name is requierd")
     @NotEmpty(message = "Movie cannot be empty")
     private String movieName;
+    //Intgers i min max
     private String movieRoom;
 //    @Range(min=0, max =1000, message="Seating")
     @Min(value = 1)
     @Max(value = 100, message = "Maksymalna wartość 100")
     private Integer seating;
+    //tutaj zmienić na boolan +service
     private String booked;
 
     //@JsonFormat annotation to control the date format on individual classes, instead of globally, for the entire application
@@ -70,6 +72,15 @@ public class Movie {
 
     public void assignProperty(PropertiesMovie properitiesMovie) {
         this.properitiesMovie = properitiesMovie;
+    }
+
+//for test
+    public Movie(Long movieId, String movieName, String movieRoom, Integer seating, String booked) {
+        this.movieId = movieId;
+        this.movieName = movieName;
+        this.movieRoom = movieRoom;
+        this.seating = seating;
+        this.booked = booked;
     }
 }
 

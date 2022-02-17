@@ -1,4 +1,4 @@
-package com.cinema.booking.service;
+package com.cinema.booking.service.ServiceInterfaces;
 
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.exceptions.PropertyMovieNotFoundException;

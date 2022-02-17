@@ -11,6 +11,10 @@ import com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie;
 import com.cinema.booking.repository.CinemaRepository;
 import com.cinema.booking.repository.MovieRepository;
 import com.cinema.booking.repository.PropertiesMovieRepository;
+import com.cinema.booking.service.ServiceInterfaces.CinemaService;
+import com.cinema.booking.service.ServiceInterfaces.MovieService;
+import com.cinema.booking.service.ServiceInterfaces.PropertiesMovieService;
+import com.cinema.booking.service.ServiceInterfaces.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +25,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,MovieService,ReservationService,ShowService{
+public class OverviewImpl implements CinemaService, PropertiesMovieService, MovieService, ReservationService,ShowService{
 
 
     private final CinemaRepository cinemaRepository;
@@ -31,7 +35,7 @@ public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,M
     private final PropertiesMovieRepository propertiesMovieRepository;
 
     @Autowired
-    public CinemaServiceImpl(CinemaRepository cinemaRepository, MovieRepository movieRepository, PropertiesMovieRepository propertiesMovieRepository) {
+    public OverviewImpl(CinemaRepository cinemaRepository, MovieRepository movieRepository, PropertiesMovieRepository propertiesMovieRepository) {
         this.cinemaRepository = cinemaRepository;
         this.movieRepository = movieRepository;
         this.propertiesMovieRepository = propertiesMovieRepository;
@@ -60,7 +64,7 @@ public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,M
     @Override
     public PropertiesMovie fetchPropertyMovieById(Long propertyId) throws PropertyMovieNotFoundException {
         return propertiesMovieRepository.findById(propertyId)
-                .orElseThrow(() -> new PropertyMovieNotFoundException("Properties Not Found!"));
+                .orElseThrow(() -> new PropertyMovieNotFoundException(propertyId));
     }
     /////////dotąd jest legit
 
@@ -93,25 +97,36 @@ public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,M
 
 
         if (seance.isEmpty() || seance.contains(null)) {
-            throw new MovieNotFoundException("Nie znaleziono takiego seansu");
+            throw new MovieNotFoundException("Nie znaleziono takiego seansu"); //"Nie znaleziono takiego seansu"
         } else {
             //to git dopisałem !WantedPlaces.contains(null) czy która kollwiek wartość nie została posłana jako null
             if (wantedPlaces != null && !wantedPlaces.isEmpty() && !wantedPlaces.contains(null)) {
                 //sprawdz czy istnieją takie miejsca siedzące
-                List<Integer> collect = seance.stream().map(Movie::getSeating).collect(Collectors.toList());
+                List<Integer> collect = seance
+                        .stream()
+                        .map(Movie::getSeating)
+                        .collect(Collectors.toList());
                 boolean checkPlacesExist = collect.containsAll(wantedPlaces); // contain czy zawiera mniejszy w większym
+
                 if (!checkPlacesExist){
-                    throw new MovieNotFoundException("Sprawdź czy podałeś właściwe miejsca");
+                    //throw new MovieNotFoundException("Sprawdź czy podałeś właściwe miejsca");
+                    throw new MovieNotFoundException(wantedPlaces);
                 }
                 //jeśli miejsca istnieją w bazie to odfiltruj i sprawdz czy zajęte , expand zeby zobaczyć jak normalnie by to wyglądało i o ile trudniej....
                 List<Movie> foundPlaces = seance.stream()
-                        .filter(orginal -> wantedPlaces.contains(orginal.getSeating())) // aa tu działa na odwrót przy pomocy metody contain
+                        .filter(orginal -> wantedPlaces.contains(orginal.getSeating()))// aa tu działa na odwrót przy pomocy metody contain
                         .collect(Collectors.toList());
-//pamietaj ze any booked sprawdz i dodaj enums
+                //pamietaj ze any booked sprawdz i dodaj enums
                 boolean free = foundPlaces.stream()
-                        .anyMatch(book -> book.getBooked().equals("BOOKED")); // lub any match
+                        .anyMatch(booked -> booked.getBooked().equals("BOOKED")); // lub any match
                 if (free) {
-                    throw new MovieNotFoundException("Niektóre miejsca mogą być już zarezerwowane. Prosimy spróbować ponownie");
+                    List<Integer> bookedPlaces = foundPlaces.stream()
+                            .filter(booked -> booked.getBooked()
+                            .equals("BOOKED"))
+                            .map(Movie::getSeating)
+                            .collect(Collectors.toList());
+                    String info = "booked";
+                    throw new MovieNotFoundException(bookedPlaces,info);//Niektóre miejsca mogą być już zarezerwowane. Prosimy spróbować ponownie
                 } else {
                     foundPlaces.forEach(toBooked -> toBooked.setBooked("BOOKED"));
                     return movieRepository.saveAll(foundPlaces);
@@ -126,7 +141,7 @@ public class CinemaServiceImpl implements CinemaService,PropertiesMovieService,M
     public List<Movie> findFreePlacesOnMovie(String cinemaName, String movieName, LocalDateTime localDateTime) throws MovieNotFoundException {
         List<Movie> infoMovies = movieRepository.getAllFreePlacesOnMovie(cinemaName, movieName, localDateTime);
         if (infoMovies.isEmpty()){
-            throw new MovieNotFoundException("Wszytskie miejsca są aktualnie zarazerwone, prosimy przejrzeć inną ofertę kina");
+            throw new MovieNotFoundException(movieName,localDateTime);
         }
         return infoMovies;
 
