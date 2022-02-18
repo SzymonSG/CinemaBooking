@@ -25,7 +25,7 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
                     "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE p.startTimeOfTheMovie = :localDateTime AND m.booked='free' " +
                     "AND c.cinemaName=:cinemaName"
     )
-    List<BasicInfoAboutMovie> wszystkiewolnemiejscawbonarcenadzis(String cinemaName, LocalDateTime localDateTime);
+    List<BasicInfoAboutMovie> getFreePlacesForSelected_CinemaAndDataTime(String cinemaName, LocalDateTime localDateTime);
 
 
     //Czy to powinno zwracać List<Optional> czy moze Optional <List<Movie>>

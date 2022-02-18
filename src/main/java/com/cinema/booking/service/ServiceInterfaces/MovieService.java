@@ -24,7 +24,7 @@ public interface MovieService {
 
     //List<Movie> findFreePlacesOnMovie(String cinemaName, String movieName, LocalDateTime localDateTime) throws MovieNotFoundException;
 
-    public List<BasicInfoAboutMovie> checkBasicInfoAboutMovies(LocalDateTime localDateTime, String cinemaName) throws MovieNotFoundException;
+    //public List<BasicInfoAboutMovie> checkBasicInfoAboutMovies(LocalDateTime localDateTime, String cinemaName) throws MovieNotFoundException;
 
     public Movie fetchMovieById(Long movieId) throws MovieNotFoundException;
 
