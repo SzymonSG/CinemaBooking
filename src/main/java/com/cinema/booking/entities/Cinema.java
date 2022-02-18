@@ -29,17 +29,6 @@ public class Cinema {
     @NotNull(message = "Cinema cannot be null")
     private String cinemaName;
 
-
-    //lazy to jest powolne dociągnie danych z powiązanych encji
-    //Cascade type.all czyli zmiany na powiąznych encjach występują
-    //Użytkownik i adresy OneToMany
-    // przypadek OneToMany po stronie One możemy dodać Cascade.All ponieważ usunięcie użytkownika usnie również adresy
-    //Jednak ustawienie po stronie adresów moze sparwić ze usunięcie uzytkonika pozostawi serioce adresy i tym samym błędy w DB
-    //mappedBy informuje o dwukierunkowości relacji oraz ze druga strona relacji jest Owenerem i tam powinno zachodzić złączenie
-
-//    @JsonIgnore
-//    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "cinemas")
-
     @ManyToMany(
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL
@@ -61,9 +50,4 @@ public class Cinema {
         movies.add(movie);
     }
 
-    //for testing
-    public Cinema(Long cinemaId, String cinemaName) {
-        this.cinemaId = cinemaId;
-        this.cinemaName = cinemaName;
-    }
 }

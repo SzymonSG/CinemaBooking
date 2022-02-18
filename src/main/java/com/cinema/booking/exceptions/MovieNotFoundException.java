@@ -13,18 +13,14 @@ public class MovieNotFoundException extends Exception{
         super(message);
     }
 
+    public MovieNotFoundException(Long id) {
+        super(MessageFormat.format("Movie not found with this id",id));
+    }
+
 
     public MovieNotFoundException(List<Integer> message, String cause) {
         super(MessageFormat.format("Unfortunately, but places with numbers: {0} are: {1} ",message,cause));
 
-    }
-
-    public MovieNotFoundException(Throwable cause) {
-        super(cause);
-    }
-
-    protected MovieNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
     }
 
     public MovieNotFoundException(List<Integer>place){

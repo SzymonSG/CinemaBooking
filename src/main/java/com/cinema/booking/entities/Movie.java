@@ -38,28 +38,6 @@ public class Movie {
     //tutaj zmienić na boolan +service
     private String booked;
 
-    //@JsonFormat annotation to control the date format on individual classes, instead of globally, for the entire application
-    //podjąc z jsona w request body jest ok
-//    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd; HH:mm:ss")
-//    private LocalDateTime startTimeOfTheMovie;
-
-
-    //@JsonIgnore
-//    @ManyToMany(
-//            fetch = FetchType.EAGER,
-//            cascade = CascadeType.ALL
-//    )
-//    @JoinTable(
-//            name = "seance",
-//            joinColumns = @JoinColumn(
-//                    name = "movie_ID",
-//                    referencedColumnName = "movieId"
-//            ),
-//            inverseJoinColumns = @JoinColumn(
-//                    name = "cinema_ID",
-//                    referencedColumnName ="cinemaId"
-//            )
-//    )
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "movies")
     private List<Cinema> cinemas = new ArrayList<>();
@@ -69,18 +47,9 @@ public class Movie {
     @JoinColumn(name = "property_id",referencedColumnName = "propertyId")
     private PropertiesMovie properitiesMovie;
 
-
     public void assignProperty(PropertiesMovie properitiesMovie) {
         this.properitiesMovie = properitiesMovie;
     }
 
-//for test
-    public Movie(Long movieId, String movieName, String movieRoom, Integer seating, String booked) {
-        this.movieId = movieId;
-        this.movieName = movieName;
-        this.movieRoom = movieRoom;
-        this.seating = seating;
-        this.booked = booked;
-    }
 }
 

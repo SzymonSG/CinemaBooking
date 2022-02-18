@@ -1,7 +1,6 @@
 package com.cinema.booking.service;
 import com.cinema.booking.entities.Cinema;
 import com.cinema.booking.entities.Movie;
-
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.exceptions.CinemaNotFoundException;
 import com.cinema.booking.exceptions.AlreadyEnrolledMovieException;
@@ -11,13 +10,9 @@ import com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie;
 import com.cinema.booking.repository.CinemaRepository;
 import com.cinema.booking.repository.MovieRepository;
 import com.cinema.booking.repository.PropertiesMovieRepository;
-import com.cinema.booking.service.ServiceInterfaces.CinemaService;
-import com.cinema.booking.service.ServiceInterfaces.MovieService;
-import com.cinema.booking.service.ServiceInterfaces.PropertiesMovieService;
-import com.cinema.booking.service.ServiceInterfaces.ReservationService;
+import com.cinema.booking.service.ServiceInterfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class OverviewImpl implements CinemaService, PropertiesMovieService, MovieService, ReservationService,ShowService{
+public class CinemaServiceImpl implements CinemaService, PropertiesMovieService, MovieService, ReservationService,ShowService {
 
 
     private final CinemaRepository cinemaRepository;
@@ -35,7 +30,7 @@ public class OverviewImpl implements CinemaService, PropertiesMovieService, Movi
     private final PropertiesMovieRepository propertiesMovieRepository;
 
     @Autowired
-    public OverviewImpl(CinemaRepository cinemaRepository, MovieRepository movieRepository, PropertiesMovieRepository propertiesMovieRepository) {
+    public CinemaServiceImpl(CinemaRepository cinemaRepository, MovieRepository movieRepository, PropertiesMovieRepository propertiesMovieRepository) {
         this.cinemaRepository = cinemaRepository;
         this.movieRepository = movieRepository;
         this.propertiesMovieRepository = propertiesMovieRepository;
@@ -66,7 +61,6 @@ public class OverviewImpl implements CinemaService, PropertiesMovieService, Movi
         return propertiesMovieRepository.findById(propertyId)
                 .orElseThrow(() -> new PropertyMovieNotFoundException(propertyId));
     }
-    /////////dotąd jest legit
 
     @Override
     public List<Movie> fetchMoviesByNamesAndRoomsList(String movieName, String movieRoom) {
@@ -78,7 +72,7 @@ public class OverviewImpl implements CinemaService, PropertiesMovieService, Movi
     @Override
     public Cinema fetchCinemaById(Long cinemaId) throws CinemaNotFoundException{
         return cinemaRepository.findById(cinemaId)
-                .orElseThrow(()-> new CinemaNotFoundException ("Cinema Not Available"));
+                .orElseThrow(()-> new CinemaNotFoundException(cinemaId));
     }
 
 
@@ -97,43 +91,58 @@ public class OverviewImpl implements CinemaService, PropertiesMovieService, Movi
 
 
         if (seance.isEmpty() || seance.contains(null)) {
-            throw new MovieNotFoundException("Nie znaleziono takiego seansu"); //"Nie znaleziono takiego seansu"
+            throw new MovieNotFoundException("No such seance was found");
         } else {
-            //to git dopisałem !WantedPlaces.contains(null) czy która kollwiek wartość nie została posłana jako null
-            if (wantedPlaces != null && !wantedPlaces.isEmpty() && !wantedPlaces.contains(null)) {
-                //sprawdz czy istnieją takie miejsca siedzące
-                List<Integer> collect = seance
-                        .stream()
-                        .map(Movie::getSeating)
-                        .collect(Collectors.toList());
-                boolean checkPlacesExist = collect.containsAll(wantedPlaces); // contain czy zawiera mniejszy w większym
-
-                if (!checkPlacesExist){
-                    //throw new MovieNotFoundException("Sprawdź czy podałeś właściwe miejsca");
-                    throw new MovieNotFoundException(wantedPlaces);
-                }
-                //jeśli miejsca istnieją w bazie to odfiltruj i sprawdz czy zajęte , expand zeby zobaczyć jak normalnie by to wyglądało i o ile trudniej....
-                List<Movie> foundPlaces = seance.stream()
-                        .filter(orginal -> wantedPlaces.contains(orginal.getSeating()))// aa tu działa na odwrót przy pomocy metody contain
-                        .collect(Collectors.toList());
-                //pamietaj ze any booked sprawdz i dodaj enums
-                boolean free = foundPlaces.stream()
-                        .anyMatch(booked -> booked.getBooked().equals("BOOKED")); // lub any match
-                if (free) {
-                    List<Integer> bookedPlaces = foundPlaces.stream()
-                            .filter(booked -> booked.getBooked()
-                            .equals("BOOKED"))
-                            .map(Movie::getSeating)
-                            .collect(Collectors.toList());
-                    String info = "booked";
-                    throw new MovieNotFoundException(bookedPlaces,info);//Niektóre miejsca mogą być już zarezerwowane. Prosimy spróbować ponownie
-                } else {
-                    foundPlaces.forEach(toBooked -> toBooked.setBooked("BOOKED"));
-                    return movieRepository.saveAll(foundPlaces);
-                }
-            }else {
-                throw new MovieNotFoundException("Nie podano miejsc do rezerwacji");
+            //if (wantedPlaces != null && !wantedPlaces.isEmpty() && !wantedPlaces.contains(null)) {
+            checkGivenPlacesExist(wantedPlaces, seance);
+            List<Movie> foundPlaces = foundWantedPlaces(wantedPlaces, seance);
+            checkFoundPlacesAreBooked(foundPlaces);
+            foundPlaces.forEach(toBooked -> toBooked.setBooked("BOOKED"));
+            return movieRepository.saveAll(foundPlaces);
             }
+
+        }
+
+    private void whatplaceAreBooked(List<Movie> foundPlaces) throws MovieNotFoundException {
+        List<Integer> bookedPlaces = foundPlaces.stream()
+                .filter(booked -> booked.getBooked()
+                .equals("BOOKED"))
+                .map(Movie::getSeating)
+                .collect(Collectors.toList());
+        String info = "booked";
+        throw new MovieNotFoundException(bookedPlaces,info);//Niektóre miejsca mogą być już zarezerwowane. Prosimy spróbować ponownie
+    }
+
+    private void checkFoundPlacesAreBooked(List<Movie> foundPlaces) throws MovieNotFoundException {
+        boolean somePlaceIsCanBeBooked = foundPlaces.stream()
+                    .anyMatch(booked -> booked.getBooked().equals("BOOKED")); // lub any match
+        if (somePlaceIsCanBeBooked){
+            whatplaceAreBooked(foundPlaces);
+        }
+
+        //return somePlaceIsCanBeBooked;
+    }
+
+    private List<Movie> foundWantedPlaces(List<Integer> wantedPlaces, List<Movie> seance) {
+        List<Movie> foundPlaces = seance.stream()
+                .filter(orginal -> wantedPlaces.contains(orginal.getSeating()))
+                .collect(Collectors.toList());
+        return foundPlaces;
+    }
+    //}
+
+    private void checkGivenPlacesExist(List<Integer> wantedPlaces, List<Movie> seance) throws MovieNotFoundException {
+        if (wantedPlaces != null && !wantedPlaces.isEmpty() && !wantedPlaces.contains(null)) {
+            List<Integer> collect = seance
+                    .stream()
+                    .map(Movie::getSeating)
+                    .collect(Collectors.toList());
+            boolean checkPlacesExist = collect.containsAll(wantedPlaces); // contain czy zawiera mniejszy w większym
+            if (!checkPlacesExist) {
+                throw new MovieNotFoundException(wantedPlaces);
+            }
+        }else {
+            throw new MovieNotFoundException("No seats were given for booking");
         }
     }
 
@@ -160,7 +169,7 @@ public class OverviewImpl implements CinemaService, PropertiesMovieService, Movi
     public Movie fetchMovieById(Long movieId) throws MovieNotFoundException {
         Optional<Movie> movie = movieRepository.findById(movieId);
         if (!movie.isPresent()){
-            throw new MovieNotFoundException("Movie Not Available");
+            throw new MovieNotFoundException(movieId);
         }
         return movie.get();
     }
@@ -172,11 +181,10 @@ public class OverviewImpl implements CinemaService, PropertiesMovieService, Movi
 
     @Override
     public Movie enrolledPropertiesToMovie(Long movieId, Long propertyId) throws MovieNotFoundException, PropertyMovieNotFoundException {
-//        Movie movie = movieService.fetchMovieById(movieId);
-//        PropertiesMovie propertiesMovie = propertiesMovieService.fetchPropertyMovieById(propertyId);
         Movie movie = fetchMovieById(movieId);
+        ///tutaj powinno być fetchprropertyBiDI
         PropertiesMovie propertiesMovie = propertiesMovieRepository.findById(propertyId)
-                .orElseThrow(() -> new PropertyMovieNotFoundException("nie znaleziono tego property"));
+                .orElseThrow(() -> new PropertyMovieNotFoundException(movieId));
         movie.assignProperty(propertiesMovie);
         return movieRepository.save(movie);
     }
@@ -202,7 +210,7 @@ public class OverviewImpl implements CinemaService, PropertiesMovieService, Movi
     public List<Movie> showAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException {
         List<Movie> allPlayingMovies = movieRepository.getAllPlayingMovies(cinemaName);
         if (allPlayingMovies.isEmpty() || allPlayingMovies.contains(null)){
-            throw new MovieNotFoundException("Aktualnie tworzymy nowy repertuar! Przepraszamy!");
+            throw new MovieNotFoundException("We are currently creating a new repertoire. We Apologize!");
         }
         return allPlayingMovies;
     }
@@ -211,8 +219,10 @@ public class OverviewImpl implements CinemaService, PropertiesMovieService, Movi
     public List<PropertiesMovie> showDateChosenMovie(String cinemaName, String moviesName ) throws MovieNotFoundException {
         List<PropertiesMovie> dataTimeMovie = movieRepository.getLocalDateTimeForChosenMovie(cinemaName, moviesName);
         if (dataTimeMovie.isEmpty()){
-            throw new MovieNotFoundException("Niestety nie ma takiego filmu!");
+            throw new MovieNotFoundException("Unfortunately we are not playing such a movie.");
         }
         return dataTimeMovie;
     }
+
+
 }
