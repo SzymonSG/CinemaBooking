@@ -41,7 +41,7 @@ public class CinemaServiceImpl implements CinemaService {
     public Cinema enrolledCinemaToMovie(Long movieId, Long cinemaId) throws MovieNotFoundException, CinemaNotFoundException, AlreadyEnrolledMovieException {
         Cinema cinema = fetchCinemaById(cinemaId);
         Movie movie = (movieRepository.findById(movieId).orElseThrow(
-                () -> new CinemaNotFoundException(movieId)));
+                () -> new MovieNotFoundException(movieId)));
 //        Movie movie = movieServiceImpl.fetchMovieById(movieId);
         if (!movie.getCinemas().isEmpty()){
             throw new AlreadyEnrolledMovieException(movieId,cinema.getCinemaName());

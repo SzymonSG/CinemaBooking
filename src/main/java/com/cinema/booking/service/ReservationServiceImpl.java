@@ -28,7 +28,6 @@ public class ReservationServiceImpl implements ReservationService, ValidationInt
         if (seance.isEmpty() || seance.contains(null)) {
             throw new MovieNotFoundException("No such seance was found");
         } else {
-            //TODO Complex
             List<Movie> foundPlaces = ComplexValidation(wantedPlaces, seance);
             foundPlaces.forEach(toBooked -> toBooked.setBooked("BOOKED"));
             return movieRepository.saveAll(foundPlaces);
