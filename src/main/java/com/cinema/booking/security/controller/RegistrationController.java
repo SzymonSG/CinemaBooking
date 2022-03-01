@@ -126,4 +126,9 @@ public class RegistrationController {
         return "Password Change Successfully";
     }
 
+    @GetMapping("/login")
+    public String checkJwt(){
+        return "BONDZIORNIANIO!!!!!";
+    }
+
 }
