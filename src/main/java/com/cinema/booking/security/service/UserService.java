@@ -3,7 +3,9 @@ package com.cinema.booking.security.service;
 
 import com.cinema.booking.security.entity.User;
 import com.cinema.booking.security.entity.VerificationToken;
+import com.cinema.booking.security.jwt.LoginModel;
 import com.cinema.booking.security.model.UserModel;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 

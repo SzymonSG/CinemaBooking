@@ -37,6 +37,8 @@ public class RegistrationController {
         return "Succes Registartion!";
     }
 
+    @PostMapping("singin")
+
     private String applicationUrl(HttpServletRequest request) {
         return "http://" +
                 request.getServerName() +
@@ -124,6 +126,16 @@ public class RegistrationController {
         userService.changePassword(user,passwordModel.getNewPassword());
         //Save new password
         return "Password Change Successfully";
+    }
+
+    @GetMapping("/login")
+    public String checkJwt(){
+        return "BONDZIORNIANIO!!!!!";
+    }
+
+    @GetMapping("/borek")
+    public String borek(){
+        return "SYNUŚŚŚŚŚŚŚŚ!!!!!";
     }
 
 }

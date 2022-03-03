@@ -3,7 +3,6 @@ package com.cinema.booking.security.service;
 import com.cinema.booking.security.entity.User;
 import com.cinema.booking.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

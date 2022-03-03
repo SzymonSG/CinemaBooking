@@ -5,9 +5,15 @@ public class Utilize {
     public static final String[] WHITE_LIST_URLS ={
             "/hello",
             "/register",
-            "/verifyRegistartion/*",
+            "/verifyRegistration/**",
             "/resendVerifyToken/*",
             "/resetPassword/*",
-            "/savePassword/*"
+            "/savePassword/*",
+            "/cinemas"
     };
+
+    //posprawdzaj czy nie powinno być wszędzie dwóch gwaizdek
+
+    public static final String secretkey =
+            "securesecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecure";
 }
