@@ -30,5 +30,5 @@ public interface UserService {
 
     boolean checkIfValidOldPassword(User user, String oldPassword);
 
-    ResponseEntity<?> authUser(LoginModel loginModel) throws RuntimeException;
+    ResponseEntity<?> authUser(LoginModel loginModel);
 }
