@@ -1,5 +1,6 @@
 package com.cinema.booking.security.controller;
 
+
 import com.cinema.booking.security.model.LoginModel;
 import com.cinema.booking.security.service.serviceInterfaces.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class SingInController {
     private final UserService userService;
 
     @PostMapping("/singup")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginModel loginModel) throws RuntimeException {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginModel loginModel){
         return userService.authUser(loginModel);
     }
 

@@ -1,5 +1,4 @@
 package com.cinema.booking.security.config;
-
 import com.cinema.booking.security.jwt.EntryPointAuth;
 import com.cinema.booking.security.jwt.JwtTokenVerifier;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +48,7 @@ public class WebSecurityConfigdcb extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+
     @Bean
     public JwtTokenVerifier verifierJwtTokenFilter(){
         return new JwtTokenVerifier();
@@ -67,11 +67,10 @@ public class WebSecurityConfigdcb extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-//                .addFilterAfter(new JwtTokenVerifier(),UsernamePasswordAuthenticationFilter.class)
-//                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .authorizeRequests()
                 .antMatchers(WHITE_LIST_URLS).permitAll()
                 .antMatchers("/movies").hasAuthority("USER").anyRequest().authenticated();
+
 
         http.addFilterBefore(verifierJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

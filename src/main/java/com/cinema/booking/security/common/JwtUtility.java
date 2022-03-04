@@ -6,6 +6,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+
 import java.util.Date;
 
 @Component
@@ -17,6 +18,7 @@ public class JwtUtility {
                 authentication.getPrincipal();
 
         String secretKey = "securesecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecure";
+
         String build = Jwts.builder()
                 .setSubject((principal.getUsername()))
                 .claim("authorities", principal.getAuthorities())
@@ -26,7 +28,6 @@ public class JwtUtility {
                 .compact();
         String token = "Bearer "+build;
         return token;
-
 
     }
 

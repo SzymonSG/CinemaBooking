@@ -10,16 +10,15 @@ import java.util.List;
 @Setter
 @Builder
 public class JwtModelResponse {
-
-    private String token;
     private Long id;
+    private String token;
     private String email;
     private String firstName;
     private List<String> roles;
 
-    public JwtModelResponse(String token, Long id, String email, String firstName, List<String> roles) {
-        this.token = token;
+    public JwtModelResponse(Long id, String token, String email, String firstName, List<String> roles) {
         this.id = id;
+        this.token = token;
         this.email = email;
         this.firstName = firstName;
         this.roles = roles;

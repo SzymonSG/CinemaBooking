@@ -18,8 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -146,7 +144,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> authUser(LoginModel loginModel) throws RuntimeException {
+    public ResponseEntity<?> authUser(LoginModel loginModel) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -154,7 +152,6 @@ public class UserServiceImpl implements UserService {
                         loginModel.getPassword()
                 ));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String token = jwtUtility.generateToken(authentication);
 
         MyUserDetail principal = (MyUserDetail) authentication.getPrincipal();
@@ -171,5 +168,8 @@ public class UserServiceImpl implements UserService {
                 .token(token)
                 .build();
         return ResponseEntity.ok(jwtModelResponse);
+
+
+
     }
 }
