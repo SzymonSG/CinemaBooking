@@ -3,7 +3,7 @@ package com.cinema.booking.security.service;
 
 import com.cinema.booking.security.entity.User;
 import com.cinema.booking.security.entity.VerificationToken;
-import com.cinema.booking.security.jwt.LoginModel;
+import com.cinema.booking.security.model.LoginModel;
 import com.cinema.booking.security.model.UserModel;
 import org.springframework.http.ResponseEntity;
 
@@ -30,5 +30,5 @@ public interface UserService {
 
     boolean checkIfValidOldPassword(User user, String oldPassword);
 
-    ResponseEntity<?> authUser(LoginModel loginModel);
+    ResponseEntity<?> authUser(LoginModel loginModel) throws RuntimeException;
 }
