@@ -60,6 +60,7 @@ public class WebSecurityConfigdcb extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+
                 .csrf().disable()
                 .exceptionHandling()
                     .authenticationEntryPoint(unauthorizedHandler).and()
@@ -74,7 +75,7 @@ public class WebSecurityConfigdcb extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(verifierJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-//                .and()
+///                .and()
 //                .httpBasic();
 
     }
