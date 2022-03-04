@@ -1,4 +1,4 @@
-package com.cinema.booking.security.jwt;
+package com.cinema.booking.security.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

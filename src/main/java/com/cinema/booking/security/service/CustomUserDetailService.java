@@ -3,7 +3,6 @@ package com.cinema.booking.security.service;
 import com.cinema.booking.security.entity.User;
 import com.cinema.booking.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,15 +29,19 @@ public class CustomUserDetailService implements UserDetailsService {
         if (user==null){
              throw new UsernameNotFoundException("User Not Found");
         }else{
-           return new org.springframework.security.core.userdetails.User(
-                    user.getEmail(),
-                    user.getPassword(),
-                    user.isEnabled(),
-                    true,
-                    true,
-                    true,
-                    getAuthorities(List.of(user.getRole()))
-            );
+            MyUserDetail myUser = MyUserDetail.build(user);
+            return myUser;
+//            MyUserDetail myUserDetail = new MyUserDetail(user);
+//            return myUserDetail;
+//           return new org.springframework.security.core.userdetails.User(
+//                    user.getEmail(),
+//                    user.getPassword(),
+//                    user.isEnabled(),
+//                    true,
+//                    true,
+//                    true,
+//                    getAuthorities(List.of(user.getRole()))
+//            );
         }
 
     }

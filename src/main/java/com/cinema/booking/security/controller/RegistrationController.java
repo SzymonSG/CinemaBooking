@@ -5,7 +5,7 @@ import com.cinema.booking.security.entity.VerificationToken;
 import com.cinema.booking.security.event.RegistrationCompleteEvent;
 import com.cinema.booking.security.model.PasswordModel;
 import com.cinema.booking.security.model.UserModel;
-import com.cinema.booking.security.service.UserService;
+import com.cinema.booking.security.service.serviceInterfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;

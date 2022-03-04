@@ -3,7 +3,7 @@ package com.cinema.booking.security.event.listener;
 
 import com.cinema.booking.security.entity.User;
 import com.cinema.booking.security.event.RegistrationCompleteEvent;
-import com.cinema.booking.security.service.UserService;
+import com.cinema.booking.security.service.serviceInterfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
