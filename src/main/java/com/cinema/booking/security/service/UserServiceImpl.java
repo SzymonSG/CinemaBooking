@@ -1,19 +1,27 @@
 package com.cinema.booking.security.service;
-
+import com.cinema.booking.security.common.JwtUtility;
 import com.cinema.booking.security.entity.PasswordResetToken;
 import com.cinema.booking.security.entity.User;
 import com.cinema.booking.security.entity.VerificationToken;
+import com.cinema.booking.security.jwt.LoginModel;
+import com.cinema.booking.security.model.JwtModelResponse;
 import com.cinema.booking.security.model.UserModel;
 import com.cinema.booking.security.repository.PasswordResetTokenRepository;
 import com.cinema.booking.security.repository.UserRepository;
 import com.cinema.booking.security.repository.VerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -27,6 +35,9 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordResetTokenRepository passwordResetTokenRepository;
 
+    private final AuthenticationManager authenticationManager;
+
+    private final JwtUtility jwtUtility;
     @Override
     public User registerUser(UserModel userModel) {
         User user = new User();
@@ -129,5 +140,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkIfValidOldPassword(User user, String oldPassword) {
         return passwordEncoder.matches(oldPassword,user.getPassword());
+    }
+
+    @Override
+    public ResponseEntity<?> authUser(LoginModel loginModel) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginModel.getEmail(),
+                        loginModel.getPassword()
+                ));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtUtility.generateToken(authentication);
+
+        MyUserDetail principal = (MyUserDetail) authentication.getPrincipal();
+
+        List<String> roles = principal.getAuthorities().stream()
+                .map(role -> role.getAuthority())
+                .collect(Collectors.toList());
+
+        JwtModelResponse jwtModelResponse = JwtModelResponse.builder()
+                .id(principal.getId())
+                .email(principal.getUsername())
+                .firstName(principal.getFirstName())
+                .roles(roles)
+                .token(token)
+                .build();
+
+        return ResponseEntity.ok(jwtModelResponse);
+
+
     }
 }

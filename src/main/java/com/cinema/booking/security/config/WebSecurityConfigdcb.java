@@ -1,9 +1,9 @@
 package com.cinema.booking.security.config;
 
-import com.cinema.booking.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,20 +37,26 @@ public class WebSecurityConfigdcb extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
+    }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                //.sessionManagement()
+                //    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                //.and()
+                //.addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .authorizeRequests()
                 .antMatchers(WHITE_LIST_URLS).permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/movies").hasAuthority("USER").anyRequest().authenticated().and().httpBasic();
+
 
 
 //                .and()

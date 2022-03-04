@@ -5,9 +5,10 @@ public class Utilize {
     public static final String[] WHITE_LIST_URLS ={
             "/hello",
             "/register",
-            "/verifyRegistartion/*",
-            "/resendVerifyToken/*",
-            "/resetPassword/*",
-            "/savePassword/*"
+            "/verifyRegistration/**",
+            "/resendVerifyToken/**",
+            "/resetPassword/**",
+            "/savePassword/*",
+            "/singup"
     };
 }
