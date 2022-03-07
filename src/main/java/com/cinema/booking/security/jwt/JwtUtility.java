@@ -6,24 +6,29 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 
+import javax.crypto.SecretKey;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.function.Function;
 
+@RequiredArgsConstructor
 @Component
 public class JwtUtility implements Serializable {
 
     private static final long serialVersionUID = 234234523523L;
-    @Value("${cinema.jwt.secretKey}")
-    private String secretKey;
-    @Value("${cinema.jwt.tokenPrefix}")
-    private String tokenPrefix;
+  //  @Value("${cinema.jwt.secretKey}")
+//    private String secretKey;
+//    @Value("${cinema.jwt.tokenPrefix}")
+//    private String tokenPrefix;
+    private final JwtConfig jwtConfig;
+    private final SecretKey secretKey;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -37,7 +42,7 @@ public class JwtUtility implements Serializable {
     private Claims getAllClaimsFromToken(String token) {
 //        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
         return Jwts.parser()
-                .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token).getBody();
     }
 
@@ -67,9 +72,9 @@ public class JwtUtility implements Serializable {
                 .claim("authorities", principal.getAuthorities())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + 900000))
-                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                .signWith(secretKey)
                 .compact();
-        String token = tokenPrefix+build;
+        String token = jwtConfig.getTokenPrefix()+build;
         return token;
 
     }

@@ -17,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,11 +32,16 @@ import java.util.stream.Collectors;
 
 public class JwtTokenVerifier extends OncePerRequestFilter {
 
-    @Value("${cinema.jwt.secretKey}")
-    private String secretKey;
-    @Value("${cinema.jwt.tokenPrefix}")
-    private String tokenPrefix;
+//    @Value("${cinema.jwt.secretKey}")
+//    private String secretKey;
+//    @Value("${cinema.jwt.tokenPrefix}")
+//    private String tokenPrefix;
    // private final JwtConfig jwtConfig;
+    private final JwtConfig jwtConfig;
+
+    public JwtTokenVerifier(JwtConfig jwtConfig) {
+        this.jwtConfig = jwtConfig;
+    }
 
     @Autowired
     private JwtUtility jwtUtility;
@@ -43,16 +50,17 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = request.getHeader("Authorization");
+//        String authorizationHeader = request.getHeader("Authorization");
+        String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
 
-        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(tokenPrefix)) {
+        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtConfig.getTokenPrefix())) {
             filterChain.doFilter(request, response);
             return;
         }
         String email = null;
         String token = null;
         try {
-            token = authorizationHeader.replace(tokenPrefix, "");
+            token = authorizationHeader.replace(jwtConfig.getTokenPrefix(), "");
             email = jwtUtility.getUsernameFromToken(token);
             if (email != null && SecurityContextHolder.getContext().getAuthentication()==null){
                 UserDetails userDetails = userDetailService

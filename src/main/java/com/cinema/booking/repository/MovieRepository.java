@@ -46,14 +46,14 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
 
 
     @Query(
-            "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName GROUP BY m.movieName"
+            "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName GROUP BY m.movieId,m.movieName"
     )
     List<Movie>getAllPlayingMovies(String cinemaName);
 
 
     @Query(
             "SELECT p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName= :cinemaName " +
-                    "AND m.movieName=:movieName GROUP BY p.startTimeOfTheMovie"
+                    "AND m.movieName=:movieName GROUP BY p.propertyId,p.startTimeOfTheMovie"
     )
     List<PropertiesMovie>getLocalDateTimeForChosenMovie(String cinemaName, String movieName);
 }

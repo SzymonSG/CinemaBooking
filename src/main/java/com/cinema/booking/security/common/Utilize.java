@@ -11,10 +11,19 @@ public class Utilize {
             "/savePassword/**",
             "/changePassword/**",
             "/singup",
-            "/cinemas",
-            "/movies",
+            "/cinemas/**/**",
+            "/dates/cinemas/**",
+            "/movies/**",
             "/date-times",
+            "/dates/**",
             "/movieid/**/cinemaid/**",
-            "/movieid/**/propertyid/**"
+            "/movieid/**/propertyid/**",
+            "/findFreePlaces/cinemaName/**/movieName/**",
+            "/findByDateFree/**",
+            "/cinemaName/**/movieName/**",
+            "/movies:include=cinemas",
+            "/cinemas:include=movies",
+            "/findByDate/**",
+            "/date-times"
     };
 }

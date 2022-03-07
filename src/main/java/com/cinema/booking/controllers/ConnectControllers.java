@@ -24,7 +24,6 @@ public class ConnectControllers {
 
     private final MovieService movieService;
     private final CinemaService cinemaService;
-    private final PropertiesMovieService propertiesMovieService;
     private final CinemaMapStruct cinemaMapStruct;
 
 
