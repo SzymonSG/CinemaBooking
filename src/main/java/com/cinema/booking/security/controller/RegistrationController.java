@@ -89,7 +89,7 @@ public class RegistrationController {
         return url;
     }
 
-    @PostMapping("savePassword")
+    @PostMapping("/savePassword")
     public String savePassword(@RequestParam("token")String token,
                                @RequestBody PasswordModel passwordModel){
         String result = userService.validatePasswordResetToken(token);
@@ -115,7 +115,7 @@ public class RegistrationController {
         return url;
     }
 
-    @PostMapping("changePassword")
+    @PostMapping("/changePassword")
     public String changePassword(@RequestBody PasswordModel passwordModel){
         User user = userService.findUserByEmail(passwordModel.getEmail());
         if (!userService.checkIfValidOldPassword(user,passwordModel.getOldPassword())){

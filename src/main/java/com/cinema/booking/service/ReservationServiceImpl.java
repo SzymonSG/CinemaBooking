@@ -33,7 +33,7 @@ public class ReservationServiceImpl implements ReservationService, ValidationInt
             return movieRepository.saveAll(foundPlaces);
         }
     }
-
+    //TODO WYDZIEL DO KLASY VALIDACJA REZERWACJI
     private List<Movie> ComplexValidation(List<Integer> wantedPlaces, List<Movie> seance) throws MovieNotFoundException {
         checkGivenPlacesExist(wantedPlaces, seance);
         List<Movie> foundPlaces = foundWantedPlaces(wantedPlaces, seance);
@@ -42,7 +42,7 @@ public class ReservationServiceImpl implements ReservationService, ValidationInt
     }
 
     @Override
-    public void whatplaceAreBooked(List<Movie> foundPlaces) throws MovieNotFoundException {
+    public void whatPlaceAreBooked(List<Movie> foundPlaces) throws MovieNotFoundException {
         List<Integer> bookedPlaces = foundPlaces.stream()
                 .filter(booked -> booked.getBooked()
                         .equals("BOOKED"))
@@ -57,7 +57,7 @@ public class ReservationServiceImpl implements ReservationService, ValidationInt
         boolean somePlaceIsCanBeBooked = foundPlaces.stream()
                 .anyMatch(booked -> booked.getBooked().equals("BOOKED")); // lub any match
         if (somePlaceIsCanBeBooked){
-            whatplaceAreBooked(foundPlaces);
+            whatPlaceAreBooked(foundPlaces);
         }
     }
 

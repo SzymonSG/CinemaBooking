@@ -1,6 +1,7 @@
 package com.cinema.booking.security.config;
 import com.cinema.booking.security.jwt.EntryPointAuth;
 import com.cinema.booking.security.jwt.JwtTokenVerifier;
+import com.cinema.booking.security.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,17 +19,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.cinema.booking.security.common.Utilize.WHITE_LIST_URLS;
-
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfigdcb extends WebSecurityConfigurerAdapter {
 
+
+
+   // private  CustomUserDetailService userDetailService;
+
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder(11);
     }
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailService userDetailsService;
 
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();

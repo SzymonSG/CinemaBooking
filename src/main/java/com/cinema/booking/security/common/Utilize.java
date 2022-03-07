@@ -8,7 +8,13 @@ public class Utilize {
             "/verifyRegistration/**",
             "/resendVerifyToken/**",
             "/resetPassword/**",
-            "/savePassword/*",
-            "/singup"
+            "/savePassword/**",
+            "/changePassword/**",
+            "/singup",
+            "/cinemas",
+            "/movies",
+            "/date-times",
+            "/movieid/**/cinemaid/**",
+            "/movieid/**/propertyid/**"
     };
 }

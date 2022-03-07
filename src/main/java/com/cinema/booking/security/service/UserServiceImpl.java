@@ -1,5 +1,5 @@
 package com.cinema.booking.security.service;
-import com.cinema.booking.security.common.JwtUtility;
+import com.cinema.booking.security.jwt.JwtUtility;
 import com.cinema.booking.security.entity.PasswordResetToken;
 import com.cinema.booking.security.entity.User;
 import com.cinema.booking.security.entity.VerificationToken;
