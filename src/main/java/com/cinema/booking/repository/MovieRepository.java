@@ -16,16 +16,19 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
 
 
     @Query(
-            "SELECT m,c,p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE p.startTimeOfTheMovie = :localDateTime AND m.booked='free'"
+            "SELECT m,c,p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p " +
+                    "WHERE p.startTimeOfTheMovie = :localDateTime AND m.booked='free'"
     )
     List<Movie> findByLocalDateTime(LocalDateTime localDateTime);
 
     @Query(
-            "SELECT new com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie(m.movieName,m.seating,m.movieRoom,p.startTimeOfTheMovie)" +
-                    "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE p.startTimeOfTheMovie = :localDateTime AND m.booked='free' " +
+            "SELECT new com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie" +
+                    "(m.movieName,m.seating,m.movieRoom,p.startTimeOfTheMovie)" +
+                    "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p " +
+                    "WHERE p.startTimeOfTheMovie = :localDateTime AND m.booked='free' " +
                     "AND c.cinemaName=:cinemaName"
     )
-    List<BasicInfoAboutMovie> getFreePlacesForSelected_CinemaAndDataTime(String cinemaName, LocalDateTime localDateTime);
+    List<BasicInfoAboutMovie>getFreePlacesForSelected_CinemaAndDataTime(String cinemaName, LocalDateTime localDateTime);
 
 
     //Czy to powinno zwracać List<Optional> czy moze Optional <List<Movie>>
@@ -46,14 +49,15 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
 
 
     @Query(
-            "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName GROUP BY m.movieId,m.movieName"
+            "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +
+                    "GROUP BY m.movieName , m.movieId"
     )
     List<Movie>getAllPlayingMovies(String cinemaName);
 
 
     @Query(
             "SELECT p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName= :cinemaName " +
-                    "AND m.movieName=:movieName GROUP BY p.propertyId,p.startTimeOfTheMovie"
+                    "AND m.movieName=:movieName GROUP BY p.startTimeOfTheMovie, p.propertyId"
     )
     List<PropertiesMovie>getLocalDateTimeForChosenMovie(String cinemaName, String movieName);
 }
