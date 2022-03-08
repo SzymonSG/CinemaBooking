@@ -1,5 +1,4 @@
 package com.cinema.booking.service;
-import com.cinema.booking.entities.Cinema;
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.exceptions.MovieNotFoundException;
@@ -23,6 +22,7 @@ public class InfoMovieServiceImpl implements ShowInfoService {
 
     private final MovieRepository movieRepository;
 
+    //Distinct version
     @Override
     public List<MovieName> showAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException {
         List<MovieName> allPlayingMovies = movieRepository.getAllPlayingMovies(cinemaName);
@@ -37,9 +37,11 @@ public class InfoMovieServiceImpl implements ShowInfoService {
         }
         return allPlayingMovies;
     }
+
+    //version stream filter
     @Override
     public List<Movie> showAllPlayingMoviesInCinemaV2(String cinemaName) throws MovieNotFoundException {
-        List<Movie> allData = movieRepository.getAllData();
+        List<Movie> allData = movieRepository.getAllDataFromCinema(cinemaName);
         List<Movie> allPlayingMovies = allData.stream()
                 .filter(distinctByKey(movie -> movie.getMovieName()))
                 .collect(Collectors.toList());

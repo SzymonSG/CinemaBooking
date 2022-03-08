@@ -2,7 +2,7 @@ package com.cinema.booking.service.ServiceInterfaces;
 
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.exceptions.MovieNotFoundException;
-import com.cinema.booking.mapstructDTO.Reservation;
+import com.cinema.booking.payloads.Reservation;
 
 
 import java.time.LocalDateTime;

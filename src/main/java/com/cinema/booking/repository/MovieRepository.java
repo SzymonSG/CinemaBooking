@@ -44,9 +44,9 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
 
 
     @Query(
-            "SELECT m,c,p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p"
+            "SELECT m,c,p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName"
     )
-    List<Movie> getAllData();
+    List<Movie> getAllDataFromCinema(String cinemaName);
 
     @Query(
             "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +

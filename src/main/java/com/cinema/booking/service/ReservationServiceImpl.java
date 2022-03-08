@@ -2,8 +2,8 @@ package com.cinema.booking.service;
 
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.exceptions.MovieNotFoundException;
-import com.cinema.booking.mapstructDTO.Reservation;
 
+import com.cinema.booking.payloads.Reservation;
 import com.cinema.booking.repository.MovieRepository;
 import com.cinema.booking.service.ServiceInterfaces.ReservationService;
 import com.cinema.booking.service.ServiceInterfaces.ValidationInterface;
@@ -43,12 +43,12 @@ public class ReservationServiceImpl implements ReservationService, ValidationInt
         List<Movie> seance = movieRepository.getDataCollectionToReservation(
                 reservation.getCinemaName(),
                 reservation.getMovieName(),
-                reservation.getLocalDateTime());
+                reservation.getStartMovie());
 
         if (seance.isEmpty() || seance.contains(null)) {
             throw new MovieNotFoundException("No such seance was found");
         } else {
-            List<Movie> foundPlaces = ComplexValidation(reservation.getWanted(), seance);
+            List<Movie> foundPlaces = ComplexValidation(reservation.getSeatsToBooked(), seance);
             foundPlaces.forEach(toBooked -> toBooked.setBooked(BOOKED.name()));
             return movieRepository.saveAll(foundPlaces);
         }

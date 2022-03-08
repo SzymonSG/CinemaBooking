@@ -8,10 +8,10 @@ import java.util.List;
 
 @AllArgsConstructor
 @Data
-public class ReservationDTO {
+public class ReservationDto {
 
     private String cinemaNameDto;
     private String movieNameDto;
-    private String localDateTimeDto;
-    private List<Integer> wantedDto;
+    private String startMovieDto;
+    private List<Integer> seatsToBookedDto;
 }
