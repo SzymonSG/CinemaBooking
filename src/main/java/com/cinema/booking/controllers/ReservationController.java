@@ -5,6 +5,8 @@ import com.cinema.booking.exceptions.MovieNotFoundException;
 import com.cinema.booking.mapper.CinemaMapStruct;
 import com.cinema.booking.mapstructDTO.*;
 import com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie;
+import com.cinema.booking.mapstructDTO.ReservationDTO;
+import com.cinema.booking.payloads.MovieName;
 import com.cinema.booking.service.ServiceInterfaces.MovieService;
 import com.cinema.booking.service.ServiceInterfaces.ReservationService;
 import com.cinema.booking.service.ServiceInterfaces.ShowInfoService;
@@ -35,14 +37,29 @@ public class ReservationController {
         return reservationService.multiBookedPlaceWithDate(cinemaName,movieName,wantedPlaces,localDateTime);
     }
 
+    @PutMapping("/reservations")
+    public List<Movie> multiBookedPlaceWithDates(@RequestBody ReservationDTO reservationInfo) throws MovieNotFoundException {
+        Reservation reservation = cinemaMapStruct.toReservation(reservationInfo);
+        return reservationService.multiBookedPlaceWithDateV2(reservation);
+    }
+
     //1 Lista Filmów+
     //cinemas/{cinemaName}/repertoire
     //cinema_name/{cinemaName}/repertoire
     @GetMapping("/cinemas/{cinemaName}/movies")
     public List<MovieNameDto>showAllPlayingMovies(@PathVariable("cinemaName")String cinemaName) throws MovieNotFoundException {
-        List<Movie> movies = showInfoService.showAllPlayingMoviesInCinema(cinemaName);
-        return cinemaMapStruct.toMovieNameListDto(movies);
+        List<MovieName> movies = showInfoService.showAllPlayingMoviesInCinema(cinemaName);
+//        return cinemaMapStruct.to(movies);
+        return cinemaMapStruct.toMovieNamesListDto(movies);
     }
+    @GetMapping("/cinemas/{cinemaName}/moviess")
+    public List<MovieNameDto>showAllPlayingMoviesV2(@PathVariable("cinemaName")String cinemaName) throws MovieNotFoundException {
+        List<Movie> movies = showInfoService.showAllPlayingMoviesInCinemaV2(cinemaName);
+        return cinemaMapStruct.toMovieNameListDto(movies);
+        //return null;
+    }
+
+
     //2 Godzina i data filmu not work ale w innej wersji work+ (-)
     //cinema-names/{cinemaName}/movie-names/{movieName}/date-times
     @GetMapping("/dates/cinemas/{cinemaName}/movies/{movieName}")

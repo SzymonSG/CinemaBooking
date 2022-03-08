@@ -1,14 +1,21 @@
 package com.cinema.booking.service;
+import com.cinema.booking.entities.Cinema;
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.exceptions.MovieNotFoundException;
 import com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie;
+import com.cinema.booking.payloads.MovieName;
 import com.cinema.booking.repository.MovieRepository;
 import com.cinema.booking.service.ServiceInterfaces.ShowInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -17,12 +24,36 @@ public class InfoMovieServiceImpl implements ShowInfoService {
     private final MovieRepository movieRepository;
 
     @Override
-    public List<Movie> showAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException {
-        List<Movie> allPlayingMovies = movieRepository.getAllPlayingMovies(cinemaName);
+    public List<MovieName> showAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException {
+        List<MovieName> allPlayingMovies = movieRepository.getAllPlayingMovies(cinemaName);
+
+//        List<Movie> allData = movieRepository.getAllData();
+//        Map<String, List<Movie>> allPlayingMovies = allData.stream()
+//                .filter(c -> c.equals(cinemaName))
+//                .collect(Collectors.groupingBy((Movie m) -> m.getMovieName()));
+
         if (allPlayingMovies.isEmpty() || allPlayingMovies.contains(null)){
             throw new MovieNotFoundException("We are currently creating a new repertoire. We Apologize!");
         }
         return allPlayingMovies;
+    }
+    @Override
+    public List<Movie> showAllPlayingMoviesInCinemaV2(String cinemaName) throws MovieNotFoundException {
+        List<Movie> allData = movieRepository.getAllData();
+        List<Movie> allPlayingMovies = allData.stream()
+                .filter(distinctByKey(movie -> movie.getMovieName()))
+                .collect(Collectors.toList());
+        if (allPlayingMovies.isEmpty() || allPlayingMovies.contains(null)){
+            throw new MovieNotFoundException("We are currently creating a new repertoire. We Apologize!");
+        }
+        return allPlayingMovies;
+    }
+
+    public static <T> Predicate<T> distinctByKey(
+            Function<? super T, ?> keyExtractor) {
+
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
     @Override
@@ -56,6 +87,8 @@ public class InfoMovieServiceImpl implements ShowInfoService {
         }
         return allFreePlacesForSelected_CinemaAndDataTime;
     }
+
+
 
 
 }

@@ -24,6 +24,8 @@ public class Utilize {
             "/movies:include=cinemas",
             "/cinemas:include=movies",
             "/findByDate/**",
-            "/date-times"
+            "/date-times",
+            "/reservations",
+            "/cinemas/**/moviess"
     };
 }

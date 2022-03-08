@@ -2,6 +2,7 @@ package com.cinema.booking.repository;
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie;
+import com.cinema.booking.payloads.MovieName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -40,6 +41,13 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
      List<Movie> getDataCollectionToReservation(String cinema, String movie,
                                                 LocalDateTime localDateTime);
 
+
+
+    @Query(
+            "SELECT m,c,p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p"
+    )
+    List<Movie> getAllData();
+
     @Query(
             "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +
                     "AND m.movieName=:movieName AND p.startTimeOfTheMovie=:localDateTime AND m.booked='free'"
@@ -48,11 +56,15 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
     List<Movie> getAllFreePlacesOnMovie(String cinemaName,String movieName, LocalDateTime localDateTime);
 
 
+//    @Query(
+//            "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +
+//                    "GROUP BY m.movieName, m.movieId"
+//    )
     @Query(
-            "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +
-                    "GROUP BY m.movieName , m.movieId"
+            "SELECT DISTINCT new com.cinema.booking.payloads.MovieName(m.movieName)" +
+                    "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName"
     )
-    List<Movie>getAllPlayingMovies(String cinemaName);
+    List<MovieName>getAllPlayingMovies(String cinemaName);
 
 
     @Query(

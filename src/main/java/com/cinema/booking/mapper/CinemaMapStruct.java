@@ -6,6 +6,9 @@ import com.cinema.booking.entities.Movie;
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.mapstructDTO.*;
 import com.cinema.booking.mapstructDTO.MovieNameDto;
+import com.cinema.booking.mapstructDTO.Reservation;
+import com.cinema.booking.mapstructDTO.ReservationDTO;
+import com.cinema.booking.payloads.MovieName;
 import org.mapstruct.*;
 
 import org.mapstruct.factory.Mappers;
@@ -54,6 +57,26 @@ public interface CinemaMapStruct {
     MovieWithCinemaDto toMovieWithCinemaDto(Movie movie);
     List<MovieWithCinemaDto>toMovieWithCinemaListDto(List<Movie>movieList);
 
+    @Mapping(source = "cinemaName",target = "cinemaNameDto")
+    @Mapping(source = "movieName",target = "movieNameDto")
+    @Mapping(source = "localDateTime",target = "localDateTimeDto",dateFormat = "yyyy-MM-dd; HH:mm:ss")
+    @Mapping(source = "wanted",target = "wantedDto")
+    ReservationDTO toReservatioDto (Reservation reservation);
+
+    @InheritInverseConfiguration
+    Reservation toReservation (ReservationDTO reservationDTO);
+    //////////////////////////////////////////////////////////////////////////////////////////////
+//    @Mapping(source = "cinemaName",target = "cinemaNameDto")
+//    @Mapping(source = "movieName",target = "movieNameDto")
+//    @Mapping(source = "localDateTime",target = "beginMovieDto",dateFormat = "yyyy-MM-dd; HH:mm:ss")
+//    @Mapping(source = "wanted",target = "placeToBookedDto")
+//    ReservationDTOO toReservatioDtov2 (Reservationn reservation);
+//
+//    @InheritInverseConfiguration
+//    Reservationn toReservationv2 (ReservationDTOO reservationDTO);
+
+
+
 
     ///ComplexMovieDto
     @Mapping(source = "movieId",target = "movieDtoId")
@@ -71,9 +94,19 @@ public interface CinemaMapStruct {
     FreePlaceDto toFreePlace(Movie movie);
     List<FreePlaceDto> toFreePlaceListDto(List<Movie> movieList);
 
+    //TODO !!!!!!!!!!!!!!
+    //to chyba do usunięcia będzie/
     @Mapping(source = "movieName",target = "filmName")
     MovieNameDto toMovieNameDto(Movie movie);
     List<MovieNameDto> toMovieNameListDto(List<Movie> movieList);
+
+    @Mapping(source = "movieName",target = "filmName")
+    MovieNameDto toMovieNamesDto(MovieName movieName);
+    List<MovieNameDto> toMovieNamesListDto (List<MovieName> movieNames);
+
+
+
+
 
     @Mapping(source = "startTimeOfTheMovie",target = "startFilm",dateFormat = "yyyy-MM-dd; HH:mm:ss")
     DataDto toDataDto(PropertiesMovie propertiesMoviemovie);
