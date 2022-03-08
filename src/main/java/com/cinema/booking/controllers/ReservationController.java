@@ -47,7 +47,7 @@ public class ReservationController {
 //+
     //1 Lista Filmów+
     //cinemas/{cinemaName}/repertoire
-    //cinema_name/{cinemaName}/repertoire
+    //cienmas/{cinemaName}/repertoire
     //DISTINCT potrzebuje przerobienia na MovieNameDTO
     @GetMapping("/cinemas/{cinemaName}/movies")
     public List<MovieNameDto>showAllPlayingMovies(@PathVariable("cinemaName")String cinemaName) throws MovieNotFoundException {
@@ -64,18 +64,6 @@ public class ReservationController {
     }
 
 
-    //3.wolne miejsca na konkrenty film
-    //cinema/name/{cinemaName}/movie/name/{movieName}/free-places/date-times/
-    //wolne miejsca na konkretny film
-    @GetMapping("/findFreePlaces/cinemaName/{cinemaName}/movieName/{movieName}/date")
-    public List<FreePlaceDto> findFreePlacesOnMovie(@PathVariable ("cinemaName")String cinemaName,
-                                                    @PathVariable ("movieName") String movieName,
-                                                    @RequestParam("localDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
-                                                            pattern = "yyyy-MM-dd; HH:mm:ss") LocalDateTime localDateTime) throws MovieNotFoundException {
-        List<Movie> freePlacesOnMovie = showInfoService.findFreePlacesOnMovie(cinemaName, movieName, localDateTime);
-        return cinemaMapStruct.toFreePlaceListDto(freePlacesOnMovie);
-    }
-
     //Kiedy grany jest mój film ?
     //2 Godzina i data filmu not work ale w innej wersji work+ (-)
     //cinema-names/{cinemaName}/movie-names/{movieName}/date-times
@@ -88,10 +76,22 @@ public class ReservationController {
 //        return cinemaMapStruct.toPropertiesMovieListDto(dataTimeMovie);
     }
 
-
-
-
 //+
+    //3.wolne miejsca na konkrenty film (moj)
+    //cinema/name/{cinemaName}/movie/name/{movieName}/free-places/date-times/
+    @GetMapping("/findFreePlaces/cinemaName/{cinemaName}/movieName/{movieName}/date")
+    public List<FreePlaceDto> findFreePlacesOnMovie(@PathVariable ("cinemaName")String cinemaName,
+                                                    @PathVariable ("movieName") String movieName,
+                                                    @RequestParam("localDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
+                                                    pattern = "yyyy-MM-dd; HH:mm:ss") LocalDateTime localDateTime) throws MovieNotFoundException {
+        List<Movie> freePlacesOnMovie = showInfoService.findFreePlacesOnMovie(cinemaName, movieName, localDateTime);
+        return cinemaMapStruct.toFreePlaceListDto(freePlacesOnMovie);
+    }
+
+
+
+////////////// chcesz bardzo isc do kina dzis dostepne wolne miejsca w dzisiajeszym dniu
+//+  wyrzuć to zrób to samo tylko
    //TODO gdzie mamy wolne miejsca dzisiaj w  całym  kinie, to w sumie nie koniecznnie bo to mogą być wrażliwe info
     @GetMapping("/findByDateFree/{cinemaName}/date")
     public List<BasicInfoAboutMovie> findAllFreePlacesTodayInCinema(@PathVariable("cinemaName") String cinemaName,
@@ -102,15 +102,5 @@ public class ReservationController {
         List<BasicInfoAboutMovie> movies = showInfoService.showFreePlacesForSelectedDay(localDateTime,cinemaName);
         return movies;
     }
-
-    //dostępne do zarazerowania filmy w danym dniu we wszytskich kinach -- przerób do jednego kina???
-    @GetMapping("/dates")
-    public List<ComplexMovieDto> findShowMovieByDateTime(@RequestParam("localDate")
-                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
-                                                         pattern = "yyyy-MM-dd; HH:mm:ss") LocalDateTime localDateTime){
-        List<Movie> movies = showInfoService.checkMoviesAfterDate(localDateTime);
-        return cinemaMapStruct.toComplexMovieListDto(movies);
-    }
-
 
 }

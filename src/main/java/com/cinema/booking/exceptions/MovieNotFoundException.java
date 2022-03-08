@@ -1,6 +1,5 @@
 package com.cinema.booking.exceptions;
 
-import com.cinema.booking.entities.Movie;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;

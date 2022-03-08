@@ -67,10 +67,6 @@ public class InfoMovieServiceImpl implements ShowInfoService {
         return infoMovies;
     }
 
-    @Override
-    public List<Movie> checkMoviesAfterDate(LocalDateTime localDateTime) {
-        return movieRepository.findByLocalDateTime(localDateTime);
-    }
 
     @Override
     public List<PropertiesMovie> showDateChosenMovie(String cinemaName, String movieName) throws MovieNotFoundException {

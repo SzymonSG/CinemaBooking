@@ -14,8 +14,6 @@ public interface ShowInfoService {
 
     List<Movie> findFreePlacesOnMovie(String cinemaName, String movieName, LocalDateTime localDateTime) throws MovieNotFoundException;
 
-    List<Movie> checkMoviesAfterDate(LocalDateTime localDateTime);
-
     List<PropertiesMovie> showDateChosenMovie(String cinemaName, String movieName) throws MovieNotFoundException;
 
     //TODO Consider

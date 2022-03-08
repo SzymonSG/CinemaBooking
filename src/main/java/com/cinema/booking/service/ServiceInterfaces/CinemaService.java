@@ -11,13 +11,13 @@ import java.util.List;
 
 public interface CinemaService {
 
-    //TODO
-    public Cinema cinemaSave(Cinema cinema);
-    //TODO
-    public List<Cinema> fetchCinemasList();
 
-    public Cinema fetchCinemaById(Long cinemaId) throws CinemaNotFoundException;
+    Cinema cinemaSave(Cinema cinema);
 
-    public Cinema enrolledCinemaToMovie(Long movieId, Long cinemaId) throws MovieNotFoundException, CinemaNotFoundException, AlreadyEnrolledMovieException;
+    List<Cinema> fetchCinemasList();
+
+    Cinema fetchCinemaById(Long cinemaId) throws CinemaNotFoundException;
+
+    Cinema enrolledCinemaToMovie(Long movieId, Long cinemaId) throws MovieNotFoundException, CinemaNotFoundException, AlreadyEnrolledMovieException;
 
 }
