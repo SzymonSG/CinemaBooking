@@ -2,8 +2,9 @@ package com.cinema.booking.service;
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.exceptions.MovieNotFoundException;
-import com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie;
-import com.cinema.booking.payloads.MovieName;
+import com.cinema.booking.mapstructDTO.BasicInfoAboutMovieDto;
+import com.cinema.booking.mapstructDTO.RepertoireDto;
+import com.cinema.booking.payloads.RepertoireDTO;
 import com.cinema.booking.repository.MovieRepository;
 import com.cinema.booking.service.ServiceInterfaces.ShowInfoService;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,8 @@ public class InfoMovieServiceImpl implements ShowInfoService {
 
     //Distinct version
     @Override
-    public List<MovieName> showAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException {
-        List<MovieName> allPlayingMovies = movieRepository.getAllPlayingMovies(cinemaName);
+    public List<RepertoireDTO> showAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException {
+        List<RepertoireDTO> allPlayingMovies = movieRepository.getAllPlayingMovies(cinemaName);
 
 //        List<Movie> allData = movieRepository.getAllData();
 //        Map<String, List<Movie>> allPlayingMovies = allData.stream()
@@ -78,8 +79,8 @@ public class InfoMovieServiceImpl implements ShowInfoService {
     }
 
     @Override
-    public List<BasicInfoAboutMovie> showFreePlacesForSelectedDay(LocalDateTime localDateTime, String cinemaName) throws MovieNotFoundException {
-        List<BasicInfoAboutMovie> allFreePlacesForSelected_CinemaAndDataTime = movieRepository.getFreePlacesForSelected_CinemaAndDataTime(cinemaName, localDateTime);
+    public List<BasicInfoAboutMovieDto> showFreePlacesForSelectedDay(LocalDateTime localDateTime, String cinemaName) throws MovieNotFoundException {
+        List<BasicInfoAboutMovieDto> allFreePlacesForSelected_CinemaAndDataTime = movieRepository.getFreePlacesForSelected_CinemaAndDataTime(cinemaName, localDateTime);
         if (allFreePlacesForSelected_CinemaAndDataTime.isEmpty() || allFreePlacesForSelected_CinemaAndDataTime.contains(null)){
             throw new MovieNotFoundException("Olaboga dzisiaj wszytsko zajęte!!! Prosimy odwiedzić nas jutro");
         }

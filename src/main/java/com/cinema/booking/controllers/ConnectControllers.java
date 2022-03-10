@@ -10,7 +10,6 @@ import com.cinema.booking.mapstructDTO.CinemaWithMovieDto;
 import com.cinema.booking.mapstructDTO.MovieIncludePropertiesDto;
 import com.cinema.booking.service.ServiceInterfaces.CinemaService;
 import com.cinema.booking.service.ServiceInterfaces.MovieService;
-import com.cinema.booking.service.ServiceInterfaces.PropertiesMovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +26,7 @@ public class ConnectControllers {
     private final CinemaMapStruct cinemaMapStruct;
 
 
-
+    //assign
     //movies/{movieId}/cinemas{cinemaId}
     @PostMapping("/movieid/{movieId}/cinemaid/{cinemaId}")
     CinemaWithMovieDto enrolledCinemaToMovie(@PathVariable("movieId") Long movieId,
@@ -41,7 +40,6 @@ public class ConnectControllers {
     @PostMapping("/movieid/{movieId}/propertyid/{propertyid}")
     MovieIncludePropertiesDto assignPropertiesToMovie(@PathVariable ("movieId") Long movieId,
                                                       @PathVariable ("propertyid") Long propertyId) throws MovieNotFoundException, PropertyMovieNotFoundException {
-
 
         Movie movie = movieService.enrolledPropertiesToMovie(movieId, propertyId);
         return cinemaMapStruct.toMovieIncludePropertiesDto(movie);

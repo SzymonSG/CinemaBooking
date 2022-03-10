@@ -1,8 +1,9 @@
 package com.cinema.booking.repository;
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.entities.PropertiesMovie;
-import com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie;
-import com.cinema.booking.payloads.MovieName;
+import com.cinema.booking.mapstructDTO.BasicInfoAboutMovieDto;
+import com.cinema.booking.mapstructDTO.RepertoireDto;
+import com.cinema.booking.payloads.RepertoireDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,17 +14,14 @@ import java.util.List;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie,Long> {
 
-    List<Movie> findByMovieNameAndMovieRoom(String movieName, String movieRoom);
-
-
     @Query(
-            "SELECT new com.cinema.booking.mapstructDTO.reservationDTO.BasicInfoAboutMovie" +
+            "SELECT new com.cinema.booking.mapstructDTO.BasicInfoAboutMovieDto" +
                     "(m.movieName,m.seating,m.movieRoom,p.startTimeOfTheMovie)" +
                     "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p " +
                     "WHERE p.startTimeOfTheMovie = :localDateTime AND m.booked='free' " +
                     "AND c.cinemaName=:cinemaName"
     )
-    List<BasicInfoAboutMovie>getFreePlacesForSelected_CinemaAndDataTime(String cinemaName, LocalDateTime localDateTime);
+    List<BasicInfoAboutMovieDto>getFreePlacesForSelected_CinemaAndDataTime(String cinemaName, LocalDateTime localDateTime);
 
 
     //Czy to powinno zwracać List<Optional> czy moze Optional <List<Movie>>
@@ -55,10 +53,10 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
 //                    "GROUP BY m.movieName, m.movieId"
 //    )
     @Query(
-            "SELECT DISTINCT new com.cinema.booking.payloads.MovieName(m.movieName)" +
+            "SELECT DISTINCT new com.cinema.booking.payloads.RepertoireDTO(m.movieName)" +
                     "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName"
     )
-    List<MovieName>getAllPlayingMovies(String cinemaName);
+    List<RepertoireDTO>getAllPlayingMovies(String cinemaName);
 
 
     @Query(

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class MovieName {
+public class RepertoireDTO {
 
-    private String movieName;
+    private String filmNameDto;
 }

@@ -17,8 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"seating"})})
 public class Movie {
-
+    //walidacje do DTO, rzeczy związane z bazą mają być tutaj
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long movieId;
@@ -28,7 +29,7 @@ public class Movie {
     private String movieName;
     //Intgers i min max
     private String movieRoom;
-//    @Range(min=0, max =1000, message="Seating")
+    //    @Range(min=0, max =1000, message="Seating")
     @Min(value = 1)
     @Max(value = 100, message = "Maksymalna wartość 100")
     private Integer seating;

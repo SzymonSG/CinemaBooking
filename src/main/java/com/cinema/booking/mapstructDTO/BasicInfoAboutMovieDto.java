@@ -1,4 +1,4 @@
-package com.cinema.booking.mapstructDTO.reservationDTO;
+package com.cinema.booking.mapstructDTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class BasicInfoAboutMovie {
+public class BasicInfoAboutMovieDto {
 
 
     private String movieRoomDto;

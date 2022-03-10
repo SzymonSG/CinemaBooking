@@ -50,7 +50,7 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = fetchMovieById(movieId);
         //TODO ID property?
         PropertiesMovie propertiesMovie = propertiesMovieRepository.findById(propertyId)
-                .orElseThrow(() -> new PropertyMovieNotFoundException(movieId));
+                .orElseThrow(() -> new PropertyMovieNotFoundException(propertyId));
         movie.assignProperty(propertiesMovie);
         return movieRepository.save(movie);
     }

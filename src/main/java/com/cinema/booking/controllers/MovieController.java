@@ -3,6 +3,7 @@ package com.cinema.booking.controllers;
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.exceptions.MovieNotFoundException;
 import com.cinema.booking.mapper.CinemaMapStruct;
+import com.cinema.booking.mapper.MovieMapper;
 import com.cinema.booking.mapstructDTO.MovieDto;
 import com.cinema.booking.mapstructDTO.MovieWithCinemaDto;
 import com.cinema.booking.service.ServiceInterfaces.MovieService;
@@ -17,13 +18,15 @@ import java.util.List;
 public class MovieController {
 
     private final MovieService movieService;
+    private final MovieMapper movieMapper;
     private final CinemaMapStruct cinemaMapStruct;
 
     //movies
     @PostMapping("/movies")
     public Movie movieSave(@Valid @RequestBody MovieDto movieDto){
-        Movie movie = cinemaMapStruct.dtoToMovie(movieDto);
+        Movie movie = movieMapper.dtoToMovie(movieDto);
         return movieService.movieSave(movie);
+
     }
     //movies?include=cinemas
     @GetMapping("/movies:include=cinemas")
@@ -34,9 +37,8 @@ public class MovieController {
     @GetMapping("/movies/{id}")
     public MovieDto fetchMovieById(@PathVariable("id") Long movieId) throws MovieNotFoundException {
         Movie movie = movieService.fetchMovieById(movieId);
-        return cinemaMapStruct.toMovieDto(movie);
+        return movieMapper.toMovieDto(movie);
     }
-
 
     @DeleteMapping("/movies/{id}")
     public String deleteMovieById(@PathVariable("id") Long movieId){

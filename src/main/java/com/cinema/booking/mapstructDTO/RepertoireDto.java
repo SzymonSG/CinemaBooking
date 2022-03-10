@@ -1,10 +1,10 @@
 package com.cinema.booking.mapstructDTO;
-
 import lombok.Data;
 
 
 @Data
-public class MovieNameDto {
+public class RepertoireDto {
 
-    private String filmName;
+    private String filmNameDto;
+
 }
