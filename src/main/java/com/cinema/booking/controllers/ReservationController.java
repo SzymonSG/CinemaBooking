@@ -61,6 +61,7 @@ public class ReservationController {
 
     }
 
+    //czy wyrzuić to w osobny kontroller, czy i tak samo dtos wyjebać w osobny controller
 
     //Kiedy grany jest mój film ?
     //2 Godzina i data filmu not work ale w innej wersji work+ (-)
@@ -81,7 +82,7 @@ public class ReservationController {
     public List<FreePlaceDto> findFreePlacesOnMovie(@PathVariable ("cinemaName")String cinemaName,
                                                     @PathVariable ("movieName") String movieName,
                                                     @RequestParam("localDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
-                                                    pattern = "yyyy-MM-dd; HH:mm:ss") LocalDateTime localDateTime) throws MovieNotFoundException {
+                                                            pattern = "yyyy-MM-dd; HH:mm:ss") LocalDateTime localDateTime) throws MovieNotFoundException {
         List<Movie> freePlacesOnMovie = showInfoService.findFreePlacesOnMovie(cinemaName, movieName, localDateTime);
         return reservationMapper.toFreePlaceListDto(freePlacesOnMovie);
     }
@@ -91,8 +92,8 @@ public class ReservationController {
     @GetMapping("/findByDateFree/{cinemaName}/date")
     public List<BasicInfoAboutMovieDto> findAllFreePlacesTodayInCinema(@PathVariable("cinemaName") String cinemaName,
                                                                        @RequestParam("localDate")
-                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
-                                                                        pattern = "yyyy-MM-dd; HH:mm:ss") LocalDateTime localDateTime) throws MovieNotFoundException {
+                                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
+                                                                               pattern = "yyyy-MM-dd; HH:mm:ss") LocalDateTime localDateTime) throws MovieNotFoundException {
         //dtos pakietowy
         List<BasicInfoAboutMovieDto> movies = showInfoService.showFreePlacesForSelectedDay(localDateTime,cinemaName);
         return movies;

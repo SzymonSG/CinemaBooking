@@ -18,7 +18,9 @@ public class CinemaController {
 
 
     private final CinemaService cinemaService;
+
     private final CinemaMapStruct cinemaMapStruct;
+
     private final CinemaMapper cinemaMapper;
 
 

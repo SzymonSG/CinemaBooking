@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -22,6 +24,8 @@ public class PropertiesMovie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long propertyId;
+
+
     @JsonFormat(pattern="yyyy-MM-dd; HH:mm:ss",shape = JsonFormat.Shape.STRING)
     private LocalDateTime startTimeOfTheMovie;
 

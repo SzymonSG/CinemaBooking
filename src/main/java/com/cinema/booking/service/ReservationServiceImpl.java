@@ -6,7 +6,7 @@ import com.cinema.booking.exceptions.MovieNotFoundException;
 import com.cinema.booking.payloads.Reservation;
 import com.cinema.booking.repository.MovieRepository;
 import com.cinema.booking.service.ServiceInterfaces.ReservationService;
-import com.cinema.booking.service.ServiceInterfaces.ValidationInterface;
+import com.cinema.booking.service.ServiceInterfaces.ValidationReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ import static com.cinema.booking.common.ReservationCheck.BOOKED;
 
 @RequiredArgsConstructor
 @Service
-public class ReservationServiceImpl implements ReservationService, ValidationInterface {
+public class ReservationServiceImpl implements ReservationService, ValidationReservationService {
 
     private final MovieRepository movieRepository;
 

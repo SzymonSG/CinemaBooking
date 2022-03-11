@@ -25,8 +25,7 @@ public class Cinema {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cinemaId;
 
-    @NotBlank(message = "Cinema name is required")
-    @NotNull(message = "Cinema cannot be null")
+
     @Column(unique = true)
     private String cinemaName;
 

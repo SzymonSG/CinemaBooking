@@ -26,8 +26,8 @@ public class ConnectControllers {
     private final CinemaMapStruct cinemaMapStruct;
 
 
-    //assign
     //movies/{movieId}/cinemas{cinemaId}
+    //register-movie/cinemas/{cinemaId}/movies/{movieId}
     @PostMapping("/movieid/{movieId}/cinemaid/{cinemaId}")
     CinemaWithMovieDto enrolledCinemaToMovie(@PathVariable("movieId") Long movieId,
                                              @PathVariable ("cinemaId") Long cinemaId) throws MovieNotFoundException, CinemaNotFoundException {
@@ -35,7 +35,7 @@ public class ConnectControllers {
         Cinema cinema = cinemaService.enrolledCinemaToMovie(movieId, cinemaId);
         return cinemaMapStruct.toCinemaWithMovieDto(cinema);
     }
-
+    //assignment/properties/{propertyId}/movies/{movieId}
     //movies/{movieId}/properties_movie/{propertyId}
     @PostMapping("/movieid/{movieId}/propertyid/{propertyid}")
     MovieIncludePropertiesDto assignPropertiesToMovie(@PathVariable ("movieId") Long movieId,

@@ -5,10 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,21 +15,16 @@ import java.util.List;
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"seating"})})
 public class Movie {
-    //walidacje do DTO, rzeczy związane z bazą mają być tutaj
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long movieId;
 
-    @NotBlank(message = "Movie name is requierd")
-    @NotEmpty(message = "Movie cannot be empty")
     private String movieName;
-    //Intgers i min max
+
     private String movieRoom;
-    //    @Range(min=0, max =1000, message="Seating")
-    @Min(value = 1)
-    @Max(value = 100, message = "Maksymalna wartość 100")
+
     private Integer seating;
-    //tutaj zmienić na boolan +service
+
     private String booked;
 
     @JsonIgnore

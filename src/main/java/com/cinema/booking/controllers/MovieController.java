@@ -48,14 +48,5 @@ public class MovieController {
 
 
 
-//    @GetMapping("/moviess")
-//    List<MovieDTO> fetchMoviesListDto() {
-//        List<MovieDTO> collect = movieService.fetchMoviesList().stream()
-//                .map(MovieDtoMapper::movieWithCinemasToDto)
-//                .collect(Collectors.toList());
-//        return collect;
-//    }
-//
-
 
 }

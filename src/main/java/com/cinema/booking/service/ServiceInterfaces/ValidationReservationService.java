@@ -5,7 +5,7 @@ import com.cinema.booking.exceptions.MovieNotFoundException;
 
 import java.util.List;
 
-public interface ValidationInterface {
+public interface ValidationReservationService {
 
 
     public void whatPlaceAreBooked(List<Movie> foundPlaces) throws MovieNotFoundException;
