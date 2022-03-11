@@ -11,12 +11,9 @@ import javax.validation.constraints.Email;
 @Setter
 @NoArgsConstructor
 public class LoginModel {
-    @Email(
-            message = "Email is not valid",
-            regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"
-    )
+
     private String email;
-   
+
     private String password;
 
 
