@@ -1,4 +1,4 @@
-package com.cinema.booking.entities;
+package com.cinema.booking.errors;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;

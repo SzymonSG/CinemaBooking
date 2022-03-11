@@ -1,7 +1,7 @@
 package com.cinema.booking.exceptions;
 
-import com.cinema.booking.entities.ApiError;
-import com.cinema.booking.entities.ErrorMessage;
+import com.cinema.booking.errors.ApiError;
+import com.cinema.booking.errors.ErrorMessage;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

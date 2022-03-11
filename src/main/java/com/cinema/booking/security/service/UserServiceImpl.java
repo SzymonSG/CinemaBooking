@@ -41,15 +41,16 @@ public class UserServiceImpl implements UserService {
     private final JwtUtility jwtUtility;
     @Override
     public User registerUser(UserModel userModel) {
+
         User user = new User();
         user.setEmail(userModel.getEmail());
         user.setFirstName(userModel.getFirstName());
         user.setLastName(userModel.getLastName());
         user.setRole("USER");
         user.setPassword(passwordEncoder.encode(userModel.getPassword()));
-
         userRepository.save(user);
         return user;
+
     }
 
     @Override
