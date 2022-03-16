@@ -1,8 +1,7 @@
 package com.cinema.booking.repository;
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.entities.PropertiesMovie;
-import com.cinema.booking.mapstructDTO.BasicInfoAboutMovieDto;
-import com.cinema.booking.mapstructDTO.RepertoireDto;
+import com.cinema.booking.dtos.showInfoDto.BasicInfoAboutMovieDto;
 import com.cinema.booking.payloads.RepertoireDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +14,7 @@ import java.util.List;
 public interface MovieRepository extends JpaRepository<Movie,Long> {
 
     @Query(
-            "SELECT new com.cinema.booking.mapstructDTO.BasicInfoAboutMovieDto" +
+            "SELECT new com.cinema.booking.dtos.showInfoDto.BasicInfoAboutMovieDto" +
                     "(m.movieName,m.seating,m.movieRoom,p.startTimeOfTheMovie)" +
                     "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p " +
                     "WHERE p.startTimeOfTheMovie = :localDateTime AND m.booked='free' " +

@@ -1,6 +1,6 @@
 package com.cinema.booking;
 
-import com.cinema.booking.security.jwt.JwtConfig;
+import com.cinema.booking.security.config.JwtConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

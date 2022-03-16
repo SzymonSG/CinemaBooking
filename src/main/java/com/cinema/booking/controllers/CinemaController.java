@@ -1,10 +1,10 @@
 package com.cinema.booking.controllers;
 import com.cinema.booking.entities.Cinema;
-import com.cinema.booking.mapper.CinemaMapStruct;
-import com.cinema.booking.mapper.CinemaMapper;
-import com.cinema.booking.mapstructDTO.CinemaDto;
-import com.cinema.booking.mapstructDTO.CinemaWithMovieDto;
-import com.cinema.booking.service.ServiceInterfaces.CinemaService;
+import com.cinema.booking.mappers.CinemaMapStruct;
+import com.cinema.booking.mappers.CinemaMapper;
+import com.cinema.booking.dtos.cinemaDto.CinemaDto;
+import com.cinema.booking.dtos.connectionDomainDto.CinemaWithMovieDto;
+import com.cinema.booking.services.cinemaService.CinemaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

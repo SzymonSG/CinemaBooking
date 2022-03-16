@@ -3,9 +3,11 @@ package com.cinema.booking.exceptions;
 import java.text.MessageFormat;
 
 public class CinemaNotFoundException extends Exception{
+
     public CinemaNotFoundException() {
         super();
     }
+
     public CinemaNotFoundException(Long id) {
         super(MessageFormat.format("Not found Cinema with this id: {0}",id));
     }

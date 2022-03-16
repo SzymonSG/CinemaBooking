@@ -1,6 +1,5 @@
 package com.cinema.booking.security.config;
 import com.cinema.booking.security.jwt.EntryPointAuth;
-import com.cinema.booking.security.jwt.JwtConfig;
 import com.cinema.booking.security.jwt.JwtTokenVerifier;
 import com.cinema.booking.security.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import javax.crypto.SecretKey;
+
 import static com.cinema.booking.security.common.Utilize.WHITE_LIST_URLS;
 
 @RequiredArgsConstructor
@@ -27,7 +26,6 @@ public class WebSecurityConfigdcb extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailService userDetailsService;
     private final JwtConfig jwtConfig;
-    private final SecretKey secretKey;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
