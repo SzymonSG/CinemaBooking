@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService {
     }
     //authernticated
     @Override
-    public ResponseEntity<?> authUser(LoginModel loginModel) {
+    public ResponseEntity<?> authenticateUser(LoginModel loginModel) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

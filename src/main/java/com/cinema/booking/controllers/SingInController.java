@@ -19,7 +19,7 @@ public class SingInController {
     //authenticate z auth bo to co innego
     @PostMapping("/singup")
     public ResponseEntity<?> login(@Valid @RequestBody LoginModel loginModel){
-        return userService.authUser(loginModel);
+        return userService.authenticateUser(loginModel);
     }
 
 }
