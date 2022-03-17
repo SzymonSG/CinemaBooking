@@ -1,6 +1,6 @@
 package com.cinema.booking.services.authService;
+import com.cinema.booking.addnotations.ValidRegistarion;
 import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
-import com.cinema.booking.exceptions.EmailNotUniqueException;
 import com.cinema.booking.security.jwt.JwtUtility;
 import com.cinema.booking.entities.authUserEntitiesSupport.PasswordResetToken;
 import com.cinema.booking.entities.User;
@@ -39,22 +39,19 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
 
     private final JwtUtility jwtUtility;
-    @Override
-    public User registerUser(User userModel) throws EmailNotUniqueException {
-        boolean alreadyExistingEmail = userRepository.existsByEmail(userModel.getEmail());
-        if (alreadyExistingEmail){
-            throw new EmailNotUniqueException("Email isn't unique. Unique email is required");
-        }else {
 
-            User user = new User();
-            user.setEmail(userModel.getEmail());
-            user.setFirstName(userModel.getFirstName());
-            user.setLastName(userModel.getLastName());
-            user.setRole("USER");
-            user.setPassword(passwordEncoder.encode(userModel.getPassword()));
-            userRepository.save(user);
-            return user;
-        }
+    @ValidRegistarion
+    @Override
+    public User registerUser(User userModel)  {
+        User user = new User();
+        user.setEmail(userModel.getEmail());
+        user.setFirstName(userModel.getFirstName());
+        user.setLastName(userModel.getLastName());
+        user.setRole("USER");
+        user.setPassword(passwordEncoder.encode(userModel.getPassword()));
+        userRepository.save(user);
+        return user;
+
     }
 
     @Override

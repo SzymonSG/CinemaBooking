@@ -3,15 +3,14 @@ package com.cinema.booking.services.authService;
 
 import com.cinema.booking.entities.User;
 import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
-import com.cinema.booking.exceptions.EmailNotUniqueException;
+import com.cinema.booking.exceptions.ConstraintViolationException;
 import com.cinema.booking.model.LoginModel;
-import com.cinema.booking.model.UserModel;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
 public interface UserService {
-    User registerUser(User userModel) throws EmailNotUniqueException;
+    User registerUser(User userModel) throws ConstraintViolationException;
 
     void saveVerificationTokenForUser(String token, User user);
 

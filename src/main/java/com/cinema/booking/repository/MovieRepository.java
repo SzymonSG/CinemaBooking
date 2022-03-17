@@ -13,6 +13,8 @@ import java.util.List;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie,Long> {
 
+    boolean existsBySeating(Integer seating);
+
     @Query(
             "SELECT new com.cinema.booking.dtos.showInfoDto.BasicInfoAboutMovieDto" +
                     "(m.movieName,m.seating,m.movieRoom,p.startTimeOfTheMovie)" +
