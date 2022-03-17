@@ -1,4 +1,4 @@
-package com.cinema.booking.aop;
+package com.cinema.booking.exceptions;
 
 import com.cinema.booking.errors.ApiError;
 import com.cinema.booking.errors.ErrorMessage;
