@@ -18,10 +18,9 @@ public class CinemaServiceImpl implements CinemaService {
 
     private final CinemaRepository cinemaRepository;
     private final MovieRepository movieRepository;
-    //private final MovieServiceImpl movieServiceImpl;
 
     @Override
-    public Cinema cinemaSave(Cinema cinema){
+    public Cinema cinemaSave(Cinema cinema) {
         return cinemaRepository.save(cinema);
     }
 

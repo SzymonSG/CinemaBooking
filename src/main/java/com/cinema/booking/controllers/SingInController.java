@@ -2,7 +2,7 @@ package com.cinema.booking.controllers;
 
 
 import com.cinema.booking.model.LoginModel;
-import com.cinema.booking.services.authService.UserService;
+import com.cinema.booking.services.userService.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

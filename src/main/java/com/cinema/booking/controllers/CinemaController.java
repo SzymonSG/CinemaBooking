@@ -1,5 +1,6 @@
 package com.cinema.booking.controllers;
 import com.cinema.booking.entities.Cinema;
+import com.cinema.booking.exceptions.CinemaNotFoundException;
 import com.cinema.booking.mappers.CinemaMapStruct;
 import com.cinema.booking.mappers.CinemaMapper;
 import com.cinema.booking.dtos.cinemaDto.CinemaDto;
@@ -26,7 +27,7 @@ public class CinemaController {
 
     ///"/cinemas"
     @PostMapping("/cinemas")
-    public Cinema cinemaSave(@Valid @RequestBody CinemaDto cinemaDto){
+    public Cinema cinemaSave(@Valid @RequestBody CinemaDto cinemaDto) {
         log.info("Saved inside cinama Saved method");
         Cinema cinema = cinemaMapper.dtoToCinema(cinemaDto);
         return cinemaService.cinemaSave(cinema);

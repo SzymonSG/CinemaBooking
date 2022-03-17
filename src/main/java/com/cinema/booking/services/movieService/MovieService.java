@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface MovieService {
 
-    Movie movieSave(Movie movie);
+    Movie movieSave(Movie movie) ;
 
     List<Movie> fetchMoviesList();
 

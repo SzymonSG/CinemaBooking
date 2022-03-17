@@ -1,5 +1,4 @@
-package com.cinema.booking.services.authService;
-import com.cinema.booking.addnotations.ValidRegistarion;
+package com.cinema.booking.services.userService;
 import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
 import com.cinema.booking.security.jwt.JwtUtility;
 import com.cinema.booking.entities.authUserEntitiesSupport.PasswordResetToken;
@@ -40,7 +39,6 @@ public class UserServiceImpl implements UserService {
 
     private final JwtUtility jwtUtility;
 
-    @ValidRegistarion
     @Override
     public User registerUser(User userModel)  {
         User user = new User();

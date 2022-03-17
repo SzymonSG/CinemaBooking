@@ -4,18 +4,17 @@ import com.cinema.booking.common.RegisterUtils;
 import com.cinema.booking.entities.User;
 import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
 import com.cinema.booking.event.RegistrationCompleteEvent;
-import com.cinema.booking.exceptions.EmailNotUniqueException;
+import com.cinema.booking.exceptions.ConstraintViolationException;
 import com.cinema.booking.mappers.UserMapper;
 import com.cinema.booking.dtos.userDto.UserModelDto;
 import com.cinema.booking.model.PasswordModel;
-import com.cinema.booking.services.authService.UserService;
+import com.cinema.booking.services.userService.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,8 +29,9 @@ public class RegistrationController {
     private final UserMapper userMapper;
     private final RegisterUtils registerUtils;
 
+
     @PostMapping("/register")
-    public String registerUser(@Valid @RequestBody UserModelDto userModelDto, final HttpServletRequest request) throws EmailNotUniqueException {
+    public String registerUser( @RequestBody UserModelDto userModelDto, final HttpServletRequest request) throws ConstraintViolationException {
         User userModel = userMapper.dtoToUser(userModelDto);
         User user = userService.registerUser(userModel);
         // application event to send email to user after registraion to attach

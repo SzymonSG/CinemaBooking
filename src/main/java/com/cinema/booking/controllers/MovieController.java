@@ -23,7 +23,7 @@ public class MovieController {
 
     //movies
     @PostMapping("/movies")
-    public Movie movieSave(@Valid @RequestBody MovieDto movieDto){
+    public Movie movieSave(@Valid @RequestBody MovieDto movieDto) {
         Movie movie = movieMapper.dtoToMovie(movieDto);
         return movieService.movieSave(movie);
 

@@ -1,4 +1,4 @@
-package com.cinema.booking.services.authService;
+package com.cinema.booking.services.userService;
 
 
 import com.cinema.booking.entities.User;

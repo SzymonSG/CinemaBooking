@@ -16,7 +16,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +28,8 @@ public class RestEntityException extends ResponseEntityExceptionHandler {
 
 
 
-    @ExceptionHandler({EmailNotUniqueException.class})
-    ResponseEntity<ErrorMessage> passwordNotQualify (EmailNotUniqueException exception,
+    @ExceptionHandler({ConstraintViolationException.class})
+    ResponseEntity<ErrorMessage> passwordNotQualify (ConstraintViolationException exception,
                                                      WebRequest webRequest){
         ErrorMessage message = new ErrorMessage(HttpStatus.CONFLICT,
                 exception.getMessage());
@@ -39,9 +38,9 @@ public class RestEntityException extends ResponseEntityExceptionHandler {
                 .body(message);
     }
 
-    @ExceptionHandler({PasswordQualifyException.class})
-    ResponseEntity<ErrorMessage> passwordNotQualify (PasswordQualifyException exception,
-                                              WebRequest webRequest){
+    @ExceptionHandler({UserPasswordNotQualifyException.class})
+    ResponseEntity<ErrorMessage> passwordNotQualify (UserPasswordNotQualifyException exception,
+                                                     WebRequest webRequest){
         ErrorMessage message = new ErrorMessage(HttpStatus.CONFLICT,
                 exception.getMessage());
 
@@ -92,8 +91,8 @@ public class RestEntityException extends ResponseEntityExceptionHandler {
 
 
     // working with constarins value without @Valid
-    @ExceptionHandler({ ConstraintViolationException.class })
-    public ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex, final WebRequest request) {
+    @ExceptionHandler({ javax.validation.ConstraintViolationException.class })
+    public ResponseEntity<Object> handleConstraintViolation(final javax.validation.ConstraintViolationException ex, final WebRequest request) {
         logger.info(ex.getClass().getName());
         //
         final List<String> errors = new ArrayList<String>();
@@ -132,6 +131,8 @@ public class RestEntityException extends ResponseEntityExceptionHandler {
         });
         return new ResponseEntity<Object>(errors,HttpStatus.BAD_REQUEST);
     }
+
+
         //Beadlung working with Valid addnotaion
 //    @Override
 //    protected ResponseEntity<Object> handleMethodArgumentNotValid(
