@@ -68,7 +68,7 @@ public class JwtUtility implements Serializable {
                 .setSubject((principal.getUsername()))
                 .claim("authorities", principal.getAuthorities())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + 900000))
+                .setExpiration(new Date(new Date().getTime() + jwtConfig.getTokenExpirationTime()))
                 .signWith(secretKey)
                 .compact();
         String token = jwtConfig.getTokenPrefix()+build;
