@@ -1,7 +1,5 @@
 package com.cinema.booking.common;
 
-
-
 import com.cinema.booking.entities.User;
 import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
 import lombok.extern.slf4j.Slf4j;

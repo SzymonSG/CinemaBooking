@@ -31,7 +31,8 @@ public class RegistrationController {
 
 
     @PostMapping("/register")
-    public String registerUser( @RequestBody UserModelDto userModelDto, final HttpServletRequest request) throws ConstraintViolationException {
+    public String registerUser( @RequestBody UserModelDto userModelDto,
+                                final HttpServletRequest request) throws ConstraintViolationException {
         User userModel = userMapper.dtoToUser(userModelDto);
         User user = userService.registerUser(userModel);
         // application event to send email to user after registraion to attach
@@ -64,11 +65,11 @@ public class RegistrationController {
     @GetMapping("/resendVerifyToken")
     public String resendVerificationToken(@RequestParam("token") String oldtoken,
                                           HttpServletRequest request) {
-        VerificationToken verificationLink =
+        VerificationToken verificationToken =
                 userService.generateNewVerificationToken(oldtoken);
 
-        User user = verificationLink.getUser();
-        registerUtils.resendVerificationTokenEmail(user,registerUtils.applicationUrl(request), verificationLink);
+        User user = verificationToken.getUser();
+        registerUtils.resendVerificationTokenEmail(user,registerUtils.applicationUrl(request), verificationToken);
         return "Verification Link Send";
 
     }

@@ -63,18 +63,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String validateVerifactionToken(String token) {
-        VerificationToken verificationLink =
+        VerificationToken verificationToken =
                 verificationTokenRepository.findByToken(token);
 
-        if (verificationLink ==null){
+        if (verificationToken ==null){
             return "invalid";
         }
 
-        User user = verificationLink.getUser();
+        User user = verificationToken.getUser();
         Calendar cal = Calendar.getInstance();
 
-        if ((verificationLink.getExpirationTime().getTime() -cal.getTime().getTime()) <=0){
-            verificationTokenRepository.delete(verificationLink);
+        if ((verificationToken.getExpirationTime().getTime() -cal.getTime().getTime()) <=0){
+            verificationTokenRepository.delete(verificationToken);
             return "expired";
         }
         user.setEnabled(true);
@@ -84,11 +84,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public VerificationToken generateNewVerificationToken(String oldtoken) {
-        VerificationToken verificationLink =
+        VerificationToken verificationToken =
                 verificationTokenRepository.findByToken(oldtoken);
-        verificationLink.setToken(UUID.randomUUID().toString());
-        verificationTokenRepository.save(verificationLink);
-        return verificationLink;
+        verificationToken.setToken(UUID.randomUUID().toString());
+        verificationTokenRepository.save(verificationToken);
+        return verificationToken;
     }
 
     @Override
