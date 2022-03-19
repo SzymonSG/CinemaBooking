@@ -38,4 +38,6 @@ public class RegistraionUtilize implements RegisterUtils {
         log.info("Click link to Reset password: {}", url);
         return url;
     }
+
+
 }

@@ -44,13 +44,6 @@ public class RegistrationController {
         return "Succes Registartion!";
     }
 
-//    private String applicationUrl(HttpServletRequest request) {
-//        return "http://" +
-//                request.getServerName() +
-//                ":" +
-//                request.getServerPort() +
-//                request.getContextPath();
-//    }
 
     @GetMapping("/verifyRegistration")
     public String verifyRegistration(@RequestParam("token") String token) {
@@ -59,7 +52,6 @@ public class RegistrationController {
             return "User Verifies Successfully";
         }
         return "Verifaction failed";
-
     }
 
     @GetMapping("/resendVerifyToken")
@@ -74,15 +66,6 @@ public class RegistrationController {
 
     }
 
-//    private void resendVerificationTokenEmail(User user, String applicationUrl, VerificationToken verificationLink) {
-//
-//        String url = applicationUrl +
-//                "/verifyRegistration?token="
-//                + verificationLink.getToken();
-//
-//        log.info("Click link to verify account: {}", url);
-//
-//    }
 
     @PostMapping("/resetPassword")
     public String resetPassword(@RequestBody PasswordModel passwordModel, HttpServletRequest request) {
@@ -91,7 +74,7 @@ public class RegistrationController {
         if (user != null) {
             String token = UUID.randomUUID().toString();
             userService.createPasswordResetTokenForUser(user, token);
-            url = passwordResetTokenEmail(user, registerUtils.applicationUrl(request), token);
+            url = registerUtils.passwordResetTokenEmail(user, registerUtils.applicationUrl(request), token);
         }
         return url;
     }
@@ -112,20 +95,12 @@ public class RegistrationController {
         }
     }
 
-    private String passwordResetTokenEmail(User user, String applicationUrl, String token) {
-        String url =
-                applicationUrl +
-                        "/savePassword?token="
-                        + token;
 
-        log.info("Click link to Reset password: {}", url);
-        return url;
-    }
 
     @PostMapping("/changePassword")
     public String changePassword(@RequestBody PasswordModel passwordModel){
         User user = userService.findUserByEmail(passwordModel.getEmail());
-        if (!userService.checkIfValidOldPassword(user,passwordModel.getOldPassword())){
+        if (!userService.checkValidOldPassword(user,passwordModel.getOldPassword())){
             return "Invalid Old Password";
         }
         userService.changePassword(user,passwordModel.getNewPassword());

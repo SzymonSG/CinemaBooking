@@ -53,6 +53,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseEntity<?> authenticateUser(LoginModel loginModel) {
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginModel.getEmail(),
+                        loginModel.getPassword()
+                ));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtUtility.generateToken(authentication);
+
+        MyUserDetail principal = (MyUserDetail) authentication.getPrincipal();
+
+        List<String> roles = principal.getAuthorities().stream()
+                .map(role -> role.getAuthority())
+                .collect(Collectors.toList());
+
+        JwtModelResponse jwtModelResponse = JwtModelResponse.builder()
+                .id(principal.getId())
+                .email(principal.getUsername())
+                .firstName(principal.getFirstName())
+                .roles(roles)
+                .token(token)
+                .build();
+        return ResponseEntity.ok(jwtModelResponse);
+
+    }
+
+
+    @Override
     public void saveVerificationTokenForUser(String token, User user) {
         VerificationToken verificationToken =
                 new VerificationToken(user,token);
@@ -65,7 +94,6 @@ public class UserServiceImpl implements UserService {
     public String validateVerifactionToken(String token) {
         VerificationToken verificationToken =
                 verificationTokenRepository.findByToken(token);
-
         if (verificationToken ==null){
             return "invalid";
         }
@@ -81,7 +109,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return "valid";
     }
-
+    // when we got
     @Override
     public VerificationToken generateNewVerificationToken(String oldtoken) {
         VerificationToken verificationToken =
@@ -138,37 +166,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean checkIfValidOldPassword(User user, String oldPassword) {
+    public boolean checkValidOldPassword(User user, String oldPassword) {
         return passwordEncoder.matches(oldPassword,user.getPassword());
     }
-    //authernticated
-    @Override
-    public ResponseEntity<?> authenticateUser(LoginModel loginModel) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginModel.getEmail(),
-                        loginModel.getPassword()
-                ));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtUtility.generateToken(authentication);
-
-        MyUserDetail principal = (MyUserDetail) authentication.getPrincipal();
-
-        List<String> roles = principal.getAuthorities().stream()
-                .map(role -> role.getAuthority())
-                .collect(Collectors.toList());
-
-        JwtModelResponse jwtModelResponse = JwtModelResponse.builder()
-                .id(principal.getId())
-                .email(principal.getUsername())
-                .firstName(principal.getFirstName())
-                .roles(roles)
-                .token(token)
-                .build();
-        return ResponseEntity.ok(jwtModelResponse);
-
-
-
-    }
 }
