@@ -1,8 +1,14 @@
 ## Cinema Reservation project.
 *The created project can be divided into 3 main functionals parts:*   
-- The first part one is an **(Command API- PUT)** serving **booking seats na movie** which is supporting by **(Query API- GET)** which returns <span style ="color:#66CDAA">**info about movies**.</span>
-- Second is an **API** responsible for the **registration of the user**, along with the entire range of functionalities like: <span style="color:#66CDAA">**(account activation via a link, password reset, change password, request to resend the activation link, etc.)**</span>
-- The third is **the process of logging**, supporting by authoritzation <span style="color:#66CDAA">**JWT**</span>
+- The first part one is an **(Command API- PUT)** serving **booking seats na movie** which is supporting by **(Query API- GET)** which returns **info about movies**.
+- Second is an **API** responsible for the **registration of the user**, along with the entire range of functionalities like: **(account activation via a link, password reset, change password, request to resend the activation link, etc.)**
+- The third is **the process of logging**, supporting by authoritzation**JWT**
+
+
+- ![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) `testcolor` dadas
+
+
+
 
 
 
