@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+//@RequestMapping("/cinemas/{cinemaName}")
 @RequiredArgsConstructor
 @RestController
 public class InfoController {
@@ -39,8 +40,9 @@ public class InfoController {
         return showInfoReservationMapper.toMovieNameListDto(movies);
 
     }
-    //before
-    @GetMapping("/dates/cinemas/{cinemaName}/movies/{movieName}")
+
+    //before to jest chyba ok ale przekształć pod postgreSQL bo to chyba nie pójdzie na psql, jesli byłby 2 daty dla jednego filmu
+    @GetMapping("/cinemas/{cinemaName}/movies/{movieName}/date-times")
     public List<DataDto>showDateChosenMovie(@PathVariable("cinemaName")String cinemaName,
                                             @PathVariable("movieName")String moviesName) throws MovieNotFoundException {
         List<PropertiesMovie> dataTimeMovie = showInfoService.fetchDateTimesChosenMovie(cinemaName, moviesName);
@@ -49,8 +51,7 @@ public class InfoController {
 
     }
 
-    //cinema/name/{cinemaName}/movie/name/{movieName}/free-places/date-times/
-    @GetMapping("/findFreePlaces/cinemaName/{cinemaName}/movieName/{movieName}/date")
+    @GetMapping("/cinemas/{cinemaName}/movies/{movieName}/avialable-seats/date-times")
     public List<FreePlaceDto> showFreePlacesOnMovie(@PathVariable ("cinemaName")String cinemaName,
                                                     @PathVariable ("movieName") String movieName,
                                                     @RequestParam("localDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
@@ -58,15 +59,15 @@ public class InfoController {
         List<Movie> freePlacesOnMovie = showInfoService.fetchFreeSeatsOnMovie(cinemaName, movieName, localDateTime);
         return showInfoReservationMapper.toFreePlaceListDto(freePlacesOnMovie);
     }
-
-
-    ////////////// chcesz bardzo isc do kina dzis dostepne wolne miejsca w dzisiajeszym dniu
-    @GetMapping("/findByDateFree/{cinemaName}/date")
+    //
+    //cinemas/cinema{cinemaName}/dates-times/avialable-seats
+    ////////////// chcesz bardzo isc do kina dzis dostepne wolne miejsca w dzisiajeszym dniu w wybranym kinie
+    @GetMapping("/cinemas/{cinemaName}/date-times")
     public List<BasicInfoAboutMovieDto> showAllFreePlacesTodayInCinema(@PathVariable("cinemaName") String cinemaName,
                                                                        @RequestParam("localDate")
                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
                                                                                pattern = "yyyy-MM-dd; HH:mm:ss") LocalDateTime localDateTime) throws MovieNotFoundException {
-        List<com.cinema.booking.dtos.showInfoDto.BasicInfoAboutMovieDto> movies = showInfoService.fetchFreeSeatsForSelectedDay(localDateTime,cinemaName);
+        List<BasicInfoAboutMovieDto> movies = showInfoService.fetchFreeSeatsForSelectedDay(localDateTime,cinemaName);
         return movies;
     }
 }

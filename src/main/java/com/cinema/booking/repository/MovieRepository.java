@@ -7,46 +7,49 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie,Long> {
 
-    boolean existsBySeating(Integer seating);
+
+
+    boolean existsBySeatingAndMovieNameAndMovieRoom(Integer seating,String movieName, String movieRoom);
 
     @Query(
             "SELECT new com.cinema.booking.dtos.showInfoDto.BasicInfoAboutMovieDto" +
                     "(m.movieName,m.seating,m.movieRoom,p.startTimeOfTheMovie)" +
                     "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p " +
-                    "WHERE p.startTimeOfTheMovie = :localDateTime AND m.booked='free' " +
+                    "WHERE p.startTimeOfTheMovie = :localDateTime AND m.booked='FREE' " +
                     "AND c.cinemaName=:cinemaName"
     )
-    List<BasicInfoAboutMovieDto>getFreePlacesForSelected_CinemaAndDataTime(String cinemaName, LocalDateTime localDateTime);
+    List<BasicInfoAboutMovieDto> fetchFreePlacesForSelected_CinemaAndDataTime(String cinemaName, LocalDateTime localDateTime);
 
 
-    //Czy to powinno zwracać List<Optional> czy moze Optional <List<Movie>>
     @Query(
             "SELECT m,c,p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p " +
-                    "WHERE c.cinemaName= :cinema AND m.movieName = :movie AND " +
-                    "p.startTimeOfTheMovie= :localDateTime"
+                    "WHERE c.cinemaName= :cinema" +
+                    " AND m.movieName = :movie " +
+                    "AND m.movieRoom= :movieRoom " +
+                    "AND p.startTimeOfTheMovie= :localDateTime"
     )
-     List<Movie> getDataCollectionToReservation(String cinema, String movie,
-                                                LocalDateTime localDateTime);
-
+     List<Movie> fetchDataToReservation(String cinema, String movie, String movieRoom,
+                                        LocalDateTime localDateTime);
 
 
     @Query(
             "SELECT m,c,p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName"
     )
-    List<Movie> getAllDataFromCinema(String cinemaName);
+    List<Movie> fetchAllDataFromCinema(String cinemaName);
 
     @Query(
             "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +
-                    "AND m.movieName=:movieName AND p.startTimeOfTheMovie=:localDateTime AND m.booked='free'"
+                    "AND m.movieName=:movieName AND p.startTimeOfTheMovie=:localDateTime AND m.booked='FREE'"
 
     )
-    List<Movie> getAllFreePlacesOnMovie(String cinemaName,String movieName, LocalDateTime localDateTime);
+    List<Movie> fetchAllFreePlacesOnMovie(String cinemaName, String movieName, LocalDateTime localDateTime);
 
 
 //    @Query(
@@ -57,12 +60,12 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
             "SELECT DISTINCT new com.cinema.booking.payloads.RepertoireDTO(m.movieName)" +
                     "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName"
     )
-    List<RepertoireDTO>getAllPlayingMovies(String cinemaName);
+    List<RepertoireDTO> fetchAllPlayingMovies(String cinemaName);
 
 
     @Query(
             "SELECT p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName= :cinemaName " +
                     "AND m.movieName=:movieName GROUP BY p.startTimeOfTheMovie, p.propertyId"
     )
-    List<PropertiesMovie>getLocalDateTimeForChosenMovie(String cinemaName, String movieName);
+    List<PropertiesMovie> fetchLocalDateTimeForChosenMovie(String cinemaName, String movieName);
 }

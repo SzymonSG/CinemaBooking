@@ -29,13 +29,14 @@ public class ReservationController {
     private final ReservationService reservationService;
     private final ReservationMapper reservationMapper;
 
-    @PutMapping("/cinemaName/{cinemaName}/movieName/{movieName}/date")
+    @PutMapping("/cinemaName/{cinemaName}/movieName/{movieName}/movieRoom/{movieRoom}/date")
     public List<Movie> multiBookedPlaceWithDate( @PathVariable("cinemaName")String cinemaName,
                                                  @PathVariable("movieName")String movieName,
+                                                 @PathVariable("movieRoom")String movieRoom,
                                                  @RequestBody List<Integer> wantedPlaces,
                                                  @RequestParam("localDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
                                                  pattern = "yyyy-MM-dd; HH:mm:ss") LocalDateTime localDateTime) throws MovieNotFoundException {
-        return reservationService.multiBookedPlaceWithDate(cinemaName,movieName,wantedPlaces,localDateTime);
+        return reservationService.multiBookedPlaceWithDate(cinemaName,movieName,movieRoom,wantedPlaces,localDateTime);
     }
 
     @PutMapping("/reservations")

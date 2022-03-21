@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"seating"})})
+//@Table(uniqueConstraints={@UniqueConstraint(columnNames={"seating"})})
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

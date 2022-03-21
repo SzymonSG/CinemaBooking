@@ -17,7 +17,8 @@ public class ValidMovieAspect {
 
     @Before("execution(* com.cinema.booking.services.movieService.MovieServiceImpl.movieSave(..)) && args(movie))")
     public void checkSeatingAreUnique(Movie movie) throws ConstraintViolationException {
-        boolean seatingExist = movieRepository.existsBySeating(movie.getSeating());
+        boolean seatingExist = movieRepository
+                .existsBySeatingAndMovieNameAndMovieRoom(movie.getSeating(),movie.getMovieName(),movie.getMovieRoom());
         if (seatingExist){
             throw new ConstraintViolationException("This seat is already saved");
         }

@@ -3,6 +3,7 @@ package com.cinema.booking.security.common;
 public class Utilize {
 //Global RequestMapping i będzie krótsza lista, refactor all controllers jedno na @PreAuthorize np zeby pokazać działanie JWT
     public static final String[] WHITE_LIST_URLS ={
+            "/singin",
             "/hello",
             "/register",
             "/verifyRegistration/**",
@@ -14,7 +15,7 @@ public class Utilize {
             "/cinemas/**/**",
             "/dates/cinemas/**",
             "/movies/**",
-            "/date-times",
+//            "/date-times",
             "/dates/**",
             "/movieid/**/cinemaid/**",
             "/movieid/**/propertyid/**",
@@ -27,6 +28,12 @@ public class Utilize {
             "/reservations",
             "/cinemas/**/moviess",
             "/animal",
-            "/animall"
+            "/animall",
+            "reservations",
+            "/cinemas/{cinemaName}/repertoiress",
+            "/cinemas/{cinemaName}/repertoires",
+            "/cinemas/{cinemaName}/movies/{movieName}/date-times",
+            "/cinemas/{cinemaName}/movies/{movieName}/avialable-seats/dates-times/**",
+            "/cinemas/{cinemaName}/date-times"
     };
 }

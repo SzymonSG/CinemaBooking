@@ -23,86 +23,88 @@ public class ReservationServiceImpl implements ReservationService, ValidationRes
 
     @Transactional
     @Override
-    public List<Movie> multiBookedPlaceWithDate(String cinemaName, String movieName, List<Integer> wantedPlaces, LocalDateTime localDateTime) throws MovieNotFoundException {
-        List<Movie> seance = movieRepository.getDataCollectionToReservation(
-                cinemaName,movieName,localDateTime);
+    public List<Movie> multiBookedPlaceWithDate(String cinemaName, String movieName,String movieRoom, List<Integer> wantedSeats, LocalDateTime localDateTime) throws MovieNotFoundException {
+        List<Movie> seance = movieRepository.fetchDataToReservation(
+                cinemaName,movieName,movieRoom,localDateTime);
 
         if (seance.isEmpty() || seance.contains(null)) {
             throw new MovieNotFoundException("No such seance was found");
         } else {
-            List<Movie> foundPlaces = ComplexValidation(wantedPlaces, seance);
-            foundPlaces.forEach(toBooked -> toBooked.setBooked(BOOKED.name()));
-            return movieRepository.saveAll(foundPlaces);
+            List<Movie> foundSeats = complexValidation(wantedSeats, seance);
+            foundSeats.forEach(toBooked -> toBooked.setBooked(BOOKED.name()));
+            return movieRepository.saveAll(foundSeats);
         }
     }
 
     @Override
     public List<Movie> multiBookedPlaceWithDateV2(ReservationModel reservation) throws MovieNotFoundException {
-        List<Movie> seance = movieRepository.getDataCollectionToReservation(
+        List<Movie> seance = movieRepository.fetchDataToReservation(
                 reservation.getCinemaName(),
                 reservation.getMovieName(),
+                reservation.getMovieRoom(),
                 reservation.getDateAndTime());
 
         if (seance.isEmpty() || seance.contains(null)) {
             throw new MovieNotFoundException("No such seance was found");
         } else {
-            List<Movie> foundPlaces = ComplexValidation(reservation.getSeatsToBooked(), seance);
-            foundPlaces.forEach(toBooked -> toBooked.setBooked(BOOKED.name()));
-            return movieRepository.saveAll(foundPlaces);
+            List<Movie> foundSeats = complexValidation(reservation.getSeatsToBooked(), seance);
+            foundSeats.forEach(toBooked -> toBooked.setBooked(BOOKED.name()));
+            return movieRepository.saveAll(foundSeats);
         }
-
-
     }
 
     //TODO WYDZIEL DO KLASY VALIDACJA REZERWACJI
-    private List<Movie> ComplexValidation(List<Integer> wantedPlaces, List<Movie> seance) throws MovieNotFoundException {
-        checkGivenPlacesExist(wantedPlaces, seance);
-        List<Movie> foundPlaces = foundWantedPlaces(wantedPlaces, seance);
-        checkFoundPlacesAreBooked(foundPlaces);
-        return foundPlaces;
+    private List<Movie> complexValidation(List<Integer> wantedSeats, List<Movie> seance) throws MovieNotFoundException {
+        checkSeatsToBookedExist(wantedSeats, seance);
+        List<Movie> foundSeats = findWantedSeats(wantedSeats, seance);
+        checkFoundSeatsAreBooked(foundSeats);
+        return foundSeats;
     }
 
-    @Override
-    public void whatPlaceAreBooked(List<Movie> foundPlaces) throws MovieNotFoundException {
-        List<Integer> bookedPlaces = foundPlaces.stream()
-                .filter(booked -> booked.getBooked()
-                        .equals(BOOKED.name()))
-                .map(Movie::getSeating)
-                .collect(Collectors.toList());
-        String info = "booked";
-        throw new MovieNotFoundException(bookedPlaces,info);
-    }
 
     @Override
-    public void checkFoundPlacesAreBooked(List<Movie> foundPlaces) throws MovieNotFoundException {
-        boolean somePlaceIsCanBeBooked = foundPlaces.stream()
-                .anyMatch(booked -> booked.getBooked().equals(BOOKED.name())); // lub any match
-        if (somePlaceIsCanBeBooked){
-            whatPlaceAreBooked(foundPlaces);
-        }
-    }
-
-    @Override
-    public List<Movie> foundWantedPlaces(List<Integer> wantedPlaces, List<Movie> seance) {
-        List<Movie> foundPlaces = seance.stream()
-                .filter(orginal -> wantedPlaces.contains(orginal.getSeating()))
-                .collect(Collectors.toList());
-        return foundPlaces;
-    }
-
-    @Override
-    public void checkGivenPlacesExist(List<Integer> wantedPlaces, List<Movie> seance) throws MovieNotFoundException {
-        if (wantedPlaces != null && !wantedPlaces.isEmpty() && !wantedPlaces.contains(null)) {
+    public void checkSeatsToBookedExist(List<Integer> wantedSeats, List<Movie> seance) throws MovieNotFoundException {
+        if (wantedSeats != null && !wantedSeats.isEmpty() && !wantedSeats.contains(null)) {
             List<Integer> collect = seance
                     .stream()
                     .map(Movie::getSeating)
                     .collect(Collectors.toList());
-            boolean checkPlacesExist = collect.containsAll(wantedPlaces); // contain czy zawiera mniejszy w większym
-            if (!checkPlacesExist) {
-                throw new MovieNotFoundException(wantedPlaces);
+            boolean checkSeatsExist = collect.containsAll(wantedSeats); // contain czy zawiera mniejszy w większym
+            if (!checkSeatsExist) {
+                throw new MovieNotFoundException(wantedSeats);
             }
         }else {
             throw new MovieNotFoundException("No seats were given for booking");
         }
     }
+
+    @Override
+    public List<Movie> findWantedSeats(List<Integer> wantedSeats, List<Movie> seance) {
+        List<Movie> foundSeats = seance.stream()
+                .filter(orginal -> wantedSeats.contains(orginal.getSeating()))
+                .collect(Collectors.toList());
+        return foundSeats;
+    }
+
+    @Override
+    public void checkFoundSeatsAreBooked(List<Movie> foundSeats) throws MovieNotFoundException {
+        boolean someSeatsCanBeBooked = foundSeats.stream()
+                .anyMatch(booked -> booked.getBooked().equals(BOOKED.name())); // lub all match
+        if (someSeatsCanBeBooked){
+            checkBookedSeats(foundSeats);
+        }
+    }
+
+    @Override
+    public void checkBookedSeats(List<Movie> foundSeats) throws MovieNotFoundException {
+        List<Integer> bookedSeats = foundSeats.stream()
+                .filter(booked -> booked.getBooked()
+                        .equals(BOOKED.name()))
+                .map(Movie::getSeating)
+                .collect(Collectors.toList());
+        String info = "booked";
+        throw new MovieNotFoundException(bookedSeats,info);
+    }
+
+
 }

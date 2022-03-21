@@ -17,7 +17,7 @@ public class SingInController {
 
     private final UserService userService;
 
-    @PostMapping("/singup")
+    @PostMapping("/singin")
     public ResponseEntity<?> login(@Valid @RequestBody LoginModel loginModel){
         return userService.authenticateUser(loginModel);
     }

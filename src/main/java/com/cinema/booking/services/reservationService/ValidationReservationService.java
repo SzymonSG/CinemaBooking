@@ -8,13 +8,13 @@ import java.util.List;
 public interface ValidationReservationService {
 
 
-    public void whatPlaceAreBooked(List<Movie> foundPlaces) throws MovieNotFoundException;
+    void checkBookedSeats(List<Movie> foundPlaces) throws MovieNotFoundException;
 
-    public void checkFoundPlacesAreBooked(List<Movie> foundPlaces) throws MovieNotFoundException;
+    void checkFoundSeatsAreBooked(List<Movie> foundPlaces) throws MovieNotFoundException;
 
-    public List<Movie> foundWantedPlaces (List<Integer> wantedPlaces, List<Movie> seance);
+    List<Movie> findWantedSeats(List<Integer> wantedPlaces, List<Movie> seance);
 
-    public void checkGivenPlacesExist (List<Integer> wantedPlaces, List <Movie> seance) throws MovieNotFoundException;
+    void checkSeatsToBookedExist(List<Integer> wantedPlaces, List <Movie> seance) throws MovieNotFoundException;
 
 
 

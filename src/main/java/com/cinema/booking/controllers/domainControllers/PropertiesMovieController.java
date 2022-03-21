@@ -18,8 +18,7 @@ public class PropertiesMovieController {
     private final PropertiesMovieService propertyMovieService;
     private final PropertiesMapper propertiesMapper;
 
-    //dates:include=times
-    //properties
+
     @PostMapping("/date-times")
     public PropertiesMovie propertiesMovieSave(@Valid @RequestBody PropertiesMovieDto propertiesMovie){
         PropertiesMovie property = propertiesMapper.dtoToPropertiesMovie(propertiesMovie);
