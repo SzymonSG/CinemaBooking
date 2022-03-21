@@ -12,14 +12,12 @@ import com.cinema.booking.payloads.RepertoireDTO;
 import com.cinema.booking.services.infoService.ShowInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@RequestMapping("api")
 @RequiredArgsConstructor
 @RestController
 public class InfoController {

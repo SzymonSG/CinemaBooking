@@ -1,9 +1,9 @@
-
 ## Cinema Reservation project.
-*The created project can be divided into 3 main parts:*   
-- The first one is an API for booking films in the cinema with its entire preview envelope.
-- The second part is API the registration of the user, along with the entire range of functionalities **(account activation via a link, password reset, change password, request to resend the activation link, etc.)**
-- The third is the process of logging, supporting by authoritzation  **JWT**.
+*The created project can be divided into 3 main functionals parts:*   
+- The first part one is an **(Command API- PUT)** serving **booking seats na movie** which is supporting by **(Query API- GET)** which returns <span style ="color:#66CDAA">**info about movies**.</span>
+- Second is an **API** responsible for the **registration of the user**, along with the entire range of functionalities like: <span style="color:#66CDAA">**(account activation via a link, password reset, change password, request to resend the activation link, etc.)**</span>
+- The third is **the process of logging**, supporting by authoritzation <span style="color:#66CDAA">**JWT**</span>
+
 
 
 ### Using dependencies to create app:
@@ -26,7 +26,7 @@
 ## Description few important endpoints:
 
 #### Booking seats on movie
-
+*to perform action requierd Jwt token in haeder with key: "Authorization"*
 ```http
   PUT /reservations
 ```
@@ -83,7 +83,17 @@
 | `PathVariable`      | `String` |**All  below- required:** |
 | `cinemaName`      | `String` | Name of cinema from which we want the repertoire |
 
+## Roadmap
+
+- 1. Part of Validation work from DTO-s layers. To avoid mixed with DB logic
+
+- 2. Validtion "Unique values" and requierments for password are performed by AspectJ.
+**it was needed to not mixed with services logic and not conflicts with Becrypt converter, wchich allows all type passwords :)"
+
+- 3. Custom validtion seats to booked.
+
+- 4. Validation JWT token, and token from verify links activation
+
+- 5. Using AOP @ControllerAdvice for exception handling form controllers.
 
 
-#### add(num1, num2)
-Takes two numbers and returns the sum.
