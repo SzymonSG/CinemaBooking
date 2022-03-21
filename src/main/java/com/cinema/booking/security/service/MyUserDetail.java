@@ -26,17 +26,17 @@ public class MyUserDetail implements UserDetails {
     private String email;
     @JsonIgnore
     private String password;
-    //private boolean enabled;
+    private boolean enabled;
     private Collection<? extends GrantedAuthority> authorities;
 
 
-    public MyUserDetail(Long id, String firstName, String lastName, String email, String password,  Collection<? extends GrantedAuthority> authorities) {
+    public MyUserDetail(Long id, String firstName, String lastName, String email, String password,boolean enabled,  Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-       // this.enabled = enabled;
+        this.enabled = enabled;
         this.authorities = authorities;
     }
 
@@ -53,6 +53,7 @@ public class MyUserDetail implements UserDetails {
                 .firstName(user.getFirstName())
                 .email(user.getEmail())
                 .password(user.getPassword())
+                .enabled(user.isEnabled())
                 .authorities(authorities)
                 .build();
 
@@ -114,8 +115,5 @@ public class MyUserDetail implements UserDetails {
         return true;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+
 }

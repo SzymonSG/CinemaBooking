@@ -1,11 +1,10 @@
 package com.cinema.booking.errors;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-import java.util.List;
+
 
 @Data
 @NoArgsConstructor

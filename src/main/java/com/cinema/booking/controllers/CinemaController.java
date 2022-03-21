@@ -25,16 +25,13 @@ public class CinemaController {
     private final CinemaMapper cinemaMapper;
 
 
-    ///"/cinemas"
     @PostMapping("/cinemas")
     public Cinema cinemaSave(@Valid @RequestBody CinemaDto cinemaDto) {
         log.info("Saved inside cinama Saved method");
         Cinema cinema = cinemaMapper.dtoToCinema(cinemaDto);
         return cinemaService.cinemaSave(cinema);
     }
-    //cinemas-(filmy)
-    // /articles?include=author
-    //"cinemas?include=movies
+
     @GetMapping("/cinemas:include=movies")
     public List<CinemaWithMovieDto> fetchCinemaListDto(){
         return cinemaMapStruct.toCinemaWithMovieListDto(cinemaService.fetchCinemasList());
