@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 @Data
-public class FreePlaceDto {
+public class AvailableSeatsDto {
 
     private Integer freePlaceDto;
     private String movieHallDto;

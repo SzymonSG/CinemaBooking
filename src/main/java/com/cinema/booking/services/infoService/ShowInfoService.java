@@ -15,14 +15,12 @@ public interface ShowInfoService {
 
     List<Movie> fetchAllPlayingMoviesInCinemaV2(String cinemaName) throws MovieNotFoundException;
 
-    List<PropertiesMovie> fetchDateTimesChosenMovie(String cinemaName, String movieName) throws MovieNotFoundException;
+    List<PropertiesMovie> fetchDateTimesChoosenMovie(String cinemaName, String movieName) throws MovieNotFoundException;
 
-    List<Movie> fetchFreeSeatsOnMovie(String cinemaName, String movieName, LocalDateTime localDateTime) throws MovieNotFoundException;
+    List<Movie> fetchAvailableSeatsWithDateTimeOnSeance(String cinemaName, String movieName, LocalDateTime localDateTime) throws MovieNotFoundException;
 
     List<BasicInfoAboutMovieDto> fetchFreeSeatsForSelectedDay(LocalDateTime localDateTime, String cinemaName) throws MovieNotFoundException;
 
-
-
-
+    List<Movie> fetchAvialableSeatsOnSeance(String cinemaName, String movieName) throws MovieNotFoundException;
 }
 

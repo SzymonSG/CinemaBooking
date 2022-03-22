@@ -15,7 +15,7 @@ public class Utilize {
             "/cinemas/**/**",
             "/dates/cinemas/**",
             "/movies/**",
-//            "/date-times",
+            "/date-times",
             "/dates/**",
             "/movieid/**/cinemaid/**",
             "/movieid/**/propertyid/**",
@@ -34,6 +34,7 @@ public class Utilize {
             "/cinemas/{cinemaName}/repertoires",
             "/cinemas/{cinemaName}/movies/{movieName}/date-times",
             "/cinemas/{cinemaName}/movies/{movieName}/avialable-seats/dates-times/**",
-            "/cinemas/{cinemaName}/date-times"
+            "/cinemas/{cinemaName}/date-times",
+            "/cinemas/{cinemaName}/movies/{movieName}/avialable-seats"
     };
 }

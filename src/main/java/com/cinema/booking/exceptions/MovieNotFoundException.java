@@ -31,4 +31,9 @@ public class MovieNotFoundException extends Exception{
         super(MessageFormat.format("We are sorry, but all seats for the: {0} movie for: {1} are reserved. " +
                 "We encourage you to browse our repertoire.",movieName,localDateTime));
     }
+
+    public MovieNotFoundException( String movieName, String cinemaName) {
+        super(MessageFormat.format("All seats on {0} in {1} ",movieName,cinemaName));
+    }
 }
+;

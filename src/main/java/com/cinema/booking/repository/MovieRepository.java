@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -49,8 +48,14 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
                     "AND m.movieName=:movieName AND p.startTimeOfTheMovie=:localDateTime AND m.booked='FREE'"
 
     )
-    List<Movie> fetchAllFreePlacesOnMovie(String cinemaName, String movieName, LocalDateTime localDateTime);
+    List<Movie> fetchAvialableSeatsWithDateTimeOnSeance(String cinemaName, String movieName, LocalDateTime localDateTime);
 
+    @Query(
+            "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +
+                    "AND m.movieName=:movieName AND m.booked='FREE'"
+
+    )
+    List<Movie> fetchAvialableSeatsOnSeance(String cinemaName, String movieName);
 
 //    @Query(
 //            "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +
