@@ -35,7 +35,7 @@ public class ReservationServiceImpl implements ReservationService, ValidationRes
             return movieRepository.saveAll(foundSeats);
         }
     }
-
+    
     @Override
     public List<Movie> multiBookedPlaceWithDateV2(ReservationModel reservation) throws MovieNotFoundException {
         List<Movie> seance = movieRepository.fetchDataToReservation(
@@ -69,8 +69,8 @@ public class ReservationServiceImpl implements ReservationService, ValidationRes
                     .stream()
                     .map(Movie::getSeating)
                     .collect(Collectors.toList());
-            boolean checkSeatsExist = collect.containsAll(wantedSeats); // contain czy zawiera mniejszy w większym
-            if (!checkSeatsExist) {
+            boolean seatsExist = collect.containsAll(wantedSeats); // contain czy zawiera mniejszy w większym
+            if (!seatsExist) {
                 throw new MovieNotFoundException(wantedSeats);
             }
         }else {

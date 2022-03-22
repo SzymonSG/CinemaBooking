@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @RestController
 public class ReservationController {

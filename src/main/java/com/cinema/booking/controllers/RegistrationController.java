@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.UUID;
 
+
+@RequestMapping("/api")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -39,7 +41,7 @@ public class RegistrationController {
         publisher.publishEvent(new RegistrationCompleteEvent(
                 user,
                 registerUtils.applicationUrl(request)
-        ));//this publis the event be we must also create listner for that publish event
+        ));
 
         return "Succes Registartion!";
     }
@@ -108,9 +110,5 @@ public class RegistrationController {
         return "Password Change Successfully";
     }
 
-    @GetMapping("/login")
-    public String checkJwt(){
-        return "BONDZIORNIANIO!!!!!";
-    }
 
 }

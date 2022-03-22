@@ -5,7 +5,7 @@ import com.cinema.booking.entities.Movie;
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.exceptions.MovieNotFoundException;
 import com.cinema.booking.mappers.ShowInfoReservationMapper;
-import com.cinema.booking.payloads.RepertoireDTO;
+import com.cinema.booking.dtos.RepertoireDTO;
 import com.cinema.booking.services.infoService.ShowInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-//@RequestMapping("/cinemas/{cinemaName}")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @RestController
 public class InfoController {

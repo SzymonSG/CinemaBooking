@@ -1,4 +1,4 @@
-package com.cinema.booking.payloads;
+package com.cinema.booking.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -2,17 +2,17 @@ package com.cinema.booking.repository;
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.dtos.showInfoDto.BasicInfoAboutMovieDto;
-import com.cinema.booking.payloads.RepertoireDTO;
+import com.cinema.booking.dtos.RepertoireDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie,Long> {
-
 
 
     boolean existsBySeatingAndMovieNameAndMovieRoom(Integer seating,String movieName, String movieRoom);
@@ -62,7 +62,7 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
 //                    "GROUP BY m.movieName, m.movieId"
 //    )
     @Query(
-            "SELECT DISTINCT new com.cinema.booking.payloads.RepertoireDTO(m.movieName)" +
+            "SELECT DISTINCT new com.cinema.booking.dtos.RepertoireDTO(m.movieName)" +
                     "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName"
     )
     List<RepertoireDTO> fetchAllPlayingMovies(String cinemaName);

@@ -3,7 +3,7 @@ import com.cinema.booking.entities.Movie;
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.exceptions.MovieNotFoundException;
 import com.cinema.booking.dtos.showInfoDto.BasicInfoAboutMovieDto;
-import com.cinema.booking.payloads.RepertoireDTO;
+import com.cinema.booking.dtos.RepertoireDTO;
 import com.cinema.booking.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
