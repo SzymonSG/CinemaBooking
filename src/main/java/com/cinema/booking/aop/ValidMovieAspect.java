@@ -20,7 +20,7 @@ public class ValidMovieAspect {
         boolean seatingExist = movieRepository
                 .existsBySeatingAndMovieNameAndMovieRoom(movie.getSeating(),movie.getMovieName(),movie.getMovieRoom());
         if (seatingExist){
-            throw new ConstraintViolationException("This seat is already saved");
+            throw new ConstraintViolationException("This action isn't compatible with structure DB!");
         }
     }
 }

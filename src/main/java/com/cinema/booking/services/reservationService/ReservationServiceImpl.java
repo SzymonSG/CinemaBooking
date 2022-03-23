@@ -35,7 +35,7 @@ public class ReservationServiceImpl implements ReservationService, ValidationRes
             return movieRepository.saveAll(foundSeats);
         }
     }
-    
+
     @Override
     public List<Movie> multiBookedPlaceWithDateV2(ReservationModel reservation) throws MovieNotFoundException {
         List<Movie> seance = movieRepository.fetchDataToReservation(

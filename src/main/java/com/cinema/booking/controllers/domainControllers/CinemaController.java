@@ -13,10 +13,10 @@ import javax.validation.Valid;
 import java.util.List;
 
 
-@RequestMapping("/api")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class CinemaController {
 
 

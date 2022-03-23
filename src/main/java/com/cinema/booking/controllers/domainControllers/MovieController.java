@@ -12,28 +12,27 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@RequestMapping("/api")
+
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class MovieController {
 
     private final MovieService movieService;
     private final MovieMapper movieMapper;
     private final CinemaMapStruct cinemaMapStruct;
 
-    //movies
     @PostMapping("/movies")
     public Movie movieSave(@Valid @RequestBody MovieDto movieDto) {
         Movie movie = movieMapper.dtoToMovie(movieDto);
         return movieService.movieSave(movie);
 
     }
-    //movies?include=cinemas
     @GetMapping("/movies:include=cinemas")
     public List<MovieWithCinemaDto> fetchMoviesListDto(){
         return cinemaMapStruct.toMovieWithCinemaListDto(movieService.fetchMoviesList());
     }
-    //check this
+
     @GetMapping("/movies/{id}")
     public MovieDto fetchMovieById(@PathVariable("id") Long movieId) throws MovieNotFoundException {
         Movie movie = movieService.fetchMovieById(movieId);

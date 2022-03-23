@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
-@RequestMapping("/api")
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class ConnectControllers {
 
     private final MovieService movieService;

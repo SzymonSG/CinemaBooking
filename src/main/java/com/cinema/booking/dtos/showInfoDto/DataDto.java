@@ -1,9 +1,14 @@
 package com.cinema.booking.dtos.showInfoDto;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 
-@Data
+import java.time.LocalDateTime;
+
+
+@AllArgsConstructor
 public class DataDto {
 
-    private String startFilm;
+    @JsonFormat(pattern="yyyy-MM-dd; HH:mm:ss",shape = JsonFormat.Shape.STRING)
+    private LocalDateTime startFilm;
 }

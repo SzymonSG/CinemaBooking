@@ -19,10 +19,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-@RequestMapping("/api")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class RegistrationController {
 
 

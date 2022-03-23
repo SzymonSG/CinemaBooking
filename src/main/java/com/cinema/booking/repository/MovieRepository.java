@@ -1,13 +1,11 @@
 package com.cinema.booking.repository;
+import com.cinema.booking.dtos.showInfoDto.DataDto;
 import com.cinema.booking.entities.Movie;
-import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.dtos.showInfoDto.BasicInfoAboutMovieDto;
-import com.cinema.booking.dtos.RepertoireDTO;
+import com.cinema.booking.dtos.showInfoDto.RepertoireDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,11 +37,6 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
 
 
     @Query(
-            "SELECT m,c,p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName"
-    )
-    List<Movie> fetchAllDataFromCinema(String cinemaName);
-
-    @Query(
             "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +
                     "AND m.movieName=:movieName AND p.startTimeOfTheMovie=:localDateTime AND m.booked='FREE'"
 
@@ -57,20 +50,18 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
     )
     List<Movie> fetchAvialableSeatsOnSeance(String cinemaName, String movieName);
 
-//    @Query(
-//            "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +
-//                    "GROUP BY m.movieName, m.movieId"
-//    )
+
     @Query(
-            "SELECT DISTINCT new com.cinema.booking.dtos.RepertoireDTO(m.movieName)" +
+            "SELECT DISTINCT new com.cinema.booking.dtos.showInfoDto.RepertoireDto(m.movieName)" +
                     "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName"
     )
-    List<RepertoireDTO> fetchAllPlayingMovies(String cinemaName);
+    List<RepertoireDto>fetchAllPlayingMovies(String cinemaName);
 
 
     @Query(
-            "SELECT p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName= :cinemaName " +
-                    "AND m.movieName=:movieName GROUP BY p.startTimeOfTheMovie, p.propertyId"
+            "SELECT DISTINCT new com.cinema.booking.dtos.showInfoDto.DataDto(p.startTimeOfTheMovie)" +
+                    "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName= :cinemaName " +
+                    "AND m.movieName=:movieName"
     )
-    List<PropertiesMovie> fetchLocalDateTimeForChosenMovie(String cinemaName, String movieName);
+    List<DataDto> fetchLocalDateTimeForChosenMovie(String cinemaName, String movieName);
 }

@@ -31,7 +31,7 @@ public class ValidUserRegistartionAscpect {
     }
 
     @Before("execution(* com.cinema.booking.services.userService.UserServiceImpl.registerUser(..)) && args(userModel))")
-    public void checkEmailUnique(User userModel) throws UserPasswordNotQualifyException, ConstraintViolationException {
+    public void checkEmailUnique(User userModel) throws ConstraintViolationException {
 
         boolean registredEmail = userRepository.existsByEmail(userModel.getEmail());
         if (registredEmail) {

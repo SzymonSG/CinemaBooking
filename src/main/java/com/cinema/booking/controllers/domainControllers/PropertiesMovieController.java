@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RequestMapping("/api")
+
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class PropertiesMovieController {
 
     private final PropertiesMovieService propertyMovieService;
