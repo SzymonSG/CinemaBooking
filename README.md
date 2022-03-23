@@ -1,34 +1,8 @@
 ## Cinema Reservation project.
 *The created project can be divided into 3 main functionals parts:*   
-- The first part one is an **(Command API- PUT)** serving **booking seats na movie** which is supporting by **(Query API- GET)** which returns **info about movies**.
+- The first part one is an API responsible for **booking seats na movie** which is supporting by **(Query API- GET)** which returns **info about movies** with the use **Query Methods**, and **JPQL**.
 - Second is an **API** responsible for the **registration of the user**, along with the entire range of functionalities like: **(account activation via a link, password reset, change password, request to resend the activation link, etc.)**
-- The third is **the process of logging**, supporting by authoritzation**JWT**
-
-
-- ![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) `testcolor` dadas
-
-
-
-
-
-
-### Using dependencies to create app:
-
-- Spring Web
-- Spring Data JPA
-- Validation I/O
-- Spring Boot Dev-Tools
-- MapStruct
-- Lombok
-- H2 database -testing
-- PostgreSQL Driver
-- Guava
-- AspectJ
-- Spring Security
-- JWT
-
-
-
+- The third is **the process of logging**, supporting by **Spring Security** and authoritzation **JWT**.
 ## Description few important endpoints:
 
 #### Booking seats on movie
@@ -47,7 +21,7 @@
 
 
 
-#### Sing up User 
+#### Sign up 
 *After successful regitration click in the activation link. To be able to perform any actions on your account.*
 
 ```http
@@ -64,10 +38,10 @@
 
 
 
-#### Sing in User
+#### Sign in 
 
 ```http
-  GET /api/login
+  GET /api/logging
 ```
 *After successful loggin, application generete for User **"Jwt token"**, which is need to perform: [booking seats on movie.](#booking-seats-on-movie)* 
 | Parameter | Type     | Description                       |
@@ -77,29 +51,59 @@
 | `password`      | `String` | *Password from regitration* |
 
 
-
 #### Show repertoire 
 
 ```http
-  GET /repertoire/cinemas/{cinemaName}
+  GET /api/repertoire/cinemas/{cinemaName}
 ```
-
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `PathVariable`      | `String` |**All  below- required:** |
-| `cinemaName`      | `String` | Name of cinema from which we want the repertoire |
+| `cinemaName`      | `String` | **Requierd** to fetch repertoire form cinema|
 
-## Roadmap
 
-- 1. Part of Validation work from DTO-s layers. To avoid mixed with DB logic
+#### Show avialable seats: 
 
-- 2. Validtion "Unique values" and requierments for password are performed by AspectJ.
-**it was needed to not mixed with services logic and not conflicts with Becrypt converter, wchich allows all type passwords :)"
+```http
+  GET /cinemas/{cinemaName}/movies/{movieName}/avialable-seats
+```
+*This api supporting info about: [booking seats on movie.](#booking-seats-on-movie)*
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |                            
+| `cinemaName`      | `String` | **Requierd** to selected cinema|
+| `movieName`      | `String` | **Requierd** to fetch avialable seats on selected movie|
 
-- 3. Custom validtion seats to booked.
 
-- 4. Validation JWT token, and token from verify links activation
 
-- 5. Using AOP @ControllerAdvice for exception handling form controllers.
+## Validation:
+In overview short:
+- @CrontrolerAdvice addnotation to global exception handling. 
+- Hibernate validtion in DTO-s layers.
+- To resolve cross-cutting concerns like: user registration: AspectJ library from the AOP approach.
+- Own validation movie-seats during reservation, jwt token validation and more.
+
+## Mapstruct:
+To applied DTO pattern I have used  Mapstruct & Lombok tools.  *To read more:* https://mapstruct.org/
+
+## Fetching data from DB using JPA and Hibernate
+
+- Query methods
+- **JPQL** queries with params 
+
+
+
+### Using dependencies to create app:
+
+- Spring Web
+- Spring Data JPA
+- Validation I/O
+- Spring Boot Dev-Tools
+- MapStruct 
+- Lombok
+- H2 database -testing
+- PostgreSQL Driver
+- Guava
+- AspectJ
+- Spring Security
+- JWT
 
 
