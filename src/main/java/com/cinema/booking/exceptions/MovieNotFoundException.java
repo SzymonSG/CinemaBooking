@@ -1,6 +1,5 @@
 package com.cinema.booking.exceptions;
 
-
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +15,7 @@ public class MovieNotFoundException extends Exception{
         super(MessageFormat.format("Movie not found with this id",id));
     }
 
-
+//czy to ma sens
     public MovieNotFoundException(List<Integer> message, String cause) {
         super(MessageFormat.format("Unfortunately, but places with numbers: {0} are: {1} ",message,cause));
 
@@ -36,4 +35,4 @@ public class MovieNotFoundException extends Exception{
         super(MessageFormat.format("All seats on {0} in {1} ",movieName,cinemaName));
     }
 }
-;
+

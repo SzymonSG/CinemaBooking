@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
     public String validateVerifactionToken(String token) {
         VerificationToken verificationToken =
                 verificationTokenRepository.findByToken(token);
-        if (verificationToken ==null){
+        if (verificationToken==null){
             return "invalid";
         }
 

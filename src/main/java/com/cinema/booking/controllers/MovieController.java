@@ -1,4 +1,4 @@
-package com.cinema.booking.controllers.domainControllers;
+package com.cinema.booking.controllers;
 
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.exceptions.MovieNotFoundException;

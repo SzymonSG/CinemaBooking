@@ -1,6 +1,6 @@
 ## Cinema Reservation project.
 *The created project can be divided into 3 main functionals parts:*   
-- The first part one is an API responsible for **booking seats na movie** which is supporting by **(Query API- GET)** which returns **info about movies** with the use **Query Methods**, and **JPQL**.
+- The first part one is an API responsible for **booking seats na movie** which is supporting by **(API-s)** which returns **info about movies** with the use **Query Methods**, and **JPQL**.
 - Second is an **API** responsible for the **registration of the user**, along with the entire range of functionalities like: **(account activation via a link, password reset, change password, request to resend the activation link, etc.)**
 - The third is **the process of logging**, supporting by **Spring Security** and authoritzation **JWT**.
 ## Description few important endpoints:
@@ -64,7 +64,7 @@
 #### Show avialable seats: 
 
 ```http
-  GET /cinemas/{cinemaName}/movies/{movieName}/avialable-seats
+  GET api/cinemas/{cinemaName}/movies/{movieName}/avialable-seats
 ```
 *This api supporting info about: [booking seats on movie.](#booking-seats-on-movie)*
 | Parameter | Type     | Description                       |

@@ -16,12 +16,14 @@ public class RegistraionUtilize implements RegisterUtils {
                 request.getServerName() +
                 ":" +
                 request.getServerPort() +
+                "/api"+
                 request.getContextPath();
     }
 
     public void resendVerificationTokenEmail(User user, String applicationUrl, VerificationToken verificationLink) {
 
         String url = applicationUrl +
+                "/api"+
                 "/verifyRegistration?token="
                 + verificationLink.getToken();
 
@@ -32,6 +34,7 @@ public class RegistraionUtilize implements RegisterUtils {
     public String passwordResetTokenEmail(User user, String applicationUrl, String token) {
         String url =
                 applicationUrl +
+                        "/api"+
                         "/savePassword?token="
                         + token;
 

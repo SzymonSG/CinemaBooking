@@ -14,10 +14,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
 public class ReservationController {
 
     private final ReservationService reservationService;
@@ -38,9 +36,6 @@ public class ReservationController {
         ReservationModel reservation = reservationMapper.dtoToReservation(reservationInfo);
         return reservationService.multiBookedPlaceWithDateV2(reservation);
     }
-
-
-
 
 
 }

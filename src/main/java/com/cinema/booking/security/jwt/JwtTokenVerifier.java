@@ -23,7 +23,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
 //    private String secretKey;
 //    @Value("${cinema.jwt.tokenPrefix}")
 //    private String tokenPrefix;
-   // private final JwtConfig jwtConfig;
+// private final JwtConfig jwtConfig;
     private final JwtConfig jwtConfig;
 
     public JwtTokenVerifier(JwtConfig jwtConfig) {

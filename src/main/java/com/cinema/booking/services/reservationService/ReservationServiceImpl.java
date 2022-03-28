@@ -2,12 +2,10 @@ package com.cinema.booking.services.reservationService;
 
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.exceptions.MovieNotFoundException;
-
 import com.cinema.booking.model.ReservationModel;
 import com.cinema.booking.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;

@@ -8,12 +8,14 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
+
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class ValidMovieAspect {
+public class ValidMovieUniqueAspect {
 
     private final MovieRepository movieRepository;
+
 
     @Before("execution(* com.cinema.booking.services.movieService.MovieServiceImpl.movieSave(..)) && args(movie))")
     public void checkSeatingAreUnique(Movie movie) throws ConstraintViolationException {
@@ -23,4 +25,5 @@ public class ValidMovieAspect {
             throw new ConstraintViolationException("This action isn't compatible with structure DB!");
         }
     }
+
 }

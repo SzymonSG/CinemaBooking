@@ -1,4 +1,4 @@
-package com.cinema.booking.controllers.domainControllers;
+package com.cinema.booking.controllers;
 
 import com.cinema.booking.entities.PropertiesMovie;
 import com.cinema.booking.mappers.PropertiesMapper;

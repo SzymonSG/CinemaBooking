@@ -17,5 +17,4 @@ public interface ValidationReservationService {
     void checkSeatsToBookedExist(List<Integer> wantedPlaces, List <Movie> seance) throws MovieNotFoundException;
 
 
-
 }

@@ -46,7 +46,6 @@ public class RegistrationController {
         return "Succes Registartion!";
     }
 
-
     @GetMapping("/verifyRegistration")
     public String verifyRegistration(@RequestParam("token") String token) {
         String result = userService.validateVerifactionToken(token);
@@ -68,7 +67,7 @@ public class RegistrationController {
 
     }
 
-
+    //api/passwords/reset
     @PostMapping("/resetPassword")
     public String resetPassword(@RequestBody PasswordModel passwordModel, HttpServletRequest request) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
@@ -81,6 +80,7 @@ public class RegistrationController {
         return url;
     }
 
+    //passwords
     @PostMapping("/savePassword")
     public String savePassword(@RequestParam("token")String token,
                                @RequestBody PasswordModel passwordModel){
@@ -98,7 +98,7 @@ public class RegistrationController {
     }
 
 
-
+    //change/passoword
     @PostMapping("/changePassword")
     public String changePassword(@RequestBody PasswordModel passwordModel){
         User user = userService.findUserByEmail(passwordModel.getEmail());
