@@ -27,7 +27,7 @@ public class InfoController {
     public List<RepertoireDto> showAllPlayingMovies(@PathVariable("cinemaName") String cinemaName) throws MovieNotFoundException {
 
         List<RepertoireDto> movieNameDtos = showInfoService
-                .fetchAllPlayingMoviesInCinema(cinemaName);
+                .fetchRepertoire(cinemaName);
         return movieNameDtos;
     }
 
@@ -37,27 +37,27 @@ public class InfoController {
                                              @PathVariable("movieName") String moviesName) throws MovieNotFoundException {
 
         List<DataDto> dataTimeMovie = showInfoService
-                .fetchDateTimesChoosenMovie(cinemaName, moviesName);
+                .fetchMoviesAfterDate(cinemaName, moviesName);
         return dataTimeMovie;
     }
 
     @GetMapping("/cinemas/{cinemaName}/movies/{movieName}/avialable-seats")
-    public List<AvailableSeatsInfoDto> showAvailableSeatsOnSeance(@PathVariable("cinemaName") String cinemaName,
-                                                                  @PathVariable("movieName") String movieName) throws MovieNotFoundException {
-        List<Movie> freePlacesOnMovie = showInfoService
-                .fetchAvialableSeatsOnSeance(cinemaName, movieName);
-        return showInfoReservationMapper.toAvailableSeatsInfoListDto(freePlacesOnMovie);
+    public List<AvailableSeatsInfoDto> showAvailableSeats(@PathVariable("cinemaName") String cinemaName,
+                                                          @PathVariable("movieName") String movieName) throws MovieNotFoundException {
+        List<Movie> avialableSeats = showInfoService
+                .fetchAvialableSeats(cinemaName, movieName);
+        return showInfoReservationMapper.toAvailableSeatsInfoListDto(avialableSeats);
     }
 
     @GetMapping("/cinemas/{cinemaName}/movies/{movieName}/avialable-seats/date-times")
-    public List<AvailableSeatsDto> showAvailableSeatsWithTimeOnSeance(@PathVariable("cinemaName") String cinemaName,
-                                                                      @PathVariable("movieName") String movieName,
-                                                                      @RequestParam("localDate")
+    public List<AvailableSeatsDto> showAvailableSeatsForDay(@PathVariable("cinemaName") String cinemaName,
+                                                            @PathVariable("movieName") String movieName,
+                                                            @RequestParam("localDate")
                                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,
                                                                               pattern = "yyyy-MM-dd; HH:mm:ss")
                                                                               LocalDateTime localDateTime) throws MovieNotFoundException {
         List<Movie> freePlacesOnMovie = showInfoService
-                .fetchAvailableSeatsWithDateTimeOnSeance(cinemaName, movieName, localDateTime);
+                .fetchAvailableSeatsForDay(cinemaName, movieName, localDateTime);
         return showInfoReservationMapper.toAvailableSeatsListDto(freePlacesOnMovie);
     }
 

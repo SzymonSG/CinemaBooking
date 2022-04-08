@@ -3,8 +3,9 @@ package com.cinema.booking.exceptions;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Supplier;
 
-public class MovieNotFoundException extends Exception{
+public class MovieNotFoundException extends Exception {
 
 
     public MovieNotFoundException(String message) {
@@ -22,7 +23,7 @@ public class MovieNotFoundException extends Exception{
     }
 
     public MovieNotFoundException(List<Integer>place){
-        super(MessageFormat.format("Unfortunately, we dont have these places: {0}. Please check available places.",place));
+        super(MessageFormat.format("Unfortunately, we dont have these places: {0}. Please check available places. Makiato",place));
     }
 
 

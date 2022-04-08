@@ -31,4 +31,7 @@ public interface UserService {
     boolean checkValidOldPassword(User user, String oldPassword);
 
     ResponseEntity<?> authenticateUser(LoginModel loginModel);
+
+    String getTokenStringFromUIDD(VerificationToken verificationToken);
+
 }

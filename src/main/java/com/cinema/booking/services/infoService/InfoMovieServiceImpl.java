@@ -22,10 +22,10 @@ public class InfoMovieServiceImpl implements ShowInfoService {
 
 
     @Override
-    public List<RepertoireDto> fetchAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException {
+    public List<RepertoireDto> fetchRepertoire(String cinemaName) throws MovieNotFoundException {
 
         List<RepertoireDto> allPlayingMovies =
-                movieRepository.fetchAllPlayingMovies(cinemaName);
+                movieRepository.fetchRepertoire(cinemaName);
 
         if (CollectionUtils.isEmpty(allPlayingMovies)){
             throw new MovieNotFoundException("We are currently creating a new repertoire. We Apologize!");
@@ -35,12 +35,12 @@ public class InfoMovieServiceImpl implements ShowInfoService {
 
 
     @Override
-    public List<Movie> fetchAvailableSeatsWithDateTimeOnSeance(String cinemaName,
-                                                               String movieName,
-                                                               LocalDateTime localDateTime) throws MovieNotFoundException {
+    public List<Movie> fetchAvailableSeatsForDay(String cinemaName,
+                                                 String movieName,
+                                                 LocalDateTime localDateTime) throws MovieNotFoundException {
 
         List<Movie> infoMovies = movieRepository
-                .fetchAvialableSeatsWithDateTimeOnSeance(cinemaName, movieName, localDateTime);
+                .fetchAvialableSeatsForDay(cinemaName, movieName, localDateTime);
         if (infoMovies==null || infoMovies.isEmpty()){
             throw new MovieNotFoundException(movieName,localDateTime);
         }
@@ -48,11 +48,11 @@ public class InfoMovieServiceImpl implements ShowInfoService {
     }
 
     @Override
-    public List<Movie> fetchAvialableSeatsOnSeance(String cinemaName,
-                                                   String movieName) throws MovieNotFoundException {
+    public List<Movie> fetchAvialableSeats(String cinemaName,
+                                           String movieName) throws MovieNotFoundException {
 
         List<Movie> movies = movieRepository
-                .fetchAvialableSeatsOnSeance(cinemaName, movieName);
+                .fetchAvialableSeats(cinemaName, movieName);
 
         if (movies==null || movies.isEmpty()){
             throw new MovieNotFoundException(cinemaName, movieName);
@@ -62,8 +62,8 @@ public class InfoMovieServiceImpl implements ShowInfoService {
 
 
     @Override
-    public List<DataDto> fetchDateTimesChoosenMovie(String cinemaName,
-                                                            String movieName) throws MovieNotFoundException {
+    public List<DataDto> fetchMoviesAfterDate(String cinemaName,
+                                              String movieName) throws MovieNotFoundException {
 
         List<DataDto> dataTimeMovie = movieRepository
                 .fetchLocalDateTimeForChosenMovie(cinemaName, movieName);

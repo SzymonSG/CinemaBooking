@@ -4,6 +4,7 @@ import com.cinema.booking.common.RegisterUtils;
 import com.cinema.booking.entities.User;
 import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
 import com.cinema.booking.event.RegistrationCompleteEvent;
+import com.cinema.booking.event.ResendVerifactionTokenEvent;
 import com.cinema.booking.exceptions.ConstraintViolationException;
 import com.cinema.booking.mappers.UserMapper;
 import com.cinema.booking.dtos.userDto.UserModelDto;
@@ -60,9 +61,14 @@ public class RegistrationController {
                                           HttpServletRequest request) {
         VerificationToken verificationToken =
                 userService.generateNewVerificationToken(oldtoken);
-
+        String token = userService.getTokenStringFromUIDD(verificationToken);
+        log.info(token);
         User user = verificationToken.getUser();
-        registerUtils.resendVerificationTokenEmail(user,registerUtils.applicationUrl(request), verificationToken);
+        publisher.publishEvent(new ResendVerifactionTokenEvent(
+                user,
+                registerUtils.applicationUrl(request),
+                token));
+//        registerUtils.resendVerificationTokenEmail(user,registerUtils.applicationUrl(request), verificationToken);
         return "Verification Link Send";
 
     }

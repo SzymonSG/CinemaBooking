@@ -2,14 +2,17 @@ package com.cinema.booking.entities.authUserEntitiesSupport;
 
 import com.cinema.booking.entities.User;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class VerificationToken {
 

@@ -8,14 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie,Long> {
 
 
     boolean existsBySeatingAndMovieNameAndMovieRoom(Integer seating,String movieName, String movieRoom);
-
-//    boolean existsBySeating(List<Integer> seating);
 
     boolean existsByMovieName(String movieName);
 
@@ -30,6 +29,16 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
     )
     List<BasicInfoAboutMovieDto> fetchFreePlacesForSelected_CinemaAndDataTime(String cinemaName, LocalDateTime localDateTime);
 
+    @Query(
+            "SELECT m,c,p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p " +
+                    "WHERE c.cinemaName= :cinema" +
+                    " AND m.movieName = :movie " +
+                    "AND m.movieRoom= :movieRoom " +
+                    "AND p.startTimeOfTheMovie= :localDateTime"
+    )
+    List<Movie> fetchDataToBooking(String cinema, String movie, String movieRoom,
+                                              LocalDateTime localDateTime);
+
 
     @Query(
             "SELECT m,c,p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p " +
@@ -38,8 +47,8 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
                     "AND m.movieRoom= :movieRoom " +
                     "AND p.startTimeOfTheMovie= :localDateTime"
     )
-     List<Movie> fetchDataToReservation(String cinema, String movie, String movieRoom,
-                                        LocalDateTime localDateTime);
+     Optional <List<Movie>> fetchDataToBookingg(String cinema, String movie, String movieRoom,
+                                             LocalDateTime localDateTime);
 
 
     @Query(
@@ -47,21 +56,21 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
                     "AND m.movieName=:movieName AND p.startTimeOfTheMovie=:localDateTime AND m.booked='FREE'"
 
     )
-    List<Movie> fetchAvialableSeatsWithDateTimeOnSeance(String cinemaName, String movieName, LocalDateTime localDateTime);
+    List<Movie> fetchAvialableSeatsForDay(String cinemaName, String movieName, LocalDateTime localDateTime);
 
     @Query(
             "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +
                     "AND m.movieName=:movieName AND m.booked='FREE'"
 
     )
-    List<Movie> fetchAvialableSeatsOnSeance(String cinemaName, String movieName);
+    List<Movie> fetchAvialableSeats(String cinemaName, String movieName);
 
 
     @Query(
             "SELECT DISTINCT new com.cinema.booking.dtos.showInfoDto.RepertoireDto(m.movieName)" +
                     "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName"
     )
-    List<RepertoireDto>fetchAllPlayingMovies(String cinemaName);
+    List<RepertoireDto> fetchRepertoire(String cinemaName);
 
 
     @Query(

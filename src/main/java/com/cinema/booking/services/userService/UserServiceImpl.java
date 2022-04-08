@@ -11,6 +11,7 @@ import com.cinema.booking.repository.VerificationTokenRepository;
 import com.cinema.booking.security.service.MyUserDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -38,6 +39,8 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
 
     private final JwtUtility jwtUtility;
+
+
 
     @Override
     public User registerUser(User userModel)  {
@@ -117,6 +120,11 @@ public class UserServiceImpl implements UserService {
         verificationToken.setToken(UUID.randomUUID().toString());
         verificationTokenRepository.save(verificationToken);
         return verificationToken;
+    }
+    @Override
+    public String getTokenStringFromUIDD(VerificationToken verificationToken){
+        String legitToken = verificationToken.getToken();
+        return legitToken;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.cinema.booking.aop;
+package com.cinema.booking.validators;
 
 import com.cinema.booking.entities.Movie;
 import com.cinema.booking.exceptions.ConstraintViolationException;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class ValidMovieUniqueAspect {
+public class UniqueSeatsValidator {
 
     private final MovieRepository movieRepository;
 

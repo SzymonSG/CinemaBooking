@@ -11,14 +11,14 @@ import java.util.List;
 
 public interface ShowInfoService {
 
-    List<RepertoireDto> fetchAllPlayingMoviesInCinema(String cinemaName) throws MovieNotFoundException;
+    List<RepertoireDto> fetchRepertoire(String cinemaName) throws MovieNotFoundException;
 
-    List<DataDto> fetchDateTimesChoosenMovie(String cinemaName, String movieName) throws MovieNotFoundException;
+    List<DataDto> fetchMoviesAfterDate(String cinemaName, String movieName) throws MovieNotFoundException;
 
-    List<Movie> fetchAvailableSeatsWithDateTimeOnSeance(String cinemaName, String movieName, LocalDateTime localDateTime) throws MovieNotFoundException;
+    List<Movie> fetchAvailableSeatsForDay(String cinemaName, String movieName, LocalDateTime localDateTime) throws MovieNotFoundException;
 
     List<BasicInfoAboutMovieDto> fetchFreeSeatsForSelectedDay(LocalDateTime localDateTime, String cinemaName) throws MovieNotFoundException;
 
-    List<Movie> fetchAvialableSeatsOnSeance(String cinemaName, String movieName) throws MovieNotFoundException;
+    List<Movie> fetchAvialableSeats(String cinemaName, String movieName) throws MovieNotFoundException;
 }
 

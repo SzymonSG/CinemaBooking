@@ -1,12 +1,11 @@
-package com.cinema.booking.dtos.reservationDto;
+package com.cinema.booking.dtos.bookingDto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
-public class ReservationModelDto {
+public class BookingModelDto {
 
     @NotBlank(message = "Cinema name is required")
     private String cinemaName;

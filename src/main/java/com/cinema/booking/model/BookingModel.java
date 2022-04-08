@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class ReservationModel {
+public class BookingModel {
 
     private String cinemaName;
     private String movieName;

@@ -1,4 +1,4 @@
-package com.cinema.booking.aop;
+package com.cinema.booking.validators;
 
 import com.cinema.booking.entities.User;
 import com.cinema.booking.exceptions.ConstraintViolationException;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class ValidUserRegistartionAscpect {
+public class UserRegistartionValidator {
 
     private final UserRepository userRepository;
 
