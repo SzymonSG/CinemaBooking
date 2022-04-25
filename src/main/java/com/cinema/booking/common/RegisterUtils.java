@@ -1,7 +1,7 @@
 package com.cinema.booking.common;
 
 import com.cinema.booking.entities.User;
-import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
+import com.cinema.booking.entities.VerificationToken;
 
 import javax.servlet.http.HttpServletRequest;
 

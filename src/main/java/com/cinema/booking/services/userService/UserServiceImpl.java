@@ -1,7 +1,7 @@
 package com.cinema.booking.services.userService;
-import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
+import com.cinema.booking.entities.VerificationToken;
 import com.cinema.booking.security.jwt.JwtUtility;
-import com.cinema.booking.entities.authUserEntitiesSupport.PasswordResetToken;
+import com.cinema.booking.entities.PasswordResetToken;
 import com.cinema.booking.entities.User;
 import com.cinema.booking.model.LoginModel;
 import com.cinema.booking.model.response.JwtModelResponse;
@@ -11,7 +11,6 @@ import com.cinema.booking.repository.VerificationTokenRepository;
 import com.cinema.booking.security.service.MyUserDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

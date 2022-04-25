@@ -1,7 +1,5 @@
-package com.cinema.booking.entities.authUserEntitiesSupport;
+package com.cinema.booking.entities;
 
-import com.cinema.booking.entities.User;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

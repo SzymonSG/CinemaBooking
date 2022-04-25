@@ -24,13 +24,13 @@ public class InfoMovieServiceImpl implements ShowInfoService {
     @Override
     public List<RepertoireDto> fetchRepertoire(String cinemaName) throws MovieNotFoundException {
 
-        List<RepertoireDto> allPlayingMovies =
+        List<RepertoireDto> playingMovies =
                 movieRepository.fetchRepertoire(cinemaName);
 
-        if (CollectionUtils.isEmpty(allPlayingMovies)){
+        if (CollectionUtils.isEmpty(playingMovies)){
             throw new MovieNotFoundException("We are currently creating a new repertoire. We Apologize!");
         }
-        return allPlayingMovies;
+        return playingMovies;
     }
 
 
@@ -40,8 +40,8 @@ public class InfoMovieServiceImpl implements ShowInfoService {
                                                  LocalDateTime localDateTime) throws MovieNotFoundException {
 
         List<Movie> infoMovies = movieRepository
-                .fetchAvialableSeatsForDay(cinemaName, movieName, localDateTime);
-        if (infoMovies==null || infoMovies.isEmpty()){
+                .fetchAvialableSeatsOnDay(cinemaName, movieName, localDateTime);
+        if (CollectionUtils.isEmpty(infoMovies)){
             throw new MovieNotFoundException(movieName,localDateTime);
         }
         return infoMovies;
@@ -54,7 +54,7 @@ public class InfoMovieServiceImpl implements ShowInfoService {
         List<Movie> movies = movieRepository
                 .fetchAvialableSeats(cinemaName, movieName);
 
-        if (movies==null || movies.isEmpty()){
+        if (CollectionUtils.isEmpty(movies)){
             throw new MovieNotFoundException(cinemaName, movieName);
         }
         return movies;
@@ -65,23 +65,24 @@ public class InfoMovieServiceImpl implements ShowInfoService {
     public List<DataDto> fetchMoviesAfterDate(String cinemaName,
                                               String movieName) throws MovieNotFoundException {
 
-        List<DataDto> dataTimeMovie = movieRepository
-                .fetchLocalDateTimeForChosenMovie(cinemaName, movieName);
-        if (dataTimeMovie==null || dataTimeMovie.isEmpty()) {
+        List<DataDto> dataTime = movieRepository
+                .fetchMovieByDateTimes(cinemaName, movieName);
+        if (CollectionUtils.isEmpty(dataTime)) {
             throw new MovieNotFoundException("Unfortunately we are not playing such a movie.");
         }
-        return dataTimeMovie;
+        return dataTime;
     }
 
     @Override
     public List<BasicInfoAboutMovieDto> fetchFreeSeatsForSelectedDay(LocalDateTime localDateTime,
                                                                      String cinemaName) throws MovieNotFoundException {
 
-        List<BasicInfoAboutMovieDto> allFreePlacesForSelected_CinemaAndDataTime = movieRepository.fetchFreePlacesForSelected_CinemaAndDataTime(cinemaName, localDateTime);
-        if (allFreePlacesForSelected_CinemaAndDataTime==null || allFreePlacesForSelected_CinemaAndDataTime.isEmpty()){
+        List<BasicInfoAboutMovieDto> freePlaces = movieRepository
+                .fetchFreePlacesOnMovie(cinemaName, localDateTime);
+        if (CollectionUtils.isEmpty(freePlaces)){
             throw new MovieNotFoundException("Unfortunately, it is already booked today. Please check other days.");
         }
-        return allFreePlacesForSelected_CinemaAndDataTime;
+        return freePlaces;
     }
 
 

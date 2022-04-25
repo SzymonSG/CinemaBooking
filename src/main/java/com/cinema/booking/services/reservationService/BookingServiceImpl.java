@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 import static com.cinema.booking.common.ReservationCheck.BOOKED;
 
@@ -23,6 +23,7 @@ import static com.cinema.booking.common.ReservationCheck.BOOKED;
 public class BookingServiceImpl implements BookingService, BookingValidators {
 
     private final MovieRepository movieRepository;
+//    private final BookingValidators bookingValidators;
     private final SeatsBookingValidatorComp seatsBookingValidator;
 
     @Transactional
@@ -43,82 +44,70 @@ public class BookingServiceImpl implements BookingService, BookingValidators {
     @Transactional
     @Override
     public List<Movie> bookingSeats(BookingModelValidator correctModel) throws MovieNotFoundException {
-
-        Optional<List<Movie>> optionalSeance = Optional.ofNullable(movieRepository.fetchDataToBookingg(
+        //version with Optional
+        Optional<List<Movie>> seanceOptional = Optional.ofNullable(movieRepository.fetchDataToBookingg(
                 correctModel.getCinemaName(),
                 correctModel.getMovieName(),
                 correctModel.getMovieRoom(),
                 correctModel.getDateAndTime()
         )).orElseThrow(() -> new MovieNotFoundException("JPQL Query not work!, correctModel is Valid before"));
 
-        List<Movie> seance = optionalSeance.stream()
+        List<Movie> seance = seanceOptional.stream()
                 .flatMap(x -> x.stream())
                 .collect(Collectors.toList());
-
 
 //        List<Movie> seance = movieRepository.fetchDataToBooking(
 //                correctModel.getCinemaName(),
 //                correctModel.getMovieName(),
 //                correctModel.getMovieRoom(),
-//                correctModel.getDateAndTime());
-//
-//        if (seance.isEmpty() || seance==null) {
-//            throw new MovieNotFoundException("JPQL query failed, correctModel is Valid");
-//        } else {
+//                correctModel.getDateAndTime()
+//        );
 
         List<Movie> filteredSeats = filteringSeatsToBooked(correctModel.getSeatsToBooked(), seance);
-            boolean bookedSeats = isBookedSeats(filteredSeats);
-            if (!bookedSeats){
-                filteredSeats.forEach(toBooked ->toBooked.setBooked(BOOKED.name()));
-            }
-            return movieRepository.saveAll(filteredSeats);
-
-            //a później sprawdz czy są dopuszczone
-//            List<Movie> availableSeats = seatsBookingValidator.seatsValidation(bookingRequest.getSeatsToBooked(), seance);
-//            List<Movie> availableSeats = seatsValidation(correctModel.getSeatsToBooked(), seance);
-//            List<Movie> availableSeats = SeatsBookingValidator.seatsValidation(bookingRequest.getSeatsToBooked(), seance);
-//            availableSeats.forEach(toBooked -> toBooked.setBooked(BOOKED.name()));
-//            return movieRepository.saveAll(availableSeats);
+        boolean bookedSeats = isBookedSeats(filteredSeats);
+        if (!bookedSeats) {
+            filteredSeats.forEach(toBooked -> toBooked.setBooked(BOOKED.name()));
         }
+        return movieRepository.saveAll(filteredSeats);
+
+    }
 
 
-
-    //TODO WYDZIEL DO KLASY VALIDACJI
     private List<Movie> seatsValidation(List<Integer> seatsToBooked, List<Movie> seance) throws MovieNotFoundException {
         List<Movie> foundSeats = filteringSeatsToBooked(seatsToBooked, seance);
         isBookedSeats(foundSeats);
         return foundSeats;
     }
 
-        //odfiltorwoanie miejsc do rezerwacji
-        @Override
-        public List<Movie>  filteringSeatsToBooked(List<Integer>seatsToBooked, List<Movie> seance){
-            List<Movie> foundSeats = seance.stream()
-                    .filter(orginal -> seatsToBooked.contains(orginal.getSeating()))
-                    .collect(Collectors.toList());
-            return foundSeats;
-        }
+    //odfiltorwoanie miejsc do rezerwacji
+    @Override
+    public List<Movie> filteringSeatsToBooked(List<Integer> seatsToBooked, List<Movie> seance) {
+        List<Movie> foundSeats = seance.stream()
+                .filter(orginal -> seatsToBooked.contains(orginal.getSeating()))
+                .collect(Collectors.toList());
+        return foundSeats;
+    }
 
-        @Override
-        public boolean isBookedSeats (List <Movie> foundSeats) throws MovieNotFoundException {
-            boolean bookedSeats = foundSeats.stream()
-                    .anyMatch(booked -> booked.getBooked().equals(BOOKED.name())); // lub all match
-            if (bookedSeats) {
-                showInfoAboutBooked(foundSeats);
-            }
-            return bookedSeats;
+    @Override
+    public boolean isBookedSeats(List<Movie> foundSeats) throws MovieNotFoundException {
+        boolean bookedSeats = foundSeats.stream()
+                .anyMatch(booked -> booked.getBooked().equals(BOOKED.name())); // lub all match
+        if (bookedSeats) {
+            showInfoAboutBooked(foundSeats);
         }
+        return bookedSeats;
+    }
 
-        @Override
-        public void showInfoAboutBooked (List <Movie> foundSeats) throws MovieNotFoundException {
-            List<Integer> bookedSeats = foundSeats.stream()
-                    .filter(booked -> booked.getBooked()
-                            .equals(BOOKED.name()))
-                    .map(Movie::getSeating)
-                    .collect(Collectors.toList());
-            String info = "booked";
-            throw new MovieNotFoundException(bookedSeats, info);
-        }
+    @Override
+    public void showInfoAboutBooked(List<Movie> foundSeats) throws MovieNotFoundException {
+        List<Integer> bookedSeats = foundSeats.stream()
+                .filter(booked -> booked.getBooked()
+                        .equals(BOOKED.name()))
+                .map(Movie::getSeating)
+                .collect(Collectors.toList());
+        String info = "booked";
+        throw new MovieNotFoundException(bookedSeats, info);
+    }
 
 
 }

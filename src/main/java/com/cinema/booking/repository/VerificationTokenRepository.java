@@ -1,6 +1,6 @@
 package com.cinema.booking.repository;
 
-import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
+import com.cinema.booking.entities.VerificationToken;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -2,7 +2,7 @@ package com.cinema.booking.services.userService;
 
 
 import com.cinema.booking.entities.User;
-import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
+import com.cinema.booking.entities.VerificationToken;
 import com.cinema.booking.exceptions.ConstraintViolationException;
 import com.cinema.booking.model.LoginModel;
 import org.springframework.http.ResponseEntity;

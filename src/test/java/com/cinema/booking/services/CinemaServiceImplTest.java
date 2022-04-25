@@ -42,6 +42,8 @@ class CinemaServiceImplTest {
 
         Long expectedId = 1L;
         Movie found = movieService.fetchMovieById(expectedId);
+
+        System.out.println("Found "+found);
         assertEquals(expectedId,found.getMovieId());
 
     }

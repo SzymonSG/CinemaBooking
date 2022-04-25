@@ -41,7 +41,7 @@ public class CinemaServiceImpl implements CinemaService {
         Movie movie = (movieRepository.findById(movieId).orElseThrow(
                 () -> new MovieNotFoundException(movieId)));
 //        Movie movie = movieServiceImpl.fetchMovieById(movieId);
-        if (!movie.getCinemas().isEmpty()){
+        if (!movie.getCinemas().isEmpty()) {
             throw new AlreadyEnrolledMovieException(movieId,cinema.getCinemaName());
         }
         cinema.enrolledMovie(movie);

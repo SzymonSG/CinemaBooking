@@ -1,6 +1,6 @@
 package com.cinema.booking.repository;
 
-import com.cinema.booking.entities.authUserEntitiesSupport.PasswordResetToken;
+import com.cinema.booking.entities.PasswordResetToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -2,8 +2,6 @@ package com.cinema.booking.event;
 
 
 import com.cinema.booking.entities.User;
-import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

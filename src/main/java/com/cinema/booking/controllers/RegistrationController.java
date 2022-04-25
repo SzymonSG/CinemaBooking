@@ -2,7 +2,7 @@ package com.cinema.booking.controllers;
 
 import com.cinema.booking.common.RegisterUtils;
 import com.cinema.booking.entities.User;
-import com.cinema.booking.entities.authUserEntitiesSupport.VerificationToken;
+import com.cinema.booking.entities.VerificationToken;
 import com.cinema.booking.event.RegistrationCompleteEvent;
 import com.cinema.booking.event.ResendVerifactionTokenEvent;
 import com.cinema.booking.exceptions.ConstraintViolationException;

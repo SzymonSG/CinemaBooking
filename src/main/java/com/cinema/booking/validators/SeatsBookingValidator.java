@@ -11,7 +11,6 @@ import static com.cinema.booking.common.ReservationCheck.BOOKED;
 public class SeatsBookingValidator {
 
 
-    //TODO WYDZIEL DO KLASY VALIDACJA REZERWACJI
     public static List<Movie> seatsValidation(List<Integer> seatsToBooked, List<Movie> seance) throws MovieNotFoundException {
         List<Movie> foundSeats = filteringSeatsToBooked(seatsToBooked, seance);
         checkBookedSeats(foundSeats);

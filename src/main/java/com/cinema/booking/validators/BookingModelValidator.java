@@ -9,10 +9,12 @@ import com.cinema.booking.repository.MovieRepository;
 import com.cinema.booking.repository.PropertiesMovieRepository;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -38,11 +40,11 @@ public class BookingModelValidator {
 
     public BookingModelValidator buildCorrectModel(BookingModel bookingModel) throws MovieNotFoundException, CinemaNotFoundException, PropertyMovieNotFoundException {
 
-        existCinema(bookingModel);
-        existMovie(bookingModel);
-        existMovieRoom(bookingModel);
-        existDataTimesMovie(bookingModel);
-        existSeatsToBooked(bookingModel);
+        cinemaExits(bookingModel);
+        movieExist(bookingModel);
+        movieRoomExist(bookingModel);
+        dataTimesExist(bookingModel);
+        seatsToBookedExist(bookingModel);
         return BookingModelValidator.builder()
                 .cinemaName(bookingModel.getCinemaName())
                 .movieName(bookingModel.getMovieName())
@@ -54,15 +56,27 @@ public class BookingModelValidator {
 
     }
 
-    public void existSeatsToBooked(BookingModel bookingModel) throws MovieNotFoundException {
+    public void seatsToBookedExist(BookingModel bookingModel) throws MovieNotFoundException {
         List<Integer> seatsToBooked = bookingModel.getSeatsToBooked();
-        if (seatsToBooked != null && !seatsToBooked.isEmpty()) {
+        if (CollectionUtils.isEmpty(seatsToBooked)) {
+            throw new MovieNotFoundException("No seats were given for bookingg");
+        } else {
+//            List<Movie> seance = movieRepository.fetchDataToBooking(
+//                    bookingModel.getCinemaName(),
+//                    bookingModel.getMovieName(),
+//                    bookingModel.getMovieRoom(),
+//                    bookingModel.getDateAndTime());
 
-            List<Movie> seance = movieRepository.fetchDataToBooking(
+            Optional<List<Movie>> seanceOptional = Optional.ofNullable(movieRepository.fetchDataToBookingg(
                     bookingModel.getCinemaName(),
                     bookingModel.getMovieName(),
                     bookingModel.getMovieRoom(),
-                    bookingModel.getDateAndTime());
+                    bookingModel.getDateAndTime()
+            )).orElseThrow(() -> new MovieNotFoundException("JPQL Query not work!"));
+
+            List<Movie> seance = seanceOptional.stream()
+                    .flatMap(x -> x.stream())
+                    .collect(Collectors.toList());
 
             List<Integer> collect = seance
                     .stream()
@@ -73,34 +87,32 @@ public class BookingModelValidator {
             if (!seatsExist) {
                 throw new MovieNotFoundException(seatsToBooked);
             }
-        }else {
-            throw new MovieNotFoundException("No seats were given for bookingg");
         }
     }
 
 
-    private void existDataTimesMovie(BookingModel bookingModel) throws PropertyMovieNotFoundException {
+    private void dataTimesExist(BookingModel bookingModel) throws PropertyMovieNotFoundException {
         boolean propertyExist = propertiesMovieRepository.existsByStartTimeOfTheMovie(bookingModel.getDateAndTime());
         if (!propertyExist){
             throw new PropertyMovieNotFoundException("Enter Correct date and time movie");
         }
     }
 
-    private void existMovieRoom(BookingModel bookingModel) throws MovieNotFoundException {
+    private void movieRoomExist(BookingModel bookingModel) throws MovieNotFoundException {
         boolean roomExist = movieRepository.existsByMovieRoom(bookingModel.getMovieRoom());
         if (!roomExist){
             throw new MovieNotFoundException("Enter correct movieroom");
         }
     }
 
-    private void existMovie(BookingModel bookingModel) throws MovieNotFoundException {
+    private void movieExist(BookingModel bookingModel) throws MovieNotFoundException {
         boolean movieExist = movieRepository.existsByMovieName(bookingModel.getMovieName());
         if (!movieExist){
             throw  new MovieNotFoundException("Enter correct movie name");
         }
     }
 
-    private void existCinema(BookingModel bookingModel) throws CinemaNotFoundException {
+    private void cinemaExits(BookingModel bookingModel) throws CinemaNotFoundException {
         boolean cinemaExist = cinemaRepository.existsByCinemaName(bookingModel.getCinemaName());
         if (!cinemaExist){
             throw new CinemaNotFoundException("Enter correct cinema name");

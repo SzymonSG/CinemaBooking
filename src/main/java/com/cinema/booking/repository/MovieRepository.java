@@ -27,7 +27,7 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
                     "WHERE p.startTimeOfTheMovie = :localDateTime AND m.booked='FREE' " +
                     "AND c.cinemaName=:cinemaName"
     )
-    List<BasicInfoAboutMovieDto> fetchFreePlacesForSelected_CinemaAndDataTime(String cinemaName, LocalDateTime localDateTime);
+    List<BasicInfoAboutMovieDto> fetchFreePlacesOnMovie(String cinemaName, LocalDateTime localDateTime);
 
     @Query(
             "SELECT m,c,p FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p " +
@@ -56,7 +56,7 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
                     "AND m.movieName=:movieName AND p.startTimeOfTheMovie=:localDateTime AND m.booked='FREE'"
 
     )
-    List<Movie> fetchAvialableSeatsForDay(String cinemaName, String movieName, LocalDateTime localDateTime);
+    List<Movie> fetchAvialableSeatsOnDay(String cinemaName, String movieName, LocalDateTime localDateTime);
 
     @Query(
             "SELECT m FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName=:cinemaName " +
@@ -78,5 +78,5 @@ public interface MovieRepository extends JpaRepository<Movie,Long> {
                     "FROM Movie m JOIN m.cinemas c JOIN m.properitiesMovie p WHERE c.cinemaName= :cinemaName " +
                     "AND m.movieName=:movieName"
     )
-    List<DataDto> fetchLocalDateTimeForChosenMovie(String cinemaName, String movieName);
+    List<DataDto> fetchMovieByDateTimes(String cinemaName, String movieName);
 }
